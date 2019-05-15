@@ -1,0 +1,66 @@
+<div class="ml-3 mr-3">
+  <table class="table border text-center mt-3 mb-4" style="background: transparent">
+    <thead class="text-secondary">
+      <tr>
+        <td class="border-0">FILE TYPE</td>
+        <td class="border-0">FILE NAME</td>
+        <td class="border-0"></td>
+        <td class="border-0">STATUS</td>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr class="text-secondary">
+        <td style="width:20%;" class="text-muted">
+          calibration
+        </td>
+        <td style="width:40%;" [ngbTooltip]="calibration.file?.name" container="body">{{calibration.file?.name | stringLimit:20 }}</td>
+        <td style="width:10%;">
+          <app-file-upload-generic (fileUploadStarted)="onFileStarted($event)" (fileUploaded)="onFileUploaded($event)" (fileUploadFailed)="onFileUploadFailed($event)" [uplaodPath]="'uploadEXP'"></app-file-upload-generic>
+          <!-- <app-file-upload-generic (fileUploadStarted)="onFileStarted(i,$event)" (fileUploaded)="onFileUploaded(i,$event)" (fileUploadFailed)="onFileUploadFailed(i,$event)"></app-file-upload-generic> -->
+        </td>
+        <td style="width:30%;">
+          <fa *ngIf="calibration.status == 'load'" name="load"></fa>
+          <fa *ngIf="calibration.status == 'ok'" name="check"></fa>
+          <fa *ngIf="calibration.status == 'bad'" name="exclamation"></fa>
+          {{calibration.message}}
+          <fa *ngIf="calibration.report && calibration.report.length>0" name="chevron-down"
+              data-toggle="collapse" attr.href="#collapseCalibration{{1}}" role="button" aria-expanded="false"
+            ></fa>
+          <!--<div class="collapse" id="collapseCalibration">
+            <ul class="text-danger">
+              <li *ngFor="let ibnrLine of ibnr.report">
+                  {{ibnrLine}}
+              </li>
+            </ul>
+            </div>-->
+        </td>
+      </tr>
+      <tr  class="p-0 m-0">
+        <td colspan="4" class="p-0 m-0">
+            <div  class="collapse" style="max-height: 200px;overflow-y:auto"  id="collapseCalibration{{1}}">
+                <ul class="calibration-report-list">
+                  <li *ngFor="let calibrationLine of calibration.report"
+                  [ngClass]="{'warning-report' : calibrationLine.split('/')[1] == 'Warning','danger-report' : calibrationLine.split('/')[1] == 'Blocking'}"
+                  >
+                      {{calibrationLine.split("/")[0]}}
+                  </li>
+                </ul>
+            </div>
+        </td>
+      </tr>
+    </tbody>
+
+  </table>
+
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-3"></div>
+    <div class="col-md-3">
+      <button (click)="onClose()" [style.min-width]="'100px'" class="btn btn-block btn-sm btn-primary mb-2">Cancel</button>
+    </div>
+    <div class="col-md-3">
+      <button (click)="onClose()" [style.min-width]="'100px'" [disabled]="!canSave" class="btn btn-block btn-sm btn-primary mb-2" (click) = "saveCal()">Save and close</button>
+    </div>
+  </div>
+</div>

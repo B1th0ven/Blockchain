@@ -1,0 +1,83 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "project": {
+    "name": "ea-app"
+  },
+  "apps": [
+    {
+      "root": "src",
+      "outDir": "dist",
+      "assets": [
+        "assets",
+        "favicon.ico"
+      ],
+      "index": "index.html",
+      "main": "main.ts",
+      "polyfills": "polyfills.ts",
+      "test": "test.ts",
+      "tsconfig": "tsconfig.app.json",
+      "testTsconfig": "tsconfig.spec.json",
+      "prefix": "app",
+      "styles": [
+        "./assets/scss/scor/bootstrap/bootstrap.scss",
+        "styles.scss",
+        "../node_modules/font-awesome/scss/font-awesome.scss",
+        "./assets/scss/animations.scss",
+        "./assets/scss/style.scss",
+        "./assets/scss/navbar.scss",
+        "./assets/scss/simple-sidebar.scss",
+        "./assets/scss/table.scss",
+        "./assets/scss/buttons.scss",
+        "./assets/scss/files.scss",
+        "./assets/scss/upload.scss",
+        "./assets/scss/loader.scss",
+        "./assets/scss/alerts.scss",
+        "./assets/scss/toaster.scss",
+        "./assets/scss/footer.scss"
+      ],
+      "scripts": [
+        "../node_modules/jquery/dist/jquery.slim.min.js",
+        "../node_modules/popper.js/dist/umd/popper.min.js",
+        "../node_modules/bootstrap/dist/js/bootstrap.min.js",
+        "../node_modules/oboe/dist/oboe-browser.min.js",
+        "./assets/js/main.js",
+        "../node_modules/html2canvas/dist/html2canvas.min.js"
+      ],
+      "environmentSource": "environments/environment.ts",
+      "environments": {
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts",
+        "uat": "environments/environment.uat.ts"
+      }
+    }
+  ],
+  "e2e": {
+    "protractor": {
+      "config": "./protractor.conf.js"
+    }
+  },
+  "lint": [
+    {
+      "project": "src/tsconfig.app.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "src/tsconfig.spec.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "e2e/tsconfig.e2e.json",
+      "exclude": "**/node_modules/**"
+    }
+  ],
+  "test": {
+    "karma": {
+      "config": "./karma.conf.js"
+    }
+  },
+  "defaults": {
+    "styleExt": "scss",
+    "component": {
+    }
+  }
+}

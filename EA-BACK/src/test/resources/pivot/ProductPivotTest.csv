@@ -1,0 +1,19 @@
+Attribute;Entity;Attribute  Definition;Type;Mandatory;code/detail
+Date;;;date;no;
+DateMandatory;;;date;yes;
+SimpleNum;;;numeric;no;
+NumInterger;;;numeric;no;integer
+NumIntergerNotNull;;;numeric;no;integer/not null
+NumNotNull;;;numeric;yes;not null
+NumLessThanOne;;;numeric;no;<=1
+NumLessThanOneNotNull;;;numeric;no;<=1/not null
+simpleNumPos;;;numeric+;no;
+NumPosInteger;;;numeric+;yes;integer
+NumPosIntegerNotNull;;;numeric+;yes;not null/integer
+NumPosLessThanOne;;;numeric+;no;<=1
+Age;;;age;no;
+AgeMandatory;;;age;yes;
+Code;;;code;no;A/B/C/D
+CodeMandatory;;;code;yes;A/B/C/D
+region_of_residence;;;refdata;no;Omega
+treaty_number_omega;;;refdata;yes;Omega

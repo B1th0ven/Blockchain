@@ -1,0 +1,9 @@
+
+.zoom {
+    transition: width 2s, height 2s, transform 1.5s;
+}
+
+.zoomed {
+    transform: scale(1.5) rotate(360deg);
+    margin-top: 17px;
+}

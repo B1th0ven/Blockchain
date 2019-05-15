@@ -1,0 +1,146 @@
+<div class="text-primary font-weight-bold form-header mb-4">Data Protection and Contractual Obligations</div>
+<hr class="border-top border-primary mb-4 mt-2 opacity-half">
+
+
+<div class="form-group row">
+  <div class="col-sm-5  text-right">
+    <label placement="top" container="body" container="body" [ngbTooltip]="'Data is restricted in its use to'" class="pointer  col-form-label col-form-label-sm  text-right">Data is restricted in its use to</label>
+  </div>
+  <div class="col-sm-7">
+    <div class="input-group input-group-sm">
+      <select name="mode" class="form-control form-control-sm" [(ngModel)]="dataset.files[0].privacyDataRestriction" [disabled]=" !editable || isStudyValidated  ">
+        <option value=""></option>
+        <option value="pricing">Pricing</option>
+        <option value="reserving">Reserving</option>
+        <option value="marketing">Marketing</option>
+        <option value="e&d">R&D</option>
+      </select>
+      <div class="input-group-append dropdown-append">
+        <button class="btn btn-primary" type="button" [disabled]=" !editable || isStudyValidated">
+          <fa name="chevron-down"></fa>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="form-group row">
+  <div class="col-sm-5  text-right">
+    <label placement="top" container="body" container="body" [ngbTooltip]="'Data needs to be deleted by'" class="pointer col-form-label col-form-label-sm">Data needs to be deleted by</label>
+  </div>
+  <div class="col-sm-7">
+    <div class=" input-group input-group-sm" (clickOutside)="d1.close()">
+      <input appAutoSlash class="form-control form-control-sm" placeholder="dd/mm/yyyy" [(ngModel)]="dataset.files[0].privacyDataDeletion"
+        name="dp" ngbDatepicker #d1="ngbDatepicker" [minDate]="getStartDate()" [maxDate]="{year: 2099, month: 12, day: 31}"
+        [ngClass]="{'is-invalid':!validDate(dataset.files[0].privacyDataDeletion,today)|| !checkValidDateFormat(dataset.files[0].privacyDataDeletion)}"
+        [disabled]=" !editable || isStudyValidated">
+      <div class="input-group-append">
+        <button class="btn btn-primary" (click)="d1.toggle()" type="button" [disabled]=" !editable || isStudyValidated ">
+          <fa name="calendar"></fa>
+        </button>
+      </div>
+    </div>
+    <div>
+      <small class="text-danger" *ngIf="!checkValidDateFormat(dataset.files[0].privacyDataDeletion)">
+        <em>Invalid date format</em>
+      </small>
+    </div>
+    <div>
+      <small class="text-danger" *ngIf="!validDate(dataset.files[0].privacyDataDeletion,today) && checkValidDateFormat(dataset.files[0].privacyDataDeletion)">
+        <em>Data needs to be deleted by</em>
+        >
+        <em>Current Date + 1</em>
+      </small>
+    </div>
+  </div>
+</div>
+<div>
+<div class="row"  *ngIf ="showGDPR()">
+  <div class="col-md-2"></div>
+  <div class="col-md-10">
+    <div class="custom-control custom-checkbox">
+      <input type="checkbox" disabled checked class="custom-control-input" id="bca-privacy-{{CompNumber}}">
+      <label class="custom-control-label col-form-label-sm " for="bca-privacy-{{CompNumber}}">Herewith i confirm that data uploaded is conform with SCOR anonymization Guideline</label>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf ="showGDPR()" >
+  <div class="col-md-2"></div>
+  <ul style="list-style-type:none">
+    <li>
+      <label class="small">User Name : {{metadata.user  | 
+        stringLimit }}</label>
+    </li>
+    <li>
+      <label class="small">Date : {{ metadata.date }}</label>
+
+    </li>
+    <li>
+      <label class="small">Time : {{ metadata.time }}</label>
+
+    </li>
+  </ul>
+
+</div>
+</div>
+<div class="text-primary font-weight-bold form-header mb-4">ANONYMIZATION GUIDELINE </div>
+<div class="form-group row">
+    <div class="col-sm-3">
+    </div>
+    <div class="col-sm-6">
+
+      <div class="input-group input-group-sm ">
+        <input [(ngModel)] = "anoGuidline" disabled class="form-control form-control-sm"/>
+        <div class="input-group-append ">
+            <button (click)="download('Anonymization assessment.pdf')" class="btn btn-sm btn-primary">
+              <fa name="eye"></fa>
+            </button>
+          </div>
+      </div>
+    </div>
+ 
+    <div class="col-sm-3">
+      </div>
+  </div>
+  <!-- <div class="text-primary font-weight-bold form-header mb-4">Portfolio specific assessment </div> -->
+  <div class="form-group row">
+      <div class="col-sm-3">
+      </div>
+      <div class="col-sm-6">
+  
+        <div class="input-group input-group-sm ">
+          <input [(ngModel)] = "portfolio" disabled class="form-control form-control-sm"/>
+          
+          <div class="input-group-append ">
+              <button (click)="download('Portfolio specific assessment.xlsx')" class="btn btn-sm btn-primary">
+                <fa name="eye"></fa>
+              </button>
+            </div>
+        </div>
+      </div>
+   
+      <div class="col-sm-3">
+        </div>
+    </div>
+  <!-- <div class="text-primary font-weight-bold form-header mb-4">EA Anonymization guideline</div> -->
+<div class="form-group row">
+    <div class="col-sm-3">
+    </div>
+    <div class="col-sm-6">
+
+      <div class="input-group input-group-sm ">
+        <input [(ngModel)] = "eaAnoGuide" disabled class="form-control form-control-sm"/>
+        
+        <div class="input-group-append ">
+            <button (click)="download('20181119 - EA Anonymisation Guideline - DRAFT.docx')" class="btn btn-sm btn-primary">
+              <fa name="eye"></fa>
+            </button>
+          </div>
+      </div>
+    </div>
+ 
+    <div class="col-sm-3">
+      </div>
+  </div>
+  

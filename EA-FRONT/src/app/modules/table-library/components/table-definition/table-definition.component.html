@@ -1,0 +1,955 @@
+<div class="wrapper">
+
+  <div class="row ">
+    <app-loader *ngIf="busy"></app-loader>
+  </div>
+  <div [ngClass]="{'custom-disable':busy}">
+    <div class="container-fluid">
+      <!-- <app-details-header [data]="getHeaderInfo()"></app-details-header> -->
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="row font-size-sm">
+            <div class="col-3">
+              <span class="text-primary font-weight-bold">Table ID </span>
+            </div>
+            <div class="col-9">
+              {{this.table.code}}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="row font-size-sm">
+            <div class="col-3">
+              <span class="text-primary font-weight-bold">Created By</span>
+            </div>
+            <div class="col-9">
+              {{this.getCreatorName()}}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="row font-size-sm">
+            <div class="col-3">
+              <span class="text-primary font-weight-bold">Creation Date</span>
+            </div>
+            <div class="col-9">
+              {{this.table.creation_date ? this.table.creation_date.toString() : null}}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="row font-size-sm">
+            <div class="col-3">
+              <span class="text-primary font-weight-bold">Confidential Status</span>
+            </div>
+            <div class="col-9">
+              {{this.getConfStatus()}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <hr>
+
+    <div class="container-fluid">
+      <div class="row">
+
+        <div class="col-11">
+          <div class="text-primary font-weight-bold form-header mb-4">Table Information</div>
+          <hr class="border-top border-primary mb-4 mt-2 opacity-half">
+        </div>
+        <div class="col-1 text-right">
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-lg-4">
+          <!-- TABLE NAME -->
+          <div class="form-group from-group-sm row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body"  class="pointer col-form-label col-form-label-sm ">Table Name
+                <span class="required"></span>
+              </label>
+            </div>
+            <div class="col-sm-7 ">
+              <div class="input-group input-group-sm">
+                <input [ngClass]="{'form-control':!validator.disableInput(table,'name'),'form-control-plaintext':validator.disableInput(table,'name')}"
+                  class="form-control-sm" type="text" [(ngModel)]="table.name" [disabled]="validator.disableInput(table,'name') || !editable || !isUserEditor()" maxlength="30">
+              </div>
+            </div>
+          </div>
+
+          <!-- TABLE COUNTRY -->
+
+          <div class="form-group from-group-sm row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body"  class="pointer col-form-label col-form-label-sm">Table Country
+                <span class="required"></span>
+              </label>
+            </div>
+            <div class="col-sm-7 ">
+                <div class="input-group input-group-sm">
+
+              <select 
+                [ngClass]="{'form-control':!validator.disableInput(table,'country'),'form-control-plaintext':validator.disableInput(table,'country')}"
+                  class="form-control-sm" 
+                  [(ngModel)]="table.country_id" 
+                  [disabled]="validator.disableInput(table,'country') || !editable || !isUserEditor()"
+                  (change)="countrychange()">
+                  
+                  <option *ngFor="let d of countries" [value]="d.rcId">{{d.rcName}} </option>
+              </select>
+              <div class="input-group-append dropdown-append">
+                  <button class="btn btn-primary" type="button" [disabled]="validator.disableInput(table,'country') || !editable || !isUserEditor()">
+                    <fa name="chevron-down"></fa>
+                  </button>
+                </div>
+             <!-- <app-dropdown [allowSearchFilter]="false" [(model)]="table.country" [idField]="'rcId'" [items]="countries" [singleSelection]="true"
+                [textField]="'rcName'" [disabled]="!isUserEditor()"> </app-dropdown>-->
+            </div>
+          </div></div>
+
+          <!-- DECREMENT -->
+          <div class="form-group from-group-sm row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body"  class="pointer col-form-label col-form-label-sm ">Decrement
+                <span class="required"></span>
+              </label>
+            </div>
+            <div class="col-sm-7 ">
+              <div class="input-group input-group-sm">
+                <select [ngClass]="{'form-control':!validator.disableInput(table,'decrement'),'form-control-plaintext':validator.disableInput(table,'decrement')}"
+                  class="form-control-sm" [(ngModel)]="table.decrement" [disabled]="validator.disableInput(table,'decrement') || !editable || !isUserEditor()">
+                  <option value=""></option>
+                  <option *ngFor="let d of options.decrements" [value]="d">{{d}} </option>
+                </select>
+                <div class="input-group-append dropdown-append">
+                  <button class="btn btn-primary" type="button" [disabled]="validator.disableInput(table,'decrement') || !editable || !isUserEditor() " [hidden]="validator.disableInput(table,'decrement')">
+                    <fa name="chevron-down"></fa>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+        <div class="col-lg-4">
+         
+         <!-- Table Type -->
+         <div class="form-group from-group-sm row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body"  class="pointer col-form-label col-form-label-sm ">Table Type
+                <span class="required"></span>
+              </label>
+            </div>
+            <div class="col-sm-7 ">
+              <div class="input-group input-group-sm">
+                <select [ngClass]="{'form-control':!validator.disableInput(table,'type'),'form-control-plaintext':validator.disableInput(table,'type')}"
+                  class="form-control-sm text-capitalize" [disabled]="validator.disableInput(table,'type') || !editable || !isUserEditor()" [(ngModel)]="table.type"
+                  (change)="validator.typeChanged(table)">
+                  <option value=""></option>
+                  <option *ngFor="let t of options.types" [value]="t" class="text-capitalize">{{t}} </option>
+                </select>
+                <div class="input-group-append dropdown-append">
+                  <button class="btn btn-primary" type="button" [hidden]="validator.disableInput(table,'type') || !editable || !isUserEditor()">
+                    <fa name="chevron-down"></fa>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Table Origin -->
+          <div class="form-group from-group-sm row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body"  class="pointer col-form-label col-form-label-sm">Table Origin
+                <span class="required"></span>
+              </label>
+            </div>
+            <div class="col-sm-7 ">
+              <div class="input-group input-group-sm">
+                <select class="form-control form-control-sm text-capitalize" [(ngModel)]="table.origin" [disabled]="!editable || !isUserEditor()" (change)="onChangeOrigin()">
+                  <option value=""></option>
+                  <option *ngFor="let o of options.origins" [value]="o" class="text-capitalize">{{o}}</option>
+                </select>
+                <div class="input-group-append dropdown-append">
+                  <button class="btn btn-primary" type="button" [disabled]="!editable || !isUserEditor()">
+                    <fa name="chevron-down"></fa>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Exposure -->
+          <div class="form-group from-group-sm row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body"  class="pointer col-form-label col-form-label-sm ">Exposure Method
+                <span class="required" *ngIf="table.type?.toLocaleLowerCase().trim() == 'base'"></span>
+              </label>
+            </div>
+            <div class="col-sm-7 ">
+              <div class="input-group input-group-sm">
+                <select class="form-control form-control-sm text-capitalize" [(ngModel)]="table.exposure_method" [disabled]="!editable || !isUserEditor()">
+                  <option value=""></option>
+                  <option *ngFor="let e of options.exposure" [value]="e" class="text-capitalize">{{e}} </option>
+                </select>
+                <div class="input-group-append dropdown-append">
+                  <button class="btn btn-primary" type="button" [disabled]="!editable || !isUserEditor()">
+                    <fa name="chevron-down"></fa>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group from-group-sm row">
+              <div class="col-sm-5 text-right">
+                  <label placement="top" container="body"  class="pointer col-form-label col-form-label-sm ">Confidential</label>
+              </div>
+              <div class="col-sm-7 ">
+                <div class="input-group input-group-sm">
+                    <app-checkbox-slider [checked]="table.isConfidential" (valueChange)="setTableConfidential($event)"  [disabled]="!editable || !isUserEditor()"></app-checkbox-slider>
+                </div>
+              </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+           <!-- Table Source -->
+           <div class="form-group from-group-sm row">
+              <div class="col-sm-5 text-right">
+                <label placement="top" container="body"  class="pointer col-form-label col-form-label-sm ">Table Source
+                  <span class="required"></span>
+                </label>
+              </div>
+              <div class="col-sm-7 ">
+                <div class="input-group input-group-sm">
+                  <select [ngClass]="{'form-control':!validator.disableInput(table,'source'),'form-control-plaintext':validator.disableInput(table,'source')}"
+                    class="form-control-sm text-capitalize" [(ngModel)]="table.source" [disabled]="validator.disableInput(table,'source') || !editable || !isUserEditor()">
+                  
+                    <option class="text-capitalize" *ngFor="let d of options.sources" [value]="d">{{d}} </option>
+                  </select>
+                  <div class="input-group-append dropdown-append">
+                    <button class="btn btn-primary" type="button" [disabled]="validator.disableInput(table,'source') || !editable || !isUserEditor()">
+                      <fa name="chevron-down"></fa>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          
+
+          <!-- Application Year -->
+          <div class="form-group from-group-sm row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body"  class="pointer col-form-label col-form-label-sm ">Application Year
+                <span *ngIf="validator.isBaseOrTrend(table)" class="required"></span>
+              </label>
+            </div>
+            <div class="col-sm-7 ">
+              <div class="input-group input-group-sm">
+
+                <input
+                [(ngModel)]="table.application_year"
+                #appYearAhead="ngbTypeahead"
+                (focus)="focusAppYear$.next($event.target.value)"
+                (click)="clickAppYear$.next($event.target.value)"
+                type="number" class="form-control" [ngbTypeahead]="applicationYear"
+                [disabled]="!validator.isBaseOrTrend(table) || !editable || !isUserEditor()"
+                [ngClass]="{'is-invalid':!validator.isYearValid(table.application_year)  && validator.isBaseOrTrend(table)}"
+                [readonly]="true">
+
+                <div class="input-group-append dropdown-append">
+                  <button class="btn btn-primary" type="button" [disabled]="!validator.isBaseOrTrend(table)  || !editable || !isUserEditor()">
+                    <fa name="chevron-down"></fa>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Publication Year -->
+          <div class="form-group from-group-sm row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body"  class="pointer col-form-label col-form-label-sm ">Publication Year
+                <span class="required"></span>
+              </label>
+            </div>
+            <div class="col-sm-7 ">
+              <div class="input-group input-group-sm">
+
+                  <input
+                  [(ngModel)]="table.publication_year"
+                  #pubYearAhead="ngbTypeahead"
+                  (focus)="focusPubYear$.next($event.target.value)"
+                  (click)="clickPubYear$.next($event.target.value)"
+                  type="number"
+                  class="form-control-sm"
+                  [ngbTypeahead]="publicationYear"
+                  [ngClass]="{'is-invalid':!validator.isYearValid(table.publication_year),'form-control':!validator.disableInput(table,'publication'),'form-control-plaintext':validator.disableInput(table,'publication')}"
+                  [disabled]="validator.disableInput(table,'publication') || !editable || !isUserEditor()"
+                  [readonly]="true">
+
+                <div class="input-group-append dropdown-append">
+                  <button class="btn btn-primary" type="button" [disabled]="validator.disableInput(table,'publication') || !editable || !isUserEditor()" [hidden]="validator.disableInput(table,'publication')">
+                    <fa name="chevron-down"></fa>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Activate/deactivate -->
+          <div class="form-group from-group-sm row mb-0">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body"  class="pointer col-form-label col-form-label-sm ">Inactive/Active
+                <!-- <span class="required"></span> -->
+              </label>
+            </div>
+            <div class="col-sm-7 ">
+              <div class="input-group input-group-sm">
+
+                  <app-checkbox-slider [checked]="isTableActivated()" (valueChange)="setTableStatus($event)"  [disabled]="!canActivateTable()"></app-checkbox-slider>
+
+
+              </div>
+            </div> 
+          </div>
+
+           
+
+        </div>
+
+        
+
+      </div>
+      <div class="row">
+        <!-- New Row -->
+
+        <div class="col-lg-4" *ngIf="validator.showExtractedValues(table)">
+          <!-- Age Min -->
+          <div class="form-group from-group-sm row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body"  class="pointer col-form-label col-form-label-sm ">Age min</label>
+            </div>
+            <div class="col-sm-7 ">
+              <div class="input-group input-group-sm">
+                <input class="form-control-plaintext form-control-sm" disabled [value]="getNumberValue(table.age_min)">
+              </div>
+            </div>
+          </div>
+          <!-- Age Max -->
+          <div class="form-group from-group-sm row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body"  class="pointer col-form-label col-form-label-sm ">Age max</label>
+            </div>
+            <div class="col-sm-7">
+              <div class="input-group input-group-sm">
+                <input class="form-control-plaintext form-control-sm" disabled [value]="getNumberValue(table.age_max)">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4" *ngIf="validator.showExtractedValues(table)">
+          <!-- Duration min -->
+          <div class="form-group from-group-sm row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body"  class="pointer col-form-label col-form-label-sm ">Duration min</label>
+            </div>
+            <div class="col-sm-7 ">
+              <div class="input-group input-group-sm">
+                <input class="form-control-plaintext form-control-sm" disabled [value]="getNumberValue(table.duration_min)">
+              </div>
+            </div>
+          </div>
+
+          <!-- Duration max -->
+          <div class="form-group from-group-sm row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body"  class="pointer col-form-label col-form-label-sm ">Duration max</label>
+            </div>
+            <div class="col-sm-7 ">
+              <div class="input-group input-group-sm">
+                <input class="form-control-plaintext form-control-sm" disabled [value]="getNumberValue(table.duration_max)">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4" *ngIf="validator.showExtractedValues(table)&&validator.isTrend(table)">
+          <!--  CalYear min -->
+          <div class="form-group from-group-sm row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body"  class="pointer col-form-label col-form-label-sm ">Calendar Year min</label>
+            </div>
+            <div class="col-sm-7 ">
+              <div class="input-group input-group-sm">
+                <input class="form-control-plaintext form-control-sm" disabled [value]="getNumberValue(table.cal_year_min)">
+              </div>
+            </div>
+          </div>
+
+          <!-- CalYear max -->
+          <div class="form-group from-group-sm row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body"  class="pointer col-form-label col-form-label-sm ">Calendar Year max</label>
+            </div>
+            <div class="col-sm-7 ">
+              <div class="input-group input-group-sm">
+                <input class="form-control-plaintext form-control-sm" disabled [value]="getNumberValue(table.cal_year_max)">
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        
+
+      </div>
+      <div class="row">
+        <div class="col-lg-4">
+          <!-- Comment -->
+          <div class="form-group from-group-sm row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body"  class="pointer col-form-label col-form-label-sm ">Comment</label>
+            </div>
+            <div class="col-sm-7 ">
+              <div class="input-group input-group-sm">
+                <textarea class="form-control form-control-sm" maxlength="255" rows="4" [(ngModel)]="table.comment" [disabled]="!isUserEditor()"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <!-- Table Version -->
+          <div class="form-group from-group-sm row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body"  class="pointer col-form-label col-form-label-sm ">Table Version</label>
+            </div>
+            <div class="col-sm-7 ">
+              <div class="input-group input-group-sm">
+
+                <span class="btn btn-block btn-success btn-sm text-uppercase" *ngIf="table.id&&table.latest_version">
+                  <b class="mr-1">{{table.version}}</b> (Latest version)</span>
+                <span class="btn btn-block btn-secondary btn-sm text-uppercase" *ngIf="table.id&&!table.latest_version">
+                  <b class="mr-1">{{table.version}}</b> (Old version)</span>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="container-fluid">
+
+      <!-- Table Upload -->
+      <div class="row ">
+        <div class="col-12">
+          <div class="text-primary font-weight-bold form-header mb-4">Table Upload</div>
+          <hr class="border-top border-primary mb-4 mt-2 opacity-half">
+        </div>
+      </div>
+      <div class="row ">
+
+
+        <div class="col-12">
+          <div class="table-container mb-0">
+            <table class="table border">
+              <thead class="font-size-sm text-secondary text-center">
+                <tr>
+                  <th class="font-weight-normal">File Type</th>
+                  <th class="font-weight-normal">File Name</th>
+                  <th class="font-weight-normal">Upload</th>
+                  <th class="font-weight-normal">Display</th>
+                  <th class="font-weight-normal">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="text-center">
+                  <td style="width: 20%">
+                    <span class="font-weight-bold text-capitalize">{{table.type}} </span>
+                  </td>
+                  <td style="width: 20%">
+                    <span>{{ getFileName(table.path) }}</span>
+                  </td>
+                  <td style="width: 20%">
+
+                    <app-table-file-upload-generic [disabled]="!validator.isTyped(table) || !editable || !isUserEditor()" (fileUploadStarted)="startUpload($event)" (fileUploadFailed)="failedUpload($event)"
+                      (fileUploaded)="onFileUploaded($event)"></app-table-file-upload-generic>
+                      
+                  </td>
+                  <td style="width: 20%">
+                    <button (click)="isFileOnServer()" [disabled]="!getFileName(table.path) || getFileName(table.path) == '' || !isUserReader()" class="btn btn-primary btn-sm">
+                      <fa name="eye"></fa>
+                    </button>
+                  </td>
+                  <td style="width: 20%">
+                    <span *ngIf="uploading">
+                      <fa name="circle-o-notch" animation="spin" animation="spin"></fa>
+                    </span>
+                    {{ getStatus() }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+
+      <!-- Table Upload -->
+      <div class="row" *ngIf="table.path">
+
+        <div class="col-12">
+          <hr style="margin-left: -15px;margin-right: -15px;">
+        </div>
+
+        <div class="col-12">
+          <div class="text-primary font-weight-bold form-header mb-4">Table Controls</div>
+          <hr class="border-top border-primary mb-4 mt-2 opacity-half">
+        </div>
+      </div>
+      <div class="row" *ngIf="table.path">
+
+
+        <div class="col-12">
+          <div class="table-container mb-0">
+            <table class="table border">
+              <thead class="font-size-sm text-secondary text-center">
+                <tr>
+                  <th class="font-weight-normal">Control Name</th>
+                  <th class="font-weight-normal">Description</th>
+                  <th class="font-weight-normal">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- COMP REEPORT HEADER -->
+                <tr class="text-center" data-toggle="collapse" attr.href="#comp-{{comp_num}}" role="button" aria-expanded="false" aria-controls="comp">
+                  <td style="width: 25%" class="font-weight-bold">
+                    Compulsory Variables
+                  </td>
+                  <td>All compulsory variables must be provided</td>
+                  <td>
+                    <span *ngIf="runningControls.compLoading">
+                      <fa class="text-muted" name="circle-o-notch" animation="spin"></fa>
+                    </span>
+                    <span *ngIf="table && table.comp_report && table.comp_report[1] && table.comp_report[1].length == 0">
+                      <fa class="text-success" name="check-circle"></fa>
+                    </span>
+                    <span *ngIf="table && table.comp_report && table.comp_report[1] && table.comp_report[1].length > 0">
+                      <fa class="text-danger" name="exclamation-triangle"></fa>
+                    </span>
+                  </td>
+                </tr>
+                <!-- COMP DEATILED REPORT -->
+                <tr *ngIf="table && table.comp_report && table.comp_report[1].length > 0">
+                  <td style="width: 25%" colspan="3" class="m-0 p-0 bg-light">
+                    <div class="collapse" id="comp-{{comp_num}}">
+                      <div class="row m-0 border-bottom" *ngFor="let c of table?.comp_report[1]; let i = index">
+                        <div class="col-3">
+                          {{(i+1)}}
+                        </div>
+                        <div class="col-7">
+                          {{c}}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+
+
+                <!-- COMP REEPORT HEADER col outside pivot -->
+                <tr class="text-center" data-toggle="collapse" attr.href="#compout-{{comp_num}}" role="button" aria-expanded="false" aria-controls="compout">
+                    <td style="width: 25%" class="font-weight-bold">
+                      Undefined Variables
+                    </td>
+                    <td>All variables must be defined in pivot</td>
+                    <td>
+                      <span *ngIf="runningControls.compLoading">
+                        <fa class="text-muted" name="circle-o-notch" animation="spin"></fa>
+                      </span>
+                      <span *ngIf="table && table.comp_report && table.comp_report[2] && table.comp_report[2].length == 0">
+                        <fa class="text-success" name="check-circle"></fa>
+                      </span>
+                      <span *ngIf="table && table.comp_report && table.comp_report[2] && table.comp_report[2].length > 0">
+                        <fa class="text-danger" name="exclamation-triangle"></fa>
+                      </span>
+                    </td>
+                  </tr>
+                  <!-- COMP DEATILED REPORT col outside pivot -->
+                  <tr *ngIf="table && table.comp_report && table.comp_report[2].length > 0">
+                    <td style="width: 25%" colspan="3" class="m-0 p-0 bg-light">
+                      <div class="collapse" id="compout-{{comp_num}}">
+                        <div class="row m-0 border-bottom" *ngFor="let c of table?.comp_report[2]; let i = index">
+                          <div class="col-3">
+                            {{(i+1)}}
+                          </div>
+                          <div class="col-7">
+                            {{c}}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- COMP REEPORT HEADER col outside pivot -->
+                <tr class="text-center" data-toggle="collapse" attr.href="#compout-{{comp_num}}" role="button" aria-expanded="false" aria-controls="compout">
+                  <td style="width: 25%" class="font-weight-bold">
+                    Unique variables
+                  </td>
+                  <td>No duplication of variable names</td>
+                  <td>
+                    <span *ngIf="runningControls.compLoading">
+                      <fa class="text-muted" name="circle-o-notch" animation="spin"></fa>
+                    </span>
+                    <span *ngIf="table && table.comp_report && (!table.comp_report[3] || table.comp_report[3].length == 0)">
+                      <fa class="text-success" name="check-circle"></fa>
+                    </span>
+                    <span *ngIf="table && table.comp_report && table.comp_report[3] && table.comp_report[3].length > 0">
+                      <fa class="text-danger" name="exclamation-triangle"></fa>
+                    </span>
+                  </td>
+                </tr>
+                <!-- COMP DEATILED REPORT col outside pivot -->
+                <tr *ngIf="table && table.comp_report && table.comp_report[3] && table.comp_report[3].length > 0">
+                  <td style="width: 25%" colspan="3" class="m-0 p-0 bg-light">
+                    <div class="collapse" id="compout-{{comp_num}}">
+                      <div class="row m-0 border-bottom" *ngFor="let c of table?.comp_report[3]; let i = index">
+                        <div class="col-3">
+                          {{(i+1)}}
+                        </div>
+                        <div class="col-7">
+                          {{c}}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- TECH REEPORT HEADER -->
+                <tr class="text-center" data-toggle="collapse" attr.href="#tech-{{comp_num}}" role="button" aria-expanded="false" aria-controls="tech">
+                  <td style="width: 25%" class="font-weight-bold">
+                    Correct Format
+                  </td>
+                  <td style="width: 25%">
+                    Numbers Have to follow the format YYYYYY.YY or YYYYYY YY and codes have to follow the referential
+                  </td>
+                  <td style="width: 25%">
+                    <span *ngIf="runningControls.techLoading">
+                      <fa class="text-muted" name="circle-o-notch" animation="spin"></fa>
+                    </span>
+                    <span *ngIf="table && table.tech_report && table.tech_report.number_of_errors == 0">
+                      <fa class="text-success" name="check-circle"></fa>
+                    </span>
+                    <span *ngIf="table && table.tech_report && table.tech_report.number_of_errors > 0">
+                      <fa class="text-danger" name="exclamation-triangle"></fa> {{table?.tech_report?.number_of_errors}} Errors
+                    </span>
+                  </td>
+                </tr>
+                <!-- TECH DETAILED REPORT -->
+                <tr *ngIf="table && table.tech_report && table.tech_report.number_of_errors > 0">
+                  <td style="width: 25%" colspan="3" class="m-0 p-0 bg-light">
+                    <div class="collapse" id="tech-{{comp_num}}">
+                      <div class="row m-0 border-bottom font-weight-bold">
+
+                        <!-- <div class="col-4"> Data Line </div>
+
+                        <div class="col-4"> Name </div>
+
+                        <div class="col-4"> Cell Value </div> -->
+
+                        <div class="col-3">Column Name</div>
+                        <div class="col-3">Type</div>
+                        <div class="col-3">Line Affected</div>
+                        <div class="col-3">Examples</div>
+                      </div>
+
+                      <!-- <div *ngFor="let control of table.tech_report.controlResultsList">
+                        <div *ngFor="let affectedColumn of control.affectedColumns">
+                          <div class="row m-0 border-bottom" *ngFor="let example of affectedColumn.examples">
+                            <div class="col-4"> {{ getColumnValue("data_line",table.tech_report.header,example) }}</div>
+                            <div class="col-4"> {{ affectedColumn.name }} </div>
+                            <div class="col-4"> {{ getColumnValue(affectedColumn.name,table.tech_report.header,example) }} </div>
+                          </div>
+                        </div>
+                      </div> -->
+
+                      <div *ngFor="let control of table.tech_report.controlResultsList">
+                          <div class="row m-0 border-bottom" *ngFor="let affectedColumn of control.affectedColumns">
+                              <div class="col-3">{{ affectedColumn.name }}</div>
+                              <div class="col-3">{{control.control}}</div>
+                              <div class="col-3">{{ affectedColumn.errorsNumber }}</div>
+                              <div class="col-3">
+                                  {{ getColumnValue("data_line",table.tech_report.header,affectedColumn.examples[0]) }}
+                                  <fa name="angle-down" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  </fa>
+                                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          
+                                    <div class="dropdown-item" style="width:300px;">
+                                      <div class="row">
+                                        <div class="col-6">
+                                          <b>Line</b>
+                                        </div>
+                                        <div class="col-6">
+                                            <b>Value</b>
+                                          </div>
+                                        
+                                      </div>
+                                    </div>
+                                    <div class="dropdown-item" *ngFor="let line of affectedColumn.examples">
+                                      <div class="row">
+                                        <div class="col-6">
+                                            {{ getColumnValue("data_line",table.tech_report.header,line) }}
+                                        </div>
+                                        <div class="col-6">
+                                            {{ getColumnValue(affectedColumn.name,table.tech_report.header,line) }}
+                                        </div>
+                                        
+                                      </div>
+                                    </div>
+          
+                                  </div>
+
+
+                              </div>
+                            <!-- <div class="row m-0 border-bottom" *ngFor="let example of affectedColumn.examples">
+                              <div class="col-4"> {{ getColumnValue("data_line",table.tech_report.header,example) }}</div>
+                              <div class="col-4"> {{ affectedColumn.name }} </div>
+                              <div class="col-4"> {{ getColumnValue(affectedColumn.name,table.tech_report.header,example) }} </div>
+                            </div> -->
+                          </div>
+                        </div>
+
+                    </div>
+
+                  </td>
+                </tr>
+
+
+                <ng-container *ngIf="table && table.func_report && table.func_report.controls">
+
+                  <ng-container *ngFor="let control of table.func_report.controls; let i =index">
+                    <!-- FUNC HEAD -->
+                    <tr class="text-center" data-toggle="collapse" attr.href="#func-{{comp_num}}-{{i}}" role="button" aria-expanded="false" aria-controls="func">
+                      <td style="width: 25%" class="font-weight-bold">
+                        {{control.name}}
+                      </td>
+                      <td style="width: 25%">
+                        {{control.description}}
+                      </td>
+                      <td style="width: 25%">
+                        <span *ngIf="runningControls.funcLoading">
+                          <fa class="text-muted" name="circle-o-notch" animation="spin"></fa>
+                        </span>
+                        <span *ngIf="table && table.func_report && table.func_report.loaded && control.error_number == 0">
+                          <fa class="text-success" name="check-circle"></fa>
+                        </span>
+                        <span *ngIf="table && table.func_report && table.func_report.loaded && control.error_number > 1">
+                          <fa class="text-danger" name="exclamation-triangle"></fa> {{control.error_number}} Errors
+                        </span>
+                        <span *ngIf="table && table.func_report && table.func_report.loaded && control.error_number == 1">
+                            <fa class="text-danger" name="exclamation-triangle"></fa> {{control.error_number}} Error
+                          </span>
+                      </td>
+                    </tr>
+
+                    <!-- FUNC DETAILED REPORT -->
+                    <tr *ngIf="table 
+                    && table.func_report 
+                    && control.error_number > 0 
+                    && control.id != 'age_attained age_at_commencement both are provided' 
+                    && control.name != 'Variable dependency'
+                    && control.name != 'Missing values'
+                    && control.name != 'Complete slicing dimensions'">
+                      <td style="width: 25%" colspan="3" class="m-0 p-0 bg-light">
+                        <div class="collapse" id="func-{{comp_num}}-{{i}}">
+
+                          <div *ngFor="let example of control.examples">
+                            <div class="row m-0 border-bottom">
+                              <div class="col-4">
+                                <span class="font-weight-bold">Data Line</span>
+                              </div>
+                              <div class="col-8"> {{ getColumnValue("data_line",table.tech_report.header,example) }}</div>
+                            </div>
+                          </div>
+
+                        </div>
+
+                      </td>
+                    </tr>
+
+                    <tr *ngIf="table && table.func_report && control.error_number > 0 && control.name == 'Variable dependency'">
+                        <td style="width: 25%" colspan="3" class="m-0 p-0 bg-light">
+                          <div class="collapse" id="func-{{comp_num}}-{{i}}">
+                              <div class="row m-0 border-bottom">
+                                  <div class="col-2"></div>
+                                  <div class="col-4"><span class="font-weight-bold">Missing variable</span> </div>
+                                  <div class="col-4"><span class="font-weight-bold">Provided variable</span></div>
+                                  <div class="col-2"></div>
+                                </div>
+                            <div *ngFor="let example of control.examples">
+                              
+                              <div class="row m-0 border-bottom">
+                                  <div class="col-2"></div>
+                                  <div class="col-4">{{example.split(" ")[0]}}</div>
+                                  <div class="col-4">{{example.split(" ")[1]}}</div>
+                                  <div class="col-2"></div>
+                                </div>
+                            </div>
+  
+                          </div>
+  
+                        </td>
+                      </tr>
+
+                      <tr *ngIf="table && table.func_report && control.error_number > 0 && control.name == 'Missing values'">
+                        <td style="width: 25%" colspan="3" class="m-0 p-0 bg-light">
+                          <div class="collapse" id="func-{{comp_num}}-{{i}}">
+                              <div class="row m-0 border-bottom">
+                                  <div class="col-2"></div>
+                                  <div class="col-4"><span class="font-weight-bold">Column</span> </div>
+                                  <div class="col-4"><span class="font-weight-bold">Data Line</span></div>
+                                  <div class="col-2"></div>
+                                </div>
+                            <div *ngFor="let example of control.examples">
+                              <div class="row m-0 border-bottom">
+                                <div class="col-2"></div>
+                                <div class="col-4"><span class="font-weight-bold">{{example.col}}</span> </div>
+                                <div class="col-4">
+                                    {{ getColumnValue("data_line",table.tech_report.header,example.lines[0]) }}
+                                    <fa name="angle-down" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    </fa>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            
+                                      <div class="dropdown-item" style="width:300px;">
+                                        <div class="row">
+                                          <div class="col-12">
+                                            <b>Line</b>
+                                          </div>
+                                          
+                                        </div>
+                                      </div>
+                                      <div class="dropdown-item" *ngFor="let line of example.lines">
+                                        <div class="row">
+                                          <div class="col-12">
+                                              {{ getColumnValue("data_line",table.tech_report.header,line) }}
+                                          </div>
+                                          
+                                        </div>
+                                      </div>
+            
+                                    </div>
+
+                                </div>
+                                <div class="col-2"></div>
+                              </div>
+                              
+                            </div>
+                          </div>
+  
+                        </td>
+                      </tr>
+
+                      <!-- Complete slicing dimensions-->
+                      <tr *ngIf="table && table.func_report && control.error_number > 0 && control.name == 'Complete slicing dimensions'">
+                          <td style="width: 25%" colspan="3" class="m-0 p-0 bg-light">
+                            <div class="collapse" id="func-{{comp_num}}-{{i}}">
+                                <div class="row m-0 border-bottom">
+                                    <div class="col-10"><span class="font-weight-bold">Key</span> </div>
+                                    <div class="col-2"><span class="font-weight-bold">Missing Combination</span></div>
+                                  </div>
+                              <div *ngFor="let example of control.examples">
+                                
+                                <div class="row m-0 border-bottom">
+                                    <div class="col-10" [ngbTooltip]="replaceAll(example.split('&')[0])">{{formatCombinationControlExample(example.split("&")[0])}}</div>
+                                    <div class="col-2" [ngbTooltip]="replaceAll(example.split('&')[1])">{{formatCombinationControlExample(example.split("&")[1])}}</div>
+                                  </div>
+                              </div>
+    
+                            </div>
+    
+                          </td>
+                        </tr>
+
+                  </ng-container>
+                </ng-container>
+                
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <hr style="margin-left: -15px;margin-right: -15px;">
+
+      <!-- Table Saving-->
+      <div class="row  pb-3">
+        <div class="col-12 text-right">
+          <button class="btn btn-sm btn-danger" style="min-width: 150px" (click)="deleteClick(deleteTable)" [disabled]="!canDelete() || !isUserEditor()">Delete</button>
+          <button class="btn btn-sm btn-primary ml-2" style="min-width: 150px" (click)="save()" [disabled]="!canSave() || !isUserEditor()">Save</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <ng-template #content let-c="close">
+    <div class="fadeIn">
+      <div class="modal-header p-3 text-primary">
+        <div class="font-weight-bold">Warning</div>
+        <button type="button" class="close" aria-label="Close" (click)="c('')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div>
+          This
+          <b>Table ID</b> is already used for another Table.
+          <br>
+          <br> Do you confirm the creation of a new version?
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" (click)="c('close')">No</button>
+        <button type="button" class="btn btn-primary ml-1" (click)="onConfirmCreation();c('save')">Save</button>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #deleteTable let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <div class="row">
+          <div class="col-md-12">
+            <b class="text-primary font-weight-boldest">
+              {{message.title}}
+            </b>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body text-center row">
+          <div class="col-md-1"></div>
+          <div class="col-md-1">
+              <fa name="trash fa-3x" class="text-danger"></fa>
+          </div>
+          <div class="col-md-9 align-middle">
+              <p class="font-weight-normal mt-2">{{message.msg}}</p>
+         </div>
+          <div class="col-md-1"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="message.confirm();c('Close click')">Yes</button>
+        <button type="button" class="btn btn-light" (click)="c('Close click')">No</button>
+      </div>
+    </ng-template>
+
+</div>

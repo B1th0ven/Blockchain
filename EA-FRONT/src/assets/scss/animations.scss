@@ -1,0 +1,41 @@
+@import "animate/animate.scss";
+
+.container, .container-fluid, .nav {
+    @include fadeIn( $duration: 0.5s );
+}
+
+.wrapper {
+  @include fadeInUp( $duration: 0.5s );
+}
+
+.fadeInRight {
+  @include fadeInRight( $duration: 0.5s );
+}
+
+.alert {
+  @include zoomIn( $duration: 0.2s );
+}
+
+.fadeInUp{
+  @include fadeInUp( $duration: 0.5s );
+}
+
+.fadeInDown{
+    @include fadeInDown( $duration: 0.5s );
+  }
+
+.fadeIn{
+    @include fadeIn( $duration: 0.5s );
+}
+
+.file-selected{
+  @include fadeIn( $duration: 0.2s );
+}
+
+.zoomIn{
+  @include zoomIn( $duration: 0.2s );
+}
+
+.status.text-warning{
+  @include flash ( $count : infinite,$duration: 2.5s)
+}

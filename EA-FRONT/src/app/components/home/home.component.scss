@@ -1,0 +1,74 @@
+table{
+    border-radius:5px;
+    overflow: hidden;    
+    font-weight: lighter;
+    min-width: 100%;
+}
+
+.table-log{
+    white-space: nowrap;
+    color: #555555;
+}
+.table-log{
+   
+    td,th{
+        vertical-align: top;
+        padding: 5px 10px;
+        
+    }
+    th{
+        border-bottom: 3px solid lightgrey;
+    }
+   
+  
+}
+
+
+.text-wrap{
+    white-space: normal;
+}
+
+.card{
+    background-color:rgba(255, 0, 0, 0); 
+    border: 0;
+    border-radius:0; 
+    .card-header{
+        background-color:rgba(255, 0, 0, 0); 
+        cursor: pointer;
+        padding: 5px 20px;
+    }
+}  
+
+fieldset {
+        border: solid;
+        border-color: #167b9a;
+        border-radius: 8px;
+        border-width: 1px;
+        padding-left:10px; 
+        }
+.scroll-table {
+    display: block; /* important */
+    max-height: 350px;
+    overflow-y: scroll;
+}        
+
+/* width */
+::-webkit-scrollbar {
+    width: 7px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
+        

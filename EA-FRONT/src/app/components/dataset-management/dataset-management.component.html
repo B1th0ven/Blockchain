@@ -1,0 +1,31 @@
+
+<div class="mt-2"  *ngIf="busy">
+    <app-loader class="mt-5" [type]="1"></app-loader>
+    <div class="pb-5 pt-5"></div>
+  </div>
+
+  <div class="mt-2" *ngIf="err">
+    <div class="alert alert-danger">{{err}} </div>
+  </div>
+
+<div *ngIf="study&&!busy&&!err">
+  <ul class="nav nav-tabs inner mt-3">
+      <li  *ngFor="let tab of tabs ; let i = index"  (click)="openTab(i)" class="nav-item">
+        <a class="nav-link" [ngClass]="{'active':i==activeTab}" >{{tab.name}} <span *ngIf="datasets[i]&&!datasets[i].id&&tabs.length>1">  &nbsp; <fa class="close-icon" (click)="remove(i,$event)" name="close"></fa></span> </a>
+      </li>
+      <ng-container  *ngxPermissionsOnly="['DATASET_CREATOR']">
+      <li *ngIf="canCreateDataset()"  (click)="newTab('newdataset')" class="nav-item">
+        <a class="nav-link nav-link-radius" ><fa class="text-primary" name = "plus" style="font-size:12px"></fa> </a>
+      </li></ng-container>
+    </ul>
+
+    <div class="tab-content">
+
+    <div
+          *ngFor="let tab of tabs ; let i = index"
+          class="tab-pane"
+          [ngClass]="{'active':i==activeTab}">
+          <app-study-dataset (changeDatasetName)="onChangeDatasetName($event)"  (continueControl)="onContinueControl($event)" (save)="updateTab($event,i)" [tabNbr]="i" [datasets]="datasets" [dataset]="datasets[i]" [study]="study" (delete)="deleteTab(i,$event)"></app-study-dataset>
+        </div>
+    </div>
+</div>

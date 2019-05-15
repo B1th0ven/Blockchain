@@ -1,0 +1,13 @@
+<span tabindex="0" data-toggle="tooltip" [title]="getTitle(model)">
+    <div class="input-group input-group-sm">
+      <ng-multiselect-dropdown [disabled]="disabled" [style.border]="model && model.length <= 0 ? '1px solid red' : ''" [class]="inputClass" [(ngModel)]="middleMan"
+        (ngModelChange)="onNgModelChange($event)" [data]="middleItems" [settings]="settings" (onDeSelect)="DeSelect($event)"
+        (onSelect)="Select($event)" (onDeSelectAll)="DeSelectAll($event)" (onSelectAll)="SelectAll($event)">
+      </ng-multiselect-dropdown>
+      <div class="input-group-append dropdown-append">
+        <button [class]="btnClass" type="button" [disabled]="disabled">
+          <fa name="chevron-down"></fa>
+        </button>
+      </div>
+    </div>
+  </span>

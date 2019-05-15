@@ -1,0 +1,26 @@
+<!--
+<div class="row mb-2" *ngIf="uploading">
+  <div class="col-12">
+    <div class="progress" style="height: 1px;">
+      <div class="progress-bar" role="progressbar" [style.width]="percentDone+'%'" [attr.aria-valuenow]="percentDone" aria-valuemin="0"
+        aria-valuemax="100"></div>
+    </div>
+  </div>
+</div>
+-->
+
+<input hidden [(ngModel)]="fileModel" [disabled]="uploading||!disabled" (change)="onFileChange($event)" type="file" [name]="'file'+uploaderId"  [id]="'file'+uploaderId" accept=".csv"/>
+<label [for]="'file'+uploaderId" [class]="btnClass">
+  <span *ngIf="uploading" class="text-muted">
+    <fa name="spinner" animation="spin"></fa> Uploading File...
+  </span>
+  <span *ngIf="error" class="text-red">
+    <fa name="{{error.icon}}"></fa> {{error.message}}
+  </span>
+
+  <span *ngIf="!uploading && !error">
+    Upload
+    <fa name="upload" style="padding-left:5px;"></fa>
+  </span>
+
+</label>

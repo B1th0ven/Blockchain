@@ -1,0 +1,73 @@
+<div class="ml-3 mr-3">
+  <table class="table border text-center mt-3 mb-4" style="background: transparent">
+    <thead class="text-secondary">
+      <tr>
+        <td class="border-0">FILE TYPE</td>
+        <td class="border-0">FILE NAME</td>
+        <td class="border-0"></td>
+        <td class="border-0"></td>
+        <td class="border-0">STATUS</td>
+      </tr>
+    </thead>
+
+    <tbody>
+      <ng-container *ngFor="let ibnr of IBNRs;let i = index">
+        <tr class="text-secondary">
+          <td style="width:20%;" class="text-muted">
+            {{ibnr.name}}
+          </td>
+          <td style="width:30%;" [ngbTooltip]="ibnr.file?.name" container="body">{{ibnr.file?.name | stringLimit:20 }}</td>
+          <td style="width:10%;">
+            <app-file-upload-generic (fileUploadStarted)="onFileStarted(i,$event)" [disabled]="canUpload" (fileUploaded)="onFileUploaded(i,$event)" (fileUploadFailed)="onFileUploadFailed(i,$event)"></app-file-upload-generic>
+          </td>
+          <td style="width:10%;">
+            <button [disabled]="!ibnr.file?.path && ibnr.status != 'ok'" (click)="isFileOnServer(ibnr.file?.path)" class="btn btn-sm btn-primary">
+              <fa name="eye"></fa>
+            </button>
+          </td>
+          <td style="width:30%">
+            <fa *ngIf="ibnr.status=='load'" name="load"></fa>
+            <fa *ngIf="ibnr.status=='ok'" name="check"></fa>
+            <fa *ngIf="ibnr.status=='bad'" name="exclamation"></fa>
+            {{ibnr.message}}
+            <fa *ngIf="ibnr.report&&ibnr.report.length>0" name="chevron-down"
+                data-toggle="collapse" attr.href="#collapseIbnr{{i}}" role="button" aria-expanded="false"
+            ></fa>
+          </td>
+        </tr>
+
+        <tr  class="p-0 m-0">
+          <td colspan="5" class="p-0 m-0">
+              <div  class="collapse" style="max-height: 200px;overflow-y:auto"  id="collapseIbnr{{i}}">
+                  <ul class="text-danger" class="ibnr-report-list">
+                    <li *ngFor="let ibnrLine of ibnr.report">
+                        {{ibnrLine}}
+                    </li>
+                  </ul>
+              </div>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+
+  </table>
+
+  <div class="row" *ngIf="!validated">
+    <div class="col-md-3"></div>
+    <div class="col-md-3"></div>
+    <div class="col-md-3">
+      <button (click)="onClose()" [style.min-width]="'100px'" class="btn btn-block btn-sm btn-danger mb-2">Cancel</button>
+    </div>
+    <div class="col-md-3">
+      <button (click)="onSave()" [style.min-width]="'100px'" [disabled]="!canSave()" class="btn btn-block btn-sm btn-success mb-2">Save and close</button>
+    </div>
+  </div>
+  <div class="row" *ngIf="validated">
+      <div class="col-md-3"></div>
+      <div class="col-md-3"></div>
+      <div class="col-md-3"></div>
+      <div class="col-md-3">
+          <button (click)="onCloseCheck()" [style.min-width]="'100px'" class="btn btn-block btn-sm btn-primary mb-2">Close</button>  
+      </div>
+    </div>
+</div>

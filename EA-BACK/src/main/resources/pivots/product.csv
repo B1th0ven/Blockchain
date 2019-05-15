@@ -1,0 +1,64 @@
+Attribute;Entity;Attribute  Definition;Type;Mandatory;code/detail
+Client_Risk_Carrier_Name;Cedent;Name of the legal entity the corresponding reinsurance treaty is written or will be written;refData;no;Omega
+Commercial_Client_Name;Cedent;Name of the legal entity the business relationship is conducted with;refData;no;Omega
+Distribution_brand_name;Cedent;The brand name the portfolio is distributed under;Free text;no;
+Client_group;Cedent;Client group name;refData;No;Omega Ultimate Group label
+Client_segmentation;Cedent;Category of client;code;No;A/B/C
+Client_code;Cedent;Official code to identify client (insurer);code;No;Omega NAIC client
+Client_country;Cedent;Country of client;refData;Yes;Omega
+Deal_ID;DealTreaty;Reference to the deal corresponding to a New Business opportunity;refData;No;Salesforce
+Quote_Number_Everest;DealTreaty;Reference to the New Business opportunities according to Everest;Free Text;No;Everest
+Treaty_Number_Omega;DealTreaty;Reference to the Omega assumed treaty (mandatory for inforce treaties);refData;No;Omega
+Treaty_Number_Everest;DealTreaty;Reference to the Everest assumed treaty (mandatory for inforce treaties);Free Text;No;Omega Everest Treaty Number
+Business_Area;DealTreaty;Official LOB classification according to SCOR reporting;code;No;Protection/Financial solutions/Longevity
+Portfolio_Origin;DealTreaty;Block of portfolio origin (in particular used for merged entities);refData;No;"Omega: ""Portfolio Origin"""
+Currency;DealTreaty;Monetary unit of the Reinsurance treaty.;refData;No;Omega
+Legal_Entity;DealTreaty;Legal Entity SCOR for RI treaty;refData;No;Omega
+Product_ID;Insurance Product;SCOR internal product ID;Free Text;Yes;
+Product_start_date;Insurance product;Start date of underlying product sales;Date;No;
+Product_end_date;Insurance product;End date of underlying product sales;Date;No;
+Type_of_policy;Insurance Product;Method of risk acceptance;code;No;Group/Indiv
+Product_type;Insurance product;Main category of type of product the insurance cover is part of.;code;No;Protection/Savings/Loan-linked/Annuity
+Gender_differentiation;Insurance Product;Indicator if insurance premium differentiated by gender;code;No;Yes/No
+Smoker_differentiation;Insurance Product;Indicator if insurance premium differentiated by smoking status;code;No;Yes/No 
+Age_at_commencement_definition;Insurance Product;Age definition applied by insurer in product/ premium definition;code;No;Age Last Birthday/Age Nearest Birthday/Age Next Birthday
+Mortality_definition;Product benefit;Coverage definition for Death;code;No;all causes/all causes excl suicide/sudden death/accidental
+Terminal_Illness_benefit;Product benefit;Indicator if Terminal Illness is included in Death cover or not;code;No;Yes/No
+Med_risk_class_structure_client;Product benefit;Client s class stucture to differentiate medical risk, like smoking or preferred classes  (e.g. 4N/2S);code;No;N1S1/N2S1/N3S1/N4S1/N5S1/N6S1/N7S1/N8S1/N9S1/N1S2/N2S2/N3S2/N4S2/N5S2/N6S2/N7S2/N8S2/N9S2/N1S3/N2S3/N3S3/N4S3/N5S3/N6S3/N7S3/N8S3/N9S3/N1S4/N2S4/N3S4/N4S4/N5S4/N6S4/N7S4/N8S4/N9S4/N1S5/N2S5/N3S5/N4S5/N5S5/N6S5/N7S5/N8S5/N9S5/N1S6/N2S6/N3S6/N4S6/N5S6/N6S6/N7S6/N8S6/N9S6/N1S7/N2S7/N3S7/N4S7/N5S7/N6S7/N7S7/N8S7/N9S7/N1S8/N2S8/N3S8/N4S8/N5S8/N6S8/N7S8/N8S8/N9S8/N1S9/N2S9/N3S9/N4S9/N5S9/N6S9/N7S9/N8S9/N9S9/N1S0/N2S0/N3S0/N4S0/N5S0/N6S0/N7S0/N8S0/N9S0/N0S1/N0S2/N0S3/N0S4/N0S5/N0S6/N0S7/N0S8/N0S9
+Occ_risk_class_structure_client;Product benefit;Client's # of classes to differentiate the occupational risk;Numeric+;No;integer
+Min_Age_at_commencement;Product benefit;Minimum age accepted for policy issuance;age;No;
+Max_Age_at_commencement;Product benefit;Maximum age accepted for policy issuance;age;No;
+Max_Benefit_Expiry_Age;Product benefit;Maximum age coverage provided by plan;age;No;
+Min_Face_Amount;Product Benefit;Minimum eligeable face amount for policy coverage;Numeric;No;
+Max_Face_Amount;Product Benefit;Maximum eligeable face amount for policy coverage;Numeric;No;
+Min_Benefit_Term;Product benefit;Minimum cover duration option provided by product;Numeric+;No;integer/not null
+Max_Benefit_Term;Product benefit;Maximum cover duration option provided by product;Numeric+;No;integer/not null
+Client_group_Omega_code;Cedent;N/A;refData;No;Omega Ultimate Group
+Client_grouping_other;Cedent;N/A;Free text;No;
+Client_Omega_Code;Cedent;N/A;refData;No;Omega Client Code
+Treaty_Number_Everest_no_Amm;DealTreaty;N/A;Free Text;No;Everest
+Legal_Entity_code;DealTreaty;N/A;refData;No;Omega Subsidiary/Sub Ledger
+Reinsurance_Type;DealTreaty;N/A;code;No;Coins/Mod-Co/YRT
+Loan_Type;Insurance Product;N/A;code;No;Mortgage/Personal Loan/Credit Card
+Product_type_detail;Insurance Product;N/A;Free text;No;
+Product_name;Insurance Product;N/A;Free text;No;
+Age_differentiation;Insurance Product;N/A;code;No;Age/Age-Band
+Return_of_Premium;Insurance Product;N/A;code;No;Yes/No
+Secondary_Guarantee_Indicator;Insurance Product;N/A;code;No;Yes/No
+Survival_period;Product benefit;N/A;Numeric+;No;integer/not null
+Med_risk_class_structure_SCOR;Product benefit;N/A;code;No;N1S1/N2S1/N3S1/N4S1/N5S1/N6S1/N7S1/N8S1/N9S1/N1S2/N2S2/N3S2/N4S2/N5S2/N6S2/N7S2/N8S2/N9S2/N1S3/N2S3/N3S3/N4S3/N5S3/N6S3/N7S3/N8S3/N9S3/N1S4/N2S4/N3S4/N4S4/N5S4/N6S4/N7S4/N8S4/N9S4/N1S5/N2S5/N3S5/N4S5/N5S5/N6S5/N7S5/N8S5/N9S5/N1S6/N2S6/N3S6/N4S6/N5S6/N6S6/N7S6/N8S6/N9S6/N1S7/N2S7/N3S7/N4S7/N5S7/N6S7/N7S7/N8S7/N9S7/N1S8/N2S8/N3S8/N4S8/N5S8/N6S8/N7S8/N8S8/N9S8/N1S9/N2S9/N3S9/N4S9/N5S9/N6S9/N7S9/N8S9/N9S9/N1S0/N2S0/N3S0/N4S0/N5S0/N6S0/N7S0/N8S0/N9S0/N0S1/N0S2/N0S3/N0S4/N0S5/N0S6/N0S7/N0S8/N0S9
+Socio_eco_risk_class_structure;Product benefit;N/A;Numeric+;No;integer
+Insur_Premium_Guarantee_Type;Product benefit;N/A;code;No;None/years/full
+Insur_Premium_Guarantee_Term_Yrs;Product benefit;N/A;Numeric+;No;integer/not null
+Post_Level_Term_Structure;Product benefit;N/A;code;No;Jump to ART/Graded/Jump to New Level/Decreasing SA
+Reinsur_Premium_Guarantee_Type;Product benefit;N/A;code;No;None/years/soft/full
+Reins_Premium_Guarantee_Term_Yrs;Product benefit;N/A;Numeric+;No;integer/not null
+Rating_type_1;Product benefit;N/A;code;No;medical/occupational/other/mixed
+Rating_type_2;Product benefit;N/A;code;No;medical/occupational/other/mixed
+Product_dummy_text_1;Product benefit;N/A;Free text;No;
+Product_dummy_text_2;Product benefit;N/A;Free text;No;
+Product_dummy_text_3;Product benefit;N/A;Free text;No;
+Product_dummy_value_1;Product benefit;N/A;Numeric;No;
+Product_dummy_value_2;Product benefit;N/A;Numeric;No;
+Product_dummy_value_3;Product benefit;N/A;Numeric;No;
+Data_Line;;;Numeric+;No;integer

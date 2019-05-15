@@ -1,0 +1,23 @@
+ngb-typeahead-window
+{
+  width: 100%;
+  overflow: hidden;
+  z-index: 9999;
+  overflow-y:auto;
+  max-height: 200px;
+  padding-top:0 !important;
+  padding-bottom:0 !important;
+  margin: 0 !important;
+  font-size: 12px !important;
+
+  .dropdown-item{
+    padding: 2px 5px !important;
+  }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}

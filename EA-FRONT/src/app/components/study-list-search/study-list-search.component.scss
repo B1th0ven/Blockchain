@@ -1,0 +1,41 @@
+.marked{
+    //opacity: 0.5;
+    position: relative;
+    background-color: #a4b0be !important;
+  
+  
+        /*
+    & td{
+      position: relative;
+      &::before{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+  
+        opacity: 0.1 ;
+      }
+    }
+  */
+  }
+
+  .has-feedback {
+    position: relative;
+  }
+  .has-feedback label~.form-control-feedback {
+    top: 25px;
+  }
+  .form-control-feedback {
+    position: absolute;
+    top: -2px;
+    right: 0;
+    z-index: 2;
+    display: block;
+    width: 34px;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    pointer-events: none;
+  }

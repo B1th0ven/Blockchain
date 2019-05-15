@@ -1,0 +1,116 @@
+@import "../../../node_modules/bootstrap/scss/_functions";
+@import "../../../node_modules/bootstrap/scss/_variables";
+@import "../../../node_modules/bootstrap/scss/_mixins";
+@import "scor/_variables";
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: visible;
+  margin: 0 0 1em;
+}
+
+.table-container table {
+  min-width: 100%;
+  width: max-content;
+  overflow-y: visible;
+}
+
+.table-container table th,
+.table-container table td {
+  padding: 10px 10px;
+  white-space: nowrap;
+}
+
+.table-striped tbody tr:nth-child(odd) {
+  background-color: $greyLight;
+}
+
+table {
+  background: rgb(255, 255, 255);
+  color: #555555;
+}
+
+.table-container::-webkit-scrollbar,
+.table-sm::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 5px;
+  height: 5px;
+}
+
+.table-container::-webkit-scrollbar-thumb,
+.table-sm::-webkit-scrollbar-thumb {
+  background-color: $greyMedium;
+}
+
+.btn-action {
+  vertical-align: middle
+}
+
+.btn-action a {
+  font-weight: bold;
+  color: $blueScor;
+  margin-right: 5px;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.btn-action a:hover {
+  color: $blueScorHover;
+  cursor: pointer;
+}
+
+.delete {
+  .icon {
+    padding: 20px;
+    color: rgb(211, 137, 137);
+  }
+  p {
+    color: rgb(77, 77, 77);
+  }
+}
+
+.dataset-row>th>div {
+  cursor: pointer;
+}
+
+#search {
+  font-family: Arial, FontAwesome;
+}
+
+.table-main {
+  .table-sm thead td
+  {
+    padding: 4px;
+    font-size: 12px;
+    text-align: center;
+
+    > div:first-child {
+      margin: 5px 0;
+    }
+  }
+
+  .table-sm tbody td,
+    {
+      text-align: center;
+      padding-left: 2px;
+      padding-right: 2px;
+      font-size: 12px;
+  }
+  .table-sm {
+    margin-bottom: 0;
+  }
+  .table-container {
+    overflow-y: auto;
+  }
+  .table-pointer tbody tr td {
+    cursor: pointer;
+  }
+  .table-header td {
+    font-weight: 500;
+  }
+  .td-middle {
+    text-align: center;
+    vertical-align: middle;
+    height: 500px;
+  }
+}

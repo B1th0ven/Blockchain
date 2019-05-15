@@ -1,0 +1,46 @@
+# main
+.idea
+
+# front
+EA-FRONT/.settings
+EA-FRONT/.vscode
+EA-FRONT/node
+EA-FRONT/node_modules
+EA-FRONT/.classpath
+EA-FRONT/.editorconfig
+EA-FRONT/.project
+EA-FRONT/expan-fornt.iml
+
+# back
+EA-BACK/.idea
+EA-BACK/expan-back.iml
+
+EA-BACK/attachedfiles/*
+EA-BACK/files/*
+EA-BACK/ibnr/*
+EA-BACK/expectedfiles/*
+
+
+!EA-BACK/attachedfiles/.gitkeep
+!EA-BACK/files/.gitkeep
+!EA-BACK/ibnr/.gitkeep
+!EA-BACK/expectedfiles/.gitkeep
+
+EA-BACK/target
+EA-BACK/lib
+
+EA-BACK/.classpath
+EA-BACK/.project
+EA-BACK/.settings/
+
+#batch
+EA-BACK-BATCH/.idea
+EA-BACK-BATCH/expan-back.iml
+
+EA-BACK-BATCH/target
+EA-BACK-BATCH/lib
+
+EA-BACK-BATCH/.classpath
+EA-BACK-BATCH/.project
+EA-BACK-BATCH/.springBeans
+EA-BACK-BATCH/.settings/

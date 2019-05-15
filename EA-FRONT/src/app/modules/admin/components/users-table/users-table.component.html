@@ -1,0 +1,116 @@
+
+<app-user-creation [scopes]="scopes" [saveLoading]="saveLoading" (usersaved)="saveUser($event)" (userdeleted)="deleteUser($event)"></app-user-creation>
+
+<br>
+ 
+<div class="table-container table-main" style="overflow-y: visible;">
+  <table class="table table-striped table-bordered table-hover table-sm table-pointer text-center">
+    <thead class="font-weight-normal pointer">
+      <tr class="dataset-row  text-secondary">
+        <td class="btn-action">
+          <div>First Name <fa name="sort" class="text-light" (click)="sort('fn')"></fa></div>
+          <input type="text"  (keyup)="filter()" [(ngModel)]="query.fn" id="search" class="form-control form-control-sm" placeholder="&#xF002;">
+        </td>
+        <td class="btn-action">
+          <div>Last Name <fa name="sort" class="text-light" (click)="sort('ln')"></fa></div>
+          <input type="text"  (keyup)="filter()" [(ngModel)]="query.ln" id="search" class="form-control form-control-sm" placeholder="&#xF002;">
+        </td>
+        <td class="btn-action">
+          <div>Scope  <fa name="sort" class="text-light" (click)="sort('scope')"></fa></div>
+          <input type="text"  (keyup)="filter()" [(ngModel)]="query.scope" id="search" class="form-control form-control-sm" placeholder="&#xF002;">
+        </td>
+        <td class="btn-action">
+          <div>Scope  <fa name="sort" class="text-light" (click)="sort('scopetype')"></fa></div>
+          <input type="text"  (keyup)="filter()" [(ngModel)]="query.scopetype" id="search" class="form-control form-control-sm" placeholder="&#xF002;">
+        </td>
+        <td class="btn-action">
+          <div>Function <fa name="sort" class="text-light" (click)="sort('func')"></fa></div>
+          <input type="text"  (keyup)="filter()" [(ngModel)]="query.func" id="search" class="form-control form-control-sm" placeholder="&#xF002;">
+        </td>
+        <td class="btn-action">
+          <div>Email <fa name="sort" class="text-light" (click)="sort('email')"></fa></div>
+          <input type="text"  (keyup)="filter()" [(ngModel)]="query.email" id="search" class="form-control form-control-sm" placeholder="&#xF002;">
+        </td>
+        <td class="btn-action">
+          <div>Role <fa name="sort" class="text-light" (click)="sort('role')"></fa></div>
+          <input type="text"  (keyup)="filter()" [(ngModel)]="query.role" id="search" class="form-control form-control-sm" placeholder="&#xF002;">
+        </td>
+        <td class="btn-action">
+            <div>Action</div>
+            
+          </td>
+      </tr>
+    </thead>
+ 
+ 
+    <tbody>
+ 
+      <tr *ngFor="let user of users" class="middle-content" >
+        <td (click)="edit(user)">{{ user.name }}</td>
+        <td (click)="edit(user)">{{ user.lastname }}</td>
+        <td (click)="edit(user)">{{ user.scope?.rsName }}</td>
+        <td (click)="edit(user)">{{ user.scope?.rsType }}</td>
+        <td (click)="edit(user)">{{ user.function }}</td>
+        <td (click)="edit(user)">{{ user.email }}</td>
+        <td (click)="edit(user)">{{ user.role }}</td>
+        <td>
+          <fa name="trash" (click)="deleteClick(deleteUser,user)"></fa>
+        </td>
+      </tr>
+ 
+    </tbody>
+    <tbody *ngIf="!loading&&users.length==0">
+        <tr>
+          <td colspan="10" class="td-middle">
+            No Users Found
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="loading">
+          <tr>
+            <td colspan="10" class="td-middle">
+              <div class="text-muted">
+  
+                  <fa name="circle-o-notch" animation="spin"></fa> Loading...
+  
+              </div>
+              </td>
+          </tr>
+        </tbody>
+ 
+  </table>
+ 
+  <div class="pt-3 text-center" *ngIf="users && users != null && users.length>0">
+    <app-pagination
+     [selected]="this.pager.selectedpage"
+    [totalPages]="this.pager.totalOfPages"
+    (onSelected) = "onSelectPage($event)"
+    (onSizeSelected) = "onSelectPageSize($event)">
+  </app-pagination>
+  </div>
+  <ng-template #deleteUser let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <div class="row">
+          <div class="col-md-12">
+            <b class="text-primary font-weight-boldest">
+              {{message.title}}
+            </b>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body text-center row">
+          <div class="col-md-1"></div>
+          <div class="col-md-1">
+              <fa name="trash fa-3x" class="text-danger"></fa>
+          </div>
+          <div class="col-md-9 align-middle">
+              <p class="font-weight-normal mt-2">{{message.msg}}</p>
+         </div>
+          <div class="col-md-1"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="message.confirm();c('Close click')">Yes</button>
+        <button type="button" class="btn btn-light" (click)="c('Close click')">No</button>
+      </div>
+    </ng-template>
+</div>

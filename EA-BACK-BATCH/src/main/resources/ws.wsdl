@@ -1,0 +1,553 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://scor.com/ref-treaty/schemas/2.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://scor.com/ref-treaty/schemas/2.0" targetNamespace="http://scor.com/ref-treaty/schemas/2.0">
+<wsdl:types>
+<xs:schema xmlns:sc="http://scor.com/ref-treaty/schemas/2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://scor.com/ref-treaty/schemas/2.0" version="2.0">
+<xs:element name="FindTtyByLastModifiedDateRequest" type="sc:findTtyByLastModifiedDateRequest"/>
+<xs:element name="FindTtyByLastModifiedDateResponse" type="sc:findTtyByLastModifiedDateResponse"/>
+<xs:element name="FindTtyHeaderByIdRequest" type="sc:findTtyHeaderByIdRequest"/>
+<xs:element name="FindTtyHeaderByIdResponse" type="sc:findTtyHeaderByIdResponse"/>
+<xs:element name="FindTtyTermCondByIdRequest" type="sc:findTtyTermCondByIdRequest"/>
+<xs:element name="FindTtyTermCondByIdResponse" type="sc:findTtyTermCondByIdResponse"/>
+<xs:element name="FindTtyReinstatementByIdRequest" type="sc:findTtyReinstatementByIdRequest"/>
+<xs:element name="FindTtyReinstatementByIdResponse" type="sc:findTtyReinstatementByIdResponse"/>
+<xs:element name="FindTtyCountryPerilByIdRequest" type="sc:findTtyCountryPerilByIdRequest"/>
+<xs:element name="FindTtyCountryPerilByIdResponse" type="sc:findTtyCountryPerilByIdResponse"/>
+<xs:element name="FindTtySectionLabelListByIdRequest" type="sc:findTtySectionLabelListByIdRequest"/>
+<xs:element name="FindTtySectionLabelListByIdResponse" type="sc:findTtySectionLabelListByIdResponse"/>
+<xs:element name="FindTtySectionListByIdRequest" type="sc:findTtySectionListByIdRequest"/>
+<xs:element name="FindTtySectionListByIdResponse" type="sc:findTtySectionListByIdResponse"/>
+<xs:element name="FindTtyGuaranteeByIdRequest" type="sc:findTtyGuaranteeByIdRequest"/>
+<xs:element name="FindTtyGuaranteeByIdResponse" type="sc:findTtyGuaranteeByIdResponse"/>
+<xs:element name="FindTtyListByIdRequest" type="sc:findTtyListByIdRequest"/>
+<xs:element name="FindTtyListByIdResponse" type="sc:findTtyListByIdResponse"/>
+<xs:complexType name="ttySectionIdList">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="secNf" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+ <!--  Get list of treaties modified since a date (4.1.1) -->
+<xs:complexType name="findTtyByLastModifiedDateRequest">
+<xs:sequence>
+<xs:element name="lstupdD" type="xs:date"/>
+<xs:element minOccurs="0" name="canDt" type="xs:int"/>
+<xs:element minOccurs="0" name="ctrtypCt" type="xs:int"/>
+<xs:element minOccurs="0" name="uwgrpCf" type="xs:int"/>
+<xs:element minOccurs="0" name="uwyNf" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="findTtyByLastModifiedDateResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="ctrNf" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+ <!--  Get treaty header (4.1.2)  -->
+<xs:complexType name="findTtyHeaderByIdRequest">
+<xs:sequence>
+<xs:element name="ctrNf" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="findTtyHeaderByIdResponse">
+<xs:sequence>
+<xs:element name="ctrNf" type="xs:string"/>
+<xs:element default="0" name="ctrstsCt" type="xs:int"/>
+<xs:element default="0" name="ctrtypCt" type="xs:int"/>
+<xs:element minOccurs="0" name="uwgrpCf" type="xs:int"/>
+<xs:element minOccurs="0" name="grpLl" type="xs:string"/>
+<xs:element minOccurs="0" name="uwyNf" type="xs:int"/>
+<xs:element default="0" name="uwNt" type="xs:int"/>
+<xs:element default="0" name="endNt" type="xs:int"/>
+<xs:element name="ctrpcpnamLl" type="xs:string"/>
+<xs:element name="ssdCf" type="xs:int"/>
+<xs:element name="ssdLl" type="xs:string"/>
+<xs:element name="accesbCf" type="xs:int"/>
+<xs:element name="esbLl" type="xs:string"/>
+<xs:element minOccurs="0" name="ctrincD" type="xs:date"/>
+<xs:element minOccurs="0" name="ctrexpD" type="xs:date"/>
+<xs:element name="prgNf" type="xs:string"/>
+<xs:element minOccurs="0" name="prgnamLl" type="xs:string"/>
+<xs:element name="boqNf" type="xs:string"/>
+<xs:element minOccurs="0" name="boqnamLl" type="xs:string"/>
+<xs:element minOccurs="0" name="cedNf" type="xs:int"/>
+<xs:element minOccurs="0" name="clishonamLd" type="xs:string"/>
+<xs:element minOccurs="0" name="clictyCf" type="xs:string"/>
+<xs:element name="uwrspusrCf" type="xs:string"/>
+<xs:element name="usrfnmeLm" type="xs:string"/>
+<xs:element name="usrnmeLm" type="xs:string"/>
+<xs:element minOccurs="0" name="liacurCf" type="xs:string"/>
+<xs:element minOccurs="0" name="lialimM" type="xs:decimal"/>
+<xs:element minOccurs="0" name="liaevtlimM" type="xs:decimal"/>
+<xs:element minOccurs="0" name="reitypCf" type="xs:int"/>
+<xs:element minOccurs="0" name="orgcedNf" type="xs:int"/>
+<xs:element name="liftrttypCf" type="xs:string"/>
+<xs:element name="manretB" type="xs:boolean"/>
+<xs:element minOccurs="0" name="prdNf" type="xs:int"/>
+<xs:element minOccurs="0" name="prdclishoNamLd" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+ <!--  Get treaty terms & condition  -->
+<xs:complexType name="findTtyTermCondByIdRequest">
+<xs:sequence>
+<xs:element name="ctrNf" type="xs:string"/>
+<xs:element name="ttySectionIdList" type="sc:ttySectionIdList"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="findTtyTermCondByIdResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="sectionID" type="sc:SCORTtyTermCond"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="SCORTtyTermCond">
+<xs:sequence>
+<xs:element name="ctrNf" type="xs:string"/>
+<xs:element name="secNf" type="xs:int"/>
+<xs:element default="0" name="treatyStatus" type="xs:int"/>
+<xs:element default="0" name="ctrtypCt" type="xs:int"/>
+<xs:element minOccurs="0" name="uwgrpCf" type="xs:int"/>
+<xs:element minOccurs="0" name="uwyNf" type="xs:int"/>
+<xs:element default="0" name="uwNt" type="xs:int"/>
+<xs:element default="0" name="endNt" type="xs:int"/>
+<xs:element name="occBas" type="xs:string"/>
+<xs:element name="sbjprmcurCf" type="xs:string"/>
+<xs:element name="estsbjprmM" type="xs:decimal"/>
+<xs:element minOccurs="0" name="sbjprmcmpCf" type="xs:int"/>
+<xs:element default="true" name="unlliaB" type="xs:boolean"/>
+<xs:element name="liaridshaB" type="xs:string"/>
+<xs:element minOccurs="0" name="liaevtlimM" type="xs:decimal"/>
+<xs:element minOccurs="0" name="liaannlimM" type="xs:decimal"/>
+<xs:element minOccurs="0" name="liaanndedM" type="xs:decimal"/>
+<xs:element minOccurs="0" name="liatdtlimM" type="xs:decimal"/>
+<xs:element minOccurs="0" name="liatptlimM" type="xs:decimal"/>
+<xs:element minOccurs="0" name="liafldlimM" type="xs:decimal"/>
+<xs:element minOccurs="0" name="laycapM" type="xs:decimal"/>
+<xs:element minOccurs="0" name="liadedM" type="xs:decimal"/>
+<xs:element minOccurs="0" name="liaagrdedM" type="xs:decimal"/>
+<xs:element default="true" name="reiunlB" type="xs:boolean"/>
+<xs:element maxOccurs="1" minOccurs="0" name="participantList" type="sc:participantList"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="participantList">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="participant" type="sc:participant"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="participant">
+<xs:sequence>
+<xs:element name="risNf" type="xs:int"/>
+<xs:element name="risName" type="xs:string"/>
+<xs:element name="ldiB" type="xs:boolean"/>
+<xs:element minOccurs="0" name="risshaR" type="xs:decimal"/>
+</xs:sequence>
+</xs:complexType>
+ <!--  Get reinstatement  -->
+<xs:complexType name="findTtyReinstatementByIdRequest">
+<xs:sequence>
+<xs:element name="ctrNf" type="xs:string"/>
+<xs:element name="ttySectionIdList" type="sc:ttySectionIdList"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="findTtyReinstatementByIdResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="ttySection" type="sc:SCORTtyReinstatement"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="SCORTtyReinstatement">
+<xs:sequence>
+<xs:element name="ctrNf" type="xs:string"/>
+<xs:element name="secNf" type="xs:int"/>
+<xs:element minOccurs="0" name="uwyNf" type="xs:int"/>
+<xs:element default="0" name="uwNt" type="xs:int"/>
+<xs:element default="0" name="endNt" type="xs:int"/>
+<xs:element name="reilinNt" type="xs:int"/>
+<xs:element name="reirnkN" type="xs:int"/>
+<xs:element name="premium" type="xs:decimal"/>
+<xs:element minOccurs="0" name="proportionCeded" type="xs:decimal"/>
+<xs:element default="0" name="reiprotmpB" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+ <!--  Get treaty country perils  -->
+<xs:complexType name="findTtyCountryPerilByIdRequest">
+<xs:sequence>
+<xs:element name="ctrNf" type="xs:string"/>
+<xs:element name="ttySectionIdList" type="sc:ttySectionIdList"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="findTtyCountryPerilByIdResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="ttySection" type="sc:SCORTtyCountryPeril"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="SCORTtyCountryPeril">
+<xs:sequence>
+<xs:element name="ctrNf" type="xs:string"/>
+<xs:element name="secNf" type="xs:int"/>
+<xs:element minOccurs="0" name="uwyNf" type="xs:int"/>
+<xs:element default="0" name="uwNt" type="xs:int"/>
+<xs:element default="0" name="endNt" type="xs:int"/>
+<xs:element name="catlinNt" type="xs:int"/>
+<xs:element name="ctyCf" type="xs:string"/>
+<xs:element name="peril" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+ <!--  Get treaty section label list  -->
+<xs:complexType name="findTtySectionLabelListByIdRequest">
+<xs:sequence>
+<xs:element name="ctrNf" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="findTtySectionLabelListByIdResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="sectionID" type="sc:SCORTtySectionLabel"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="SCORTtySectionLabel">
+<xs:sequence>
+<xs:element name="ctrNf" type="xs:string"/>
+<xs:element name="secNf" type="xs:int"/>
+<xs:element minOccurs="0" name="seclabLm" type="xs:string"/>
+<xs:element name="uwyNf" type="xs:int"/>
+<xs:element name="uwNt" type="xs:int"/>
+<xs:element name="endNt" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="character">
+<xs:restriction base="xs:string">
+<xs:length fixed="true" value="1"/>
+</xs:restriction>
+</xs:simpleType>
+ <!--  Get treaty sections (4.1.5) -->
+<xs:complexType name="secNfList">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="secNf" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="findTtySectionListByIdRequest">
+<xs:sequence>
+<xs:element name="ctrNf" type="xs:string"/>
+<xs:element minOccurs="0" name="secNfList" type="sc:secNfList"/>
+<xs:element name="lagCf" type="sc:character"/>
+<xs:element minOccurs="0" name="uwyNf" type="xs:int"/>
+<xs:element minOccurs="0" name="uwNt" type="xs:int"/>
+<xs:element minOccurs="0" name="endNt" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="findTtySectionListByIdResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="ttySection" type="sc:SCORTtySection"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="SCORTtySection">
+<xs:sequence>
+<xs:element name="ctrNf" type="xs:string"/>
+<xs:element name="secNf" type="xs:int"/>
+<xs:element minOccurs="0" name="uwyNf" type="xs:int"/>
+<xs:element default="0" name="uwNt" type="xs:int"/>
+<xs:element default="0" name="endNt" type="xs:int"/>
+<xs:element name="seclabLm" type="xs:string"/>
+<xs:element name="secstsCt" type="xs:int"/>
+<xs:element minOccurs="0" name="usgaapCt" type="xs:int"/>
+<xs:element name="garCf" type="xs:string"/>
+<xs:element name="garGs" type="xs:string"/>
+<xs:element name="secaccstsCt" type="xs:int"/>
+<xs:element minOccurs="0" name="crtvrsincD" type="xs:date"/>
+<xs:element name="lobCf" type="xs:string"/>
+<xs:element name="lobGl" type="xs:string"/>
+<xs:element name="sobCf" type="xs:string"/>
+<xs:element name="sobGl" type="xs:string"/>
+<xs:element name="topCf" type="xs:string"/>
+<xs:element name="topGl" type="xs:string"/>
+<xs:element name="natCf" type="xs:string"/>
+<xs:element name="ctrnatGd" type="xs:string"/>
+<xs:element name="pcpcurCf" type="xs:string"/>
+<xs:element minOccurs="0" name="ridshaR" type="xs:decimal"/>
+<xs:element minOccurs="0" name="actshaR" type="xs:decimal"/>
+<xs:element minOccurs="0" name="sigshaR" type="xs:decimal"/>
+<xs:element minOccurs="0" name="expshaR" type="xs:decimal"/>
+<xs:element default="0" name="earexpB" type="xs:int"/>
+<xs:element default="0" name="strexpB" type="xs:int"/>
+<xs:element default="0" name="fldexpB" type="xs:int"/>
+<xs:element minOccurs="0" name="speaccprmcurCf" type="xs:string"/>
+<xs:element minOccurs="0" name="egpcurCf" type="xs:string"/>
+<xs:element minOccurs="0" name="speacclimcurCf" type="xs:string"/>
+<xs:element minOccurs="0" name="seccanD" type="xs:date"/>
+<xs:element minOccurs="0" name="secincD" type="xs:date"/>
+<xs:element minOccurs="0" name="prmrRunOffB" type="xs:boolean"/>
+<xs:element minOccurs="0" name="clmrRunOffB" type="xs:boolean"/>
+<xs:element minOccurs="0" name="prmrCutOffB" type="xs:boolean"/>
+<xs:element minOccurs="0" name="clmfCutOffB" type="xs:boolean"/>
+<xs:element minOccurs="0" name="runOffYear" type="xs:short"/>
+<xs:element minOccurs="0" name="liaRskB" type="xs:boolean"/>
+<xs:element minOccurs="0" name="liaEvtB" type="xs:boolean"/>
+<xs:element minOccurs="0" name="accAdmTypCt" type="xs:short"/>
+<xs:element name="parSecNf" type="xs:string"/>
+<xs:element minOccurs="0" name="workingOrCat" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+ <!--  Get Treaty Guarantees  -->
+<xs:complexType name="findTtyGuaranteeByIdRequest">
+<xs:sequence>
+<xs:element name="ctrNf" type="xs:string"/>
+<xs:element name="ttySectionIdList" type="sc:ttySectionIdList"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="findTtyGuaranteeByIdResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="ttyGuarantee" type="sc:ttyGuarantee"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ttyGuarantee">
+<xs:sequence>
+<xs:element name="ctrNf" type="xs:string"/>
+<xs:element name="secNf" type="xs:int"/>
+<xs:element name="uwyNf" type="xs:int"/>
+<xs:element name="uwNt" type="xs:int"/>
+<xs:element name="endNt" type="xs:int"/>
+<xs:element name="vntCtrLinN" type="xs:int"/>
+<xs:element name="vntCtrValCt" type="xs:string"/>
+<xs:element name="incExcValB" type="xs:boolean"/>
+<xs:element minOccurs="0" name="egpPcpR" type="xs:decimal"/>
+<xs:element minOccurs="0" name="garGl" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+ <!--  Expose List of Omega treaties  -->
+<xs:complexType name="ssdCfList">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="ssdCf" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="esbCfList">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="esbCf" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ctrNfList">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="ctrNf" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ctrstsCtList">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="ctrstsCt" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="uwgrpCfList">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="uwgrpCf" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="findTtyListByIdRequest">
+<xs:sequence>
+<xs:element minOccurs="0" name="ssdCfList" type="sc:ssdCfList"/>
+<xs:element minOccurs="0" name="esbCfList" type="sc:esbCfList"/>
+<xs:element minOccurs="0" name="cedNf" type="xs:int"/>
+<xs:element minOccurs="0" name="clishonamLd" type="xs:string"/>
+<xs:element minOccurs="0" name="ctrNfList" type="sc:ctrNfList"/>
+<xs:element minOccurs="0" name="ctrpcpnamLl" type="xs:string"/>
+<xs:element minOccurs="0" name="ctrstsCtList" type="sc:ctrstsCtList"/>
+<xs:element minOccurs="0" name="uwgrpCfList" type="sc:uwgrpCfList"/>
+<xs:element minOccurs="0" name="lifeCf" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="findTtyListByIdResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="tty" type="sc:SCORTty"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="SCORTty">
+<xs:sequence>
+<xs:element minOccurs="0" name="ssdCf" type="xs:int"/>
+<xs:element minOccurs="0" name="esbCf" type="xs:int"/>
+<xs:element minOccurs="0" name="cedNf" type="xs:int"/>
+<xs:element minOccurs="0" name="clishonamLd" type="xs:string"/>
+<xs:element minOccurs="0" name="ctrNf" type="xs:string"/>
+<xs:element minOccurs="0" name="ctrpcpnamLl" type="xs:string"/>
+<xs:element minOccurs="0" name="uwyNf" type="xs:int"/>
+<xs:element minOccurs="0" name="uwgrpCf" type="xs:int"/>
+<xs:element minOccurs="0" name="admgrpCF" type="xs:int"/>
+<xs:element minOccurs="0" name="accgrpCF" type="xs:int"/>
+<xs:element minOccurs="0" name="ctrstsCt" type="xs:int"/>
+<xs:element minOccurs="0" name="ctrlckB" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+</wsdl:types>
+<wsdl:message name="FindTtySectionLabelListByIdRequest">
+<wsdl:part element="tns:FindTtySectionLabelListByIdRequest" name="FindTtySectionLabelListByIdRequest"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="FindTtyTermCondByIdRequest">
+<wsdl:part element="tns:FindTtyTermCondByIdRequest" name="FindTtyTermCondByIdRequest"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="FindTtyListByIdRequest">
+<wsdl:part element="tns:FindTtyListByIdRequest" name="FindTtyListByIdRequest"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="FindTtyTermCondByIdResponse">
+<wsdl:part element="tns:FindTtyTermCondByIdResponse" name="FindTtyTermCondByIdResponse"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="FindTtySectionLabelListByIdResponse">
+<wsdl:part element="tns:FindTtySectionLabelListByIdResponse" name="FindTtySectionLabelListByIdResponse"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="FindTtyHeaderByIdRequest">
+<wsdl:part element="tns:FindTtyHeaderByIdRequest" name="FindTtyHeaderByIdRequest"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="FindTtyCountryPerilByIdResponse">
+<wsdl:part element="tns:FindTtyCountryPerilByIdResponse" name="FindTtyCountryPerilByIdResponse"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="FindTtySectionListByIdRequest">
+<wsdl:part element="tns:FindTtySectionListByIdRequest" name="FindTtySectionListByIdRequest"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="FindTtyListByIdResponse">
+<wsdl:part element="tns:FindTtyListByIdResponse" name="FindTtyListByIdResponse"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="FindTtyCountryPerilByIdRequest">
+<wsdl:part element="tns:FindTtyCountryPerilByIdRequest" name="FindTtyCountryPerilByIdRequest"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="FindTtySectionListByIdResponse">
+<wsdl:part element="tns:FindTtySectionListByIdResponse" name="FindTtySectionListByIdResponse"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="FindTtyReinstatementByIdRequest">
+<wsdl:part element="tns:FindTtyReinstatementByIdRequest" name="FindTtyReinstatementByIdRequest"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="FindTtyReinstatementByIdResponse">
+<wsdl:part element="tns:FindTtyReinstatementByIdResponse" name="FindTtyReinstatementByIdResponse"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="FindTtyByLastModifiedDateRequest">
+<wsdl:part element="tns:FindTtyByLastModifiedDateRequest" name="FindTtyByLastModifiedDateRequest"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="FindTtyByLastModifiedDateResponse">
+<wsdl:part element="tns:FindTtyByLastModifiedDateResponse" name="FindTtyByLastModifiedDateResponse"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="FindTtyHeaderByIdResponse">
+<wsdl:part element="tns:FindTtyHeaderByIdResponse" name="FindTtyHeaderByIdResponse"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="FindTtyGuaranteeByIdRequest">
+<wsdl:part element="tns:FindTtyGuaranteeByIdRequest" name="FindTtyGuaranteeByIdRequest"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="FindTtyGuaranteeByIdResponse">
+<wsdl:part element="tns:FindTtyGuaranteeByIdResponse" name="FindTtyGuaranteeByIdResponse"> </wsdl:part>
+</wsdl:message>
+<wsdl:portType name="SCORTreatyService">
+<wsdl:operation name="FindTtySectionLabelListById">
+<wsdl:input message="tns:FindTtySectionLabelListByIdRequest" name="FindTtySectionLabelListByIdRequest"> </wsdl:input>
+<wsdl:output message="tns:FindTtySectionLabelListByIdResponse" name="FindTtySectionLabelListByIdResponse"> </wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="FindTtyTermCondById">
+<wsdl:input message="tns:FindTtyTermCondByIdRequest" name="FindTtyTermCondByIdRequest"> </wsdl:input>
+<wsdl:output message="tns:FindTtyTermCondByIdResponse" name="FindTtyTermCondByIdResponse"> </wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="FindTtyListById">
+<wsdl:input message="tns:FindTtyListByIdRequest" name="FindTtyListByIdRequest"> </wsdl:input>
+<wsdl:output message="tns:FindTtyListByIdResponse" name="FindTtyListByIdResponse"> </wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="FindTtyHeaderById">
+<wsdl:input message="tns:FindTtyHeaderByIdRequest" name="FindTtyHeaderByIdRequest"> </wsdl:input>
+<wsdl:output message="tns:FindTtyHeaderByIdResponse" name="FindTtyHeaderByIdResponse"> </wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="FindTtyCountryPerilById">
+<wsdl:input message="tns:FindTtyCountryPerilByIdRequest" name="FindTtyCountryPerilByIdRequest"> </wsdl:input>
+<wsdl:output message="tns:FindTtyCountryPerilByIdResponse" name="FindTtyCountryPerilByIdResponse"> </wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="FindTtySectionListById">
+<wsdl:input message="tns:FindTtySectionListByIdRequest" name="FindTtySectionListByIdRequest"> </wsdl:input>
+<wsdl:output message="tns:FindTtySectionListByIdResponse" name="FindTtySectionListByIdResponse"> </wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="FindTtyReinstatementById">
+<wsdl:input message="tns:FindTtyReinstatementByIdRequest" name="FindTtyReinstatementByIdRequest"> </wsdl:input>
+<wsdl:output message="tns:FindTtyReinstatementByIdResponse" name="FindTtyReinstatementByIdResponse"> </wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="FindTtyByLastModifiedDate">
+<wsdl:input message="tns:FindTtyByLastModifiedDateRequest" name="FindTtyByLastModifiedDateRequest"> </wsdl:input>
+<wsdl:output message="tns:FindTtyByLastModifiedDateResponse" name="FindTtyByLastModifiedDateResponse"> </wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="FindTtyGuaranteeById">
+<wsdl:input message="tns:FindTtyGuaranteeByIdRequest" name="FindTtyGuaranteeByIdRequest"> </wsdl:input>
+<wsdl:output message="tns:FindTtyGuaranteeByIdResponse" name="FindTtyGuaranteeByIdResponse"> </wsdl:output>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:binding name="SCORTreatyServiceSoap11" type="tns:SCORTreatyService">
+<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+<wsdl:operation name="FindTtySectionLabelListById">
+<soap:operation soapAction=""/>
+<wsdl:input name="FindTtySectionLabelListByIdRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="FindTtySectionLabelListByIdResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="FindTtyTermCondById">
+<soap:operation soapAction=""/>
+<wsdl:input name="FindTtyTermCondByIdRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="FindTtyTermCondByIdResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="FindTtyListById">
+<soap:operation soapAction=""/>
+<wsdl:input name="FindTtyListByIdRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="FindTtyListByIdResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="FindTtyHeaderById">
+<soap:operation soapAction=""/>
+<wsdl:input name="FindTtyHeaderByIdRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="FindTtyHeaderByIdResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="FindTtyCountryPerilById">
+<soap:operation soapAction=""/>
+<wsdl:input name="FindTtyCountryPerilByIdRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="FindTtyCountryPerilByIdResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="FindTtySectionListById">
+<soap:operation soapAction=""/>
+<wsdl:input name="FindTtySectionListByIdRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="FindTtySectionListByIdResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="FindTtyReinstatementById">
+<soap:operation soapAction=""/>
+<wsdl:input name="FindTtyReinstatementByIdRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="FindTtyReinstatementByIdResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="FindTtyByLastModifiedDate">
+<soap:operation soapAction=""/>
+<wsdl:input name="FindTtyByLastModifiedDateRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="FindTtyByLastModifiedDateResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="FindTtyGuaranteeById">
+<soap:operation soapAction=""/>
+<wsdl:input name="FindTtyGuaranteeByIdRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="FindTtyGuaranteeByIdResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:service name="SCORTreatyServiceService">
+<wsdl:port binding="tns:SCORTreatyServiceSoap11" name="SCORTreatyServiceSoap11">
+<soap:address location="http://dcvintismlb.eu.scor.local:7012/scor-ref-treaty-presentation/SCORTreatyService"/>
+</wsdl:port>
+</wsdl:service>
+</wsdl:definitions>

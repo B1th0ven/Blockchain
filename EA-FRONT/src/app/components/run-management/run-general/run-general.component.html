@@ -1,0 +1,350 @@
+<div class="text-primary form-header mb-3 font-weight-bold">
+  General
+</div>
+<hr class="mt-0 opacity-half">
+<div>
+  <div class="row">
+    <div class="col-md-3 text-right">
+      <label class="col-form-label col-form-label-sm" [ngbTooltip]="hs.getDetail(screen_name,'Dataset')">Dataset*</label>
+    </div>
+    <div class="col-md-3">
+      <div class="input-group input-group-sm">
+        <select [(ngModel)]="run.dataset" class="form-control form-control-sm" [disabled]="!editable()" (ngModelChange)="changeDS(DSChangeWarning,$event)">
+          <option value="" selected></option>
+          <option *ngFor="let d of filterDatasets(datasets)" [value]="d.id">{{d.name}}</option>
+        </select>
+        <div class="input-group-append dropdown-append">
+          <button class="btn btn-primary" type="button" [disabled]="!editable()">
+            <fa name="chevron-down"></fa>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2  text-right">
+      <label class="col-form-label col-form-label-sm" container="body"  [ngbTooltip]="hs.getDetail(screen_name,'Dimensions')">Input Dimensions*</label>
+    </div>
+    <div class="col-md-4">
+      <div class="input-group input-group-sm">
+          <select  class="form-control form-control-sm" *ngIf="!editable()">
+              <option value="" selected></option>
+              <option *ngFor="let d of run.allDimensions" [value]="d.id">{{d.itemName}}</option>
+          </select>
+        <input disabled *ngIf="!isDatasetSelected(run)&&editable()" [disabled]="!isDatasetSelected(run)||!editable()" class="form-control form-control-sm">
+        <angular2-multiselect *ngIf="isDatasetSelected(run)&&editable()"  [style.width]="'100%'" [data]="run.allDimensions" [(ngModel)]="run.dimensions"
+          [settings]="dropdownSettings" (onSelect)="onItemSelect($event)" (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)"
+          (onDeSelectAll)="onDeSelectAll($event)">
+        </angular2-multiselect>
+        <div class="input-group-append dropdown-append">
+          <button [disabled]="!isDatasetSelected(run)" class="btn btn-primary" type="button">
+            <fa name="chevron-down"></fa>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-md-3 text-right">
+      <label class="col-form-label col-form-label-sm" container="body"  [ngbTooltip]="hs.getDetail(screen_name,'Exposure Metric')">Exposure Metric*</label>
+    </div>
+    <div class="col-md-3" [ngClass]="{'readonly':!editable()}">
+      <div class="custom-control custom-radio custom-control-inline">
+        <input (change)="formValidation.onMetricChanged(run)" [(ngModel)]="run.exposure_metric"  type="radio" id="initial-{{component_number}}"
+          name="first-{{component_number}}" class="custom-control-input" value="Initial">
+        <label class="custom-control-label col-form-label-sm" for="initial-{{component_number}}">Initial</label>
+      </div>
+    </div>
+    <div class="col-md-2 text-right" [ngClass]="{'readonly':!editable()}">
+      <div class="custom-control custom-radio custom-control-inline ">
+        <input (change)="formValidation.onMetricChanged(run)" [(ngModel)]="run.exposure_metric" type="radio" id="central-{{component_number}}"
+          name="first-{{component_number}}" class="custom-control-input" value="Central">
+        <label class="custom-control-label col-form-label-sm" for="central-{{component_number}}">Central</label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-9">
+      <small class="text-danger" *ngIf="!formValidation.checkRadio(run.exposure_metric)">Must select a value.</small>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-md-3 text-right">
+      <label class="col-form-label col-form-label-sm" [ngbTooltip]="hs.getDetail(screen_name,'Run Description')">Run Description</label>
+    </div>
+    <div class="col-md-9">
+      <textarea [(ngModel)]="run.run_description" [disabled]="!canEditPerm" class="form-control form-control-sm" maxlength="255" cols="30" rows="3"></textarea>
+    </div>
+  </div>
+</div>
+<div [style.opacity]="(formValidation.datasetSelected(run))?1:0.5" [style.pointer-events]="(formValidation.datasetSelected(run))?'auto':'none'">
+
+  <div class="text-primary form-header mb-3 font-weight-bold mt-5">
+    Result metrics
+  </div>
+  <hr class="mt-0 opacity-half">
+
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="bca-{{component_number}}" [disabled]="!editable()" [(ngModel)]="run.count_analysis">
+        <label class="custom-control-label col-form-label-sm " for="bca-{{component_number}}" [ngbTooltip]="hs.getDetail(screen_name,'By Count Analysis')">By Count Analysis</label>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row mt-3">
+    <div class="col-md-4">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="baa-{{component_number}}" [disabled]="!editable()||isByAmountAnalysisDisabled()" [(ngModel)]="run.amount_analysis" (change)="amount_analysis_change()">
+        <label class="custom-control-label col-form-label-sm" for="baa-{{component_number}}" [ngbTooltip]="hs.getDetail(screen_name,'By Amount Analysis')">By Amount Analysis</label>
+      </div>
+    </div>
+    <div class="col-md-4 text-right">
+      <label class="col-form-label-sm" container="body"  [ngbTooltip]="hs.getDetail(screen_name,'By Amount Analysis Basis')" >By Amount Analysis Basis</label>
+    </div>
+    <div class="col-md-2">
+      <div class="custom-control custom-radio custom-control-inline">
+        <!-- <input type="radio" id="insurer-{{component_number}}" name="third-{{component_number}}" class="custom-control-input" value="Insurer"
+          [(ngModel)]="run.amount_analysis_value" [disabled]="!run.amount_analysis||!editable()||!run.is_acc_risk_amount_insurer||!run.is_amount_risk_insurer||!run.isRiskAmountInsurerValue || !run.is_amount_event_insurer|| !run.isAccRiskAmountInsurer || !run.isEventAmountInsurerValue"> -->
+          <input type="radio" id="insurer-{{component_number}}" name="third-{{component_number}}" class="custom-control-input" value="Insurer"
+          [(ngModel)]="run.amount_analysis_value" [disabled]="!this.run.amount_analysis||isByAmountBasisDisabledInsurer()">
+        <label class="custom-control-label col-form-label-sm " for="insurer-{{component_number}}">Insurer</label>
+      </div>
+
+    </div>
+    <div class="col-md-2">
+      <div class="custom-control custom-radio custom-control-inline">
+        <!-- <input type="radio" id="reinsurer-{{component_number}}" name="third-{{component_number}}" class="custom-control-input" value="Reinsurer"
+          [(ngModel)]="run.amount_analysis_value" [disabled]="!run.amount_analysis||!editable()||!run.is_amount_risk_reinsurer || !run.is_acc_risk_amount_reinsur || !run.is_amount_event_reinsurer || !run.isAccRiskAmountReinsur|| !run.isRiskAmountReinsurerValue || !run.isEventAmountReinsurerValue"> -->
+          <input type="radio" id="reinsurer-{{component_number}}" name="third-{{component_number}}" class="custom-control-input" value="Reinsurer"
+          [(ngModel)]="run.amount_analysis_value" [disabled]="!this.run.amount_analysis||isByAmountBasisDisabledReinsurer()">
+        <label class="custom-control-label col-form-label-sm" for="reinsurer-{{component_number}}">Reinsurer</label>
+      </div>
+    </div>
+  </div>
+  <div class="row ml-2">
+    <div class="col-md-8"></div>
+    <div class="col-md-4">
+      <small class="text-danger" *ngIf="!formValidation.mandatoryCheck(run.amount_analysis,run.amount_analysis_value)">Must chose an option.</small>
+    </div>
+  </div>
+  <div class="row mt-3" [ngClass]="{'custom-disable':(!run.is_amount_risk_insurer || !run.is_amount_event_insurer) && (!run.is_amount_risk_reinsurer || !run.is_amount_event_reinsurer) }">
+    <div class="col-md-4">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" [(ngModel)]="run.amount_capped" [disabled]="!run.amount_analysis||!editable()" (change)="amount_capped_change()"
+          id="capped-{{component_number}}">
+        <label class="custom-control-label col-form-label-sm" for="capped-{{component_number}}" [ngbTooltip]="hs.getDetail(screen_name,'By Amount Capped')">By Amount Capped</label>
+      </div>
+    </div>
+    <div class="col-md-4 text-right">
+      <label class="col-form-label-sm" [ngbTooltip]="hs.getDetail(screen_name,'Capped Amount')">Capped Amount</label>
+    </div>
+
+    <div class="col-md-4">
+      <input class="form-control form-control-sm" [(ngModel)]="run.amount_capped_value" [disabled]="!run.amount_capped||!editable()">
+      <small class="text-danger" *ngIf="!formValidation.mandatoryCheck(run.amount_capped,run.amount_capped_value) || !formValidation.isNumber(run.amount_capped_value)">Must set an amount.</small>
+    </div>
+  </div>
+  <hr>
+  <div class="row mt-3">
+    <div class="col-md-4">
+      <div class="custom-control custom-checkbox">
+        <input 
+          type="checkbox" 
+          class="custom-control-input" 
+          id="lra-{{component_number}}" 
+          [(ngModel)]="run.loss_analysis_ratio" 
+          [disabled]="!editable() || isLossRatioDisabled() " 
+          (change)="loss_analysis_ratio_change()"
+        >
+        <label class="custom-control-label col-form-label-sm" for="lra-{{component_number}}" [ngbTooltip]="hs.getDetail(screen_name,'Loss Ratio Analysis')">Loss Ratio Analysis</label>
+      </div>
+    </div>
+    <div class="col-md-4 text-right">
+      <label class="col-form-label-sm" [ngbTooltip]="hs.getDetail(screen_name,'Loss Ratio Analysis Basis')" >Loss Ratio Analysis Basis</label>
+    </div>
+    <div class="col-md-2">
+      <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" id="insurer_loss-{{component_number}}" name="fourth-{{component_number}}" class="custom-control-input"
+          [(ngModel)]="run.loss_analysis_ratio_value" [disabled]="!run.loss_analysis_ratio||isLossRatiDisabledInsurer()" value="Insurer">
+        <label class="custom-control-label col-form-label-sm" for="insurer_loss-{{component_number}}">Insurer</label>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" id="reinsurer_loss-{{component_number}}" name="fourth-{{component_number}}" class="custom-control-input"
+          [(ngModel)]="run.loss_analysis_ratio_value" [disabled]="!run.loss_analysis_ratio||isLossRatiDisabledRinsurer()" value="Reinsurer">
+        <label class="custom-control-label col-form-label-sm" for="reinsurer_loss-{{component_number}}">Reinsurer</label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8"></div>
+    <div class="col-md-4">
+      <small class="text-danger" *ngIf="!formValidation.mandatoryCheck(run.loss_analysis_ratio,run.loss_analysis_ratio_value)">Must chose an option.</small>
+    </div>
+  </div>
+
+
+  <div class="text-primary form-header mb-3 font-weight-bold mt-5">
+    Run Options
+  </div>
+  <hr class="mt-0 opacity-half">
+
+  <div class="row ">
+    <div class="col-md-9">
+      <div class="custom-control custom-checkbox">
+        <!-- <input type="checkbox" class="custom-control-input" id="aras-{{component_number}}" [(ngModel)]="run.automatic_risk_amount" [disabled]="!editable()||isRiskAmountDisabled()||!run.amount_analysis"> -->
+        <input type="checkbox" class="custom-control-input" id="aras-{{component_number}}" [(ngModel)]="run.automatic_risk_amount" [disabled]="!editable()||isRiskAmountDisabled()||!run.amount_analysis">
+        <label class="custom-control-label col-form-label-sm" for="aras-{{component_number}}" [ngbTooltip]="hs.getDetail(screen_name,'Automatic Risk Amount Change')">Automatic Risk Amount Change</label>
+      </div>
+    </div>
+  </div>
+
+  <!--
+  <div class="row mt-3" [ngClass]="{'custom-disable':run.age_of_birth_check,'readonly':editable()}">
+    <div class="col-md-3 text-right">
+      <label class="col-form-label col-form-label-sm">Attained Age Definition*</label>
+    </div>
+    <div class="col-md-3">
+      <div class="custom-control custom-radio custom-control-inline">
+        <input [(ngModel)]="run.attained_age" type="radio" id="alb-{{component_number}}" name="second-{{component_number}}" class="custom-control-input"
+          value="Age Last Birthday">
+        <label class="custom-control-label col-form-label-sm" for="alb-{{component_number}}">Age Last Birthday</label>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="custom-control custom-radio custom-control-inline">
+        <input [(ngModel)]="run.attained_age" type="radio" id="anb-{{component_number}}" name="second-{{component_number}}" class="custom-control-input"
+          value="Age Nearest Birthday">
+        <label class="custom-control-label col-form-label-sm" for="anb-{{component_number}}">Age Nearest Birthday</label>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="custom-control custom-radio custom-control-inline">
+        <input [(ngModel)]="run.attained_age" type="radio" id="anxb-{{component_number}}" name="second-{{component_number}}" class="custom-control-input"
+          value="Age Next Birthday">
+        <label class="custom-control-label col-form-label-sm" for="anxb-{{component_number}}">Age Next Birthday</label>
+      </div>
+    </div>
+  </div>
+ -->
+
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-9">
+      <small class="text-danger" *ngIf="!formValidation.checkRadio(run.attained_age)">Must select a value.</small>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <label class="col-md-3 col-form-label col-form-label-sm text-right"  [ngbTooltip]="hs.getDetail(screen_name,'Rating Adjustment Method')">Rating Adjustment Method</label>
+    <div class="col-md-3">
+      <div class="custom-control custom-radio custom-control-inline">
+        <input [(ngModel)]="run.rating_adjustement" type="radio" id="rrn-{{component_number}}" name="rr-{{component_number}}" class="custom-control-input"
+          value="none" [disabled]="!editable() || (run.grayedRatingAdjustment)"  (click)="clickRating('none')">
+        <label class="custom-control-label col-form-label-sm" for="rrn-{{component_number}}">None</label>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="custom-control custom-radio custom-control-inline">
+        <input [(ngModel)]="run.rating_adjustement" type="radio" id="rra-{{component_number}}" name="rr-{{component_number}}" class="custom-control-input"
+          value="adjust expected" [disabled]="!editable() || (run.grayedRatingAdjustment)" (click)="clickRating('adjust expected')">
+        <label class="custom-control-label col-form-label-sm" for="rra-{{component_number}}">Adjust Expected</label>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3" [ngClass]="{'custom-disable':!run.is_joint_type}">
+    <label class="col-md-3 col-form-label col-form-label-sm text-right" [ngbTooltip]="hs.getDetail(screen_name,'Joint Lives')">Policy Adjustment Joint Life Lapses</label>
+    <div class="col-md-3">
+      <div class="custom-control custom-radio custom-control-inline">
+        <input [(ngModel)]="run.joint_life" type="radio" id="jl1-{{component_number}}" name="jl-{{component_number}}" class="custom-control-input"
+          value="1" [disabled]="!run.is_joint_type||!editable()">
+        <label class="custom-control-label col-form-label-sm" for="jl1-{{component_number}}">1</label>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="custom-control custom-radio custom-control-inline">
+        <input [(ngModel)]="run.joint_life" type="radio" id="jl05-{{component_number}}" name="jl-{{component_number}}" class="custom-control-input"
+          value="0.5" [disabled]="!run.is_joint_type||!editable()">
+        <label class="custom-control-label col-form-label-sm" for="jl05-{{component_number}}">0.5</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-primary form-header mb-3 font-weight-bold mt-5">
+    Adjustment for IBNR (IBNP/IBNS)
+  </div>
+  <hr class="mt-0 opacity-half">
+
+
+  <div class="row">
+    <div class="col-md-3 text-right">
+      <label class="col-form-label col-form-label-sm" container="body" [ngbTooltip]="hs.getDetail(screen_name,'IBNR Method')">IBNR Method</label>
+    </div>
+    <div class="col-md-3">
+      <div class="input-group input-group-sm">
+        <select (change)="onIbnrMethodChanged($event.target.value)" [disabled]="!editable()" [(ngModel)]="run.ibnr_method" class="form-control form-control-sm"
+          required>
+          <option value="">None</option>
+          <option value="manual">Manual UDF</option>
+          <option value="amount">Amount Allocation</option>
+        </select>
+        <div class="input-group-append dropdown-append">
+          <button class="btn btn-primary" type="button" [disabled]="!editable()">
+            <fa name="chevron-down"></fa>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 text-right">
+      <label class="col-form-label-sm">IBNR Input</label>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-block btn-sm btn-primary" [disabled]="(run.ibnr_method == '')||!isUserIbnrReader()" (click)="open(ibnrAmount)">
+        <fa name="file"></fa>
+        <span class="ml-2">Browse</span>
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<ng-template #ibnrAmount let-ca="close">
+  <div class="modal-header">
+    <b class="text-primary font-weight-boldest">
+      IBNR Factors Upload
+    </b>
+  </div>
+  <div class="modal-body">
+    <app-ibnr-amount [run]="run" [canUpload]="canUserUploadIbnr()" [validated]="!canEditRun" [ibnrType]="run.ibnr_method" (save)="attachIbnrFiles($event);ca()" (close)="ca()"></app-ibnr-amount>
+  </div>
+</ng-template>
+
+
+<ng-template #DSChangeWarning let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <div class="row">
+      <div class="col-md-12">
+        <b class="text-primary font-weight-boldest">
+          Warning
+        </b>
+      </div>
+    </div>
+  </div>
+  <div class="modal-body text-center row">
+    <div class="col-md-1"></div>
+    <div class="col-md-1 mt-2">
+      <fa name="exclamation-triangle fa-3x" class="text-danger"></fa>
+    </div>
+    <div class="col-md-9 align-middle">
+      <p class="font-weight-normal mt-2">All run parameters will be reset. Do you really wish to change the dataset?</p>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="confirmDsChange(c)">Yes</button>
+    <button type="button" class="btn btn-light" (click)="cancelDsChange(c)">No</button>
+  </div>
+</ng-template>

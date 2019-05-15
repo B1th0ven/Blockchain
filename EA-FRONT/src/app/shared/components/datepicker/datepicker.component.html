@@ -1,0 +1,11 @@
+
+<div class="input-group input-group-sm" (clickOutside)="d1.close()">
+  <input appAutoSlash [class]="inputClass"
+    class="form-control-sm"  placeholder="dd/mm/yyyy"  [(ngModel)]="model" (ngModelChange)="this.modelChange.emit(this.model)"
+    ngbDatepicker #d1="ngbDatepicker" (click)="d1.close()">
+  <div class="input-group-append">
+    <button [class]="btnClass" (click)="d1.toggle()" type="button">
+      <fa name="calendar"></fa>
+    </button>
+  </div>
+</div>

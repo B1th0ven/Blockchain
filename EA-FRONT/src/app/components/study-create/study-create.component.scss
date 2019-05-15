@@ -1,0 +1,86 @@
+.btn-width-fixed{
+    min-width: 170px;
+    text-transform: uppercase;
+}
+
+$bubble-size:40px;
+$bubble-font-size:12px;
+$line-size: 1px;
+$stepper-item-margin:20px;
+$stepper-min-width:150px;
+
+.stepper{
+  position: relative;
+  display: inline-block;
+  width: fit-content;
+  margin: 0 auto;
+  & .stepper-item{
+    display: inline-block;
+    margin: 0 $stepper-item-margin;
+    min-width: $stepper-min-width;
+
+    & .stepper-text
+    {
+      margin-top: 10px;
+      letter-spacing: 0px;
+      font-weight: 300;
+      text-transform: uppercase;
+    }
+  }
+
+  & .btn-bubble{
+    width: $bubble-size;
+    height: $bubble-size;
+    font-size: $bubble-font-size;
+    //text-indent: 20px;
+    overflow: hidden;
+    border-radius: 50% !important;
+    border: 1px solid #007090 !important;
+
+    &:not(.disabled):hover,
+    &:not(disabled):hover,{
+      opacity: 1;
+      background: #007090 !important;
+      color: white !important;
+    }
+
+    &:disabled{
+      background: #eeeeee !important;
+      color: rgb(129, 129, 129) !important;
+    }
+  }
+
+  & .stepper-line
+  {
+    padding: 0 ($stepper-min-width - $stepper-item-margin*2);
+    position: absolute;
+    width: 100%;
+    height: $line-size;
+    top: ($bubble-size - $line-size)/2;
+    z-index: -100;
+    & > div{
+      width: 100%;
+      height: $line-size;
+    }
+  }
+}
+
+.stepper-switch{
+  width: fit-content;
+  opacity: 0.2;
+  margin: 0 auto;
+  &:hover{
+    opacity: 1;
+  }
+}
+
+$border-curve: 3px;
+$border-curve-sm: 3px;
+
+.btn-width-fixed:first-child{
+    border-radius: $border-curve 0 0 $border-curve-sm !important;
+}
+
+.btn-width-fixed:last-child{
+    border-radius: 0 $border-curve $border-curve-sm 0 !important;
+}

@@ -1,0 +1,10 @@
+RUN_ID;integer;1
+Year;string;2
+Half_Year;string;3
+Quarter;string;4
+Month;string;5
+Portfolio_Origin;string;6
+Bucket_ID;string;7
+Decrement;string;8
+IBNR_by_amount;decimal;9
+IBNR_by_count;decimal;10

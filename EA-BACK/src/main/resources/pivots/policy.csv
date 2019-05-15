@@ -1,0 +1,162 @@
+Attribute;Entity;Scope;Attribute  Definition;Type;Mandatory Header;code/detail
+Life_ID;Life;All;Unique ID for distinguishing insureds;Free Text;No;
+Date_of_Birth;Life;All;Date of Birth;Date;No;
+Gender;Life;All;Gender;Code;No;Male/Female
+Date_of_last_medical_selection;Life;All;Date of last medical selection of the policy;Date;No;
+Policy_ID;Policy;All;Unique identifier allowing to distinguish different policies ;Free Text;No;
+Age_at_Commencement;Policy;All;The age at the date of commencement.;Age;No;
+Benefit_Max_Age;Policy;All;Maximum age of benefit coverage;Age;No;
+Date_of_Commencement;Benefit;All;Commencement date of benefit coverage.;Date;No;
+Benefit_ID;Benefit;All;Unique identifier allowing to distinguish different benefits among a given policy;Free Text;No;
+Benefit_End_Date;Benefit;All;Date when the insured stops to be covered. Benefit payments can carry on, but new claims will not be covered ;Date;No;
+Benefit_Term_Years_Upper_Band;Benefit;All;Upper Limit of Band for Benefit Term Years;Numeric+;No;integer/not null
+Face_Amount_Upper_Band_Client;Benefit;All;Face Amount at Date of Commencement, banded according to Client banding or Expected Table banding;Numeric+;No;
+Face_Amount_Upper_Band_SCOR;Benefit;All;Face Amount at Date of Commencement, banded according to analysis band;Numeric+;No;
+Main_Risk_Type;Benefit;All;Type of main risk of benefit based on EA classification;code;Yes;Life/CI/DI/LTC/TPD/Health
+Acceleration_Risk_Type;Benefit;Life;Type of benefit that is attaching to a life insurance policy, and which is payable prior to death on a condition. The remaining benefit amount for the life cover is reduced by the acceleration benefit;code;No;TPD/CI/ /LTC
+Status_End_Current_Condition;Status;All;Policy status at the end of current exposure condition;code;No;Active/Claimant/Dead/Withdrawn/Expired/Censored/ /Claimant_Dead
+Status_Begin_Current_Condition;Status;All;Policy status at the begin of current exposure condition;code;Yes;Active/Claimant
+Date_of_End_Current_Condition;Status;All;Date of end of current exposure condition;Date;No;
+Date_of_Begin_Current_Condition;Status;All;Date of begin of current exposure condition;Date;Yes;
+Risk_Amount_Insurer;Status;All;Current exposure amount of benefit coverage for the insurer. Typically corresponds to Face Amount or Sum at Risk of the insurrer.;Numeric;No;
+Risk_Amount_Reinsurer;Status;All;Current exposure amount of benefit coverage for the reinsurer. Typically corresponds to Face Amount Reinsured or Sum At Risk Reinsured;Numeric;No;
+Acceleration_Risk_Amount_Reinsur;Status;Life;Current exposure amount of acceleration benefit for the Reinsurer;Numeric;No;
+Acceleration_Risk_Amount_Insurer;Status;Life;Current exposure amount of acceleration benefit for the insurer.;Numeric;No;
+Event_ID;Event;All;Unique ID allowing to distinguish events;Free Text;No;
+Type_of_Event;Event;All;Type of Event, corresponding to decrement structure of EA platform;code;Yes;death/incidence/withdrawal/claim termination/incidence_death
+Event_Amount_Insurer;Event;All;Amount relating to the event for the insurer, typically corresponding to paid amount in case of claims;Numeric;No;
+Event_Amount_Reinsurer;Event;All;Amount relating to the event for the reinsurer, typically corresponding to reinsurer paid amount in case of claims;Numeric;No;
+Date_of_Event_Incurred;Event;All;Date event incurred;Date;Yes;
+Exposure_or_Event;;All;For files without link between exposures and event, this flag indicates which line represents an exposure line and which one an event line;code;Yes;Exposure/Event/exposure + event
+Product_ID;Policy;All;ID to link policy information to product file;Free Text;Yes;
+Date_of_Event_Notified;Event;All;Date of event reported by the insured to the insurer;Date;No;
+Date_of_Event_Settled;Event;All;Date of liability accepted by the insurer;Date;No;
+Date_of_Event_Paid;Event;All;Date of event ;Date;No;
+Settlement_Decision;Event;All;Indicator if a settlement decision has been taken leading to a partial payment of claim;code;No;Yes/No
+Expenses_included;Event;All;Indicator if claims adjustment expenses are included in the claim amount;code;No;Yes/No
+Data_Line;;All;ID of data line in input file;Numeric+;No;integer
+Annual_Premium_Insurer;Status;All;Annual insurance premium for benefit;Numeric;No;
+Annual_Premium_Reinsurer;Status;All;Annual premium for benefit - reinsurance share;Numeric;No;
+Joint_Life_Type;Benefit;All;Type of joint life policy. Linking different insured on a single policy. It determines the way payments are triggered;code;No;Single/Dual Life/First to Die/Second to Die
+Region_of_Residence;Life;All;One divisional level below country. E.g. state/ region ;refData;No;
+Residence_class;Life;All;Classification of residence according to the client;Free Text;No;
+Dependent_type;Life;All;In case of multiple cessions per policy, type of dependent person;code;No;Insured/spouse/child
+Marital_status;Life;All;Marital status;code;No;Unmarried/married/widowed
+Number_of_children;Life;All;Number of children;Numeric+;No;integer
+Annual_Salary_Band_Upper_Limit;Life;All;Annual salary band;Numeric+;No;integer/not null
+Employment_Status;Life;All;Indicator if the person is employed or unemployed;code;No;employed/unemployed
+Occupation;Life;All;Type of occupation;Free Text;No;
+Occupation_Class_Client;Life;All;Occupational class based on the clients class structure;Numeric+;No;integer/not null
+Occupation_Class_SCOR;Life;All;Occupational class based on SCOR's local market class structure;Numeric+;No;integer/not null
+Smoker_status;Life;All;Smoking status at underwriting;code;No;Smoker/Non Smoker
+Smoker_status_detailed;Life;All;Detailed smoking status at underwriting;Free Text;No;
+BMI_Upper_Band;Life;All;Upper Limit of Band for Body Mass Index at underwriting;Numeric+;No;
+Age_at_Commencement_Upper_Band;Policy;All;Upper Limit of Band for Age at Commencement;Age;No;
+Country_of_Residence;Policy;All;Country of residence;refData;No;Omega Country Short Name
+Benefit_geographic_coverage;Benefit;All;Geography of benefit coverage;Free Text;No;
+Commission_earning_duration;Policy;All;Duration of earning of commission for distribution;code;No;1Y/2Y/3Y/4Y/5Y/6Y/7Y/8Y/9Y/10Y/whole life
+Distribution_Channel;Policy;All;Type of distribution channel;code;No;Independent Agent/Tied Agent/Company Agent/Bancassurance/Direct Inbound/Direct Outbound/Online Aggregator/Online Companysite/Other
+Distribution_Channel_detail;Policy;All;Detail about the distribution channel used ;Free Text;No;
+Distributor_Group_Name;Policy;All;Name of 3rd party distributor group (e.g. Bank, IFA group, superannuation fund);Free Text;No;
+Distributor_Name;Policy;All;Name of the detailed distributor, e.g. agent name or IFA subgroup;Free Text;No;
+Industry_Sector_code;Policy;All;Field of activity of the company in case of group contracts, based on standard coding;code;No;
+Industry_Sector_detail;Policy;All;Field of activity of the company in case of group contracts;Free Text;No;
+Benefit_Term_Type;Policy;All;Type of definition of benefit term;code;No;years/permanent/max age
+Benefit_Term_Years;Policy;All;Number of years of policy coverage;Numeric+;No;integer/not null
+Underwriting_method;Policy;All;Method of medical selection;code;No;GI/SI/Standard/Strict/TeleUW/eUW/AccUW
+Underwriting_provider;Policy;All;Provider of medical underwriting solution;code;No;Velogica/Other
+Med_Risk_Class_Client;Policy;All;Class the policy has been assigned to based on medical risk, according to client's UW class structure;code;No;N1/N2/N3/N4/N5/N6/N7/N8/N9/S1/S2/S3/S4/S5/S6/S7/S8/S9
+Med_Risk_Class_SCOR;Policy;All;Class the policy has been assigned to based on medical risk, according to SCOR's local standard UW class structure;code;No;N1/N2/N3/N4/N5/N6/N7/N8/N9/S1/S2/S3/S4/S5/S6/S7/S8/S9
+Med_Risk_Class_Other;Policy;All;Class the policy has been assigned to based on medical risk, according to other type of UW class structure;Free Text;No;
+Socio_economic_class;Policy;All;Socio-economic class the policy has been assigned to ;Numeric;No;
+Subfund;Policy;All;Choice of subfund of policyholder;Free Text;No;
+Cession_type;Policy;All;Type of reinsurance cession;code;No;Auto/Fac/Fac-Ob
+Conversion_policy;Policy;All;Indicator if policy results from a conversion;code;No;yes/no
+Duration_at_conversion;Policy;All;Policy duration at time of conversion in case policy results from a conversion (starting from duration 1);Numeric+;No;integer/not null
+Risk_Amount_Weighting;Benefit;All;Adjustment factor allowing to analyse business mix by risk amount, typically equal to {Risk Amount or 0 } to avoid double counting of data lines;Numeric;No;
+Count_Weighting;Benefit;All;Adjustment factor allowing to analyse business mix by policy count or life count, typically equal to {1 or 0 } to avoid double counting of data lines;Numeric;No;
+Benefit_Profile;Benefit;All;Type of benefit profile based on risk amount changes;code;No;level/decreasing/increasing
+Benefit_Change_Rate_Annual;Benefit;All;Annual benefit change rate for decreasing/ increasing benefits. ;Numeric;No;
+Benefit_Change_Frequency;Benefit;All;Frequency of benefit change effected;code;No;weekly/monthly/quarterly/biannually/annually
+Benefit_Change_Rate_Type;Benefit;All;Indicates the type of benefit change rate and if the benefit change rate referes to the initial risk amount or to previous year risk amount;code;No;Simple/Compound/Loan Interest
+Benefit_Change_R_Upper_Band_SCOR;Benefit;All;Upper Limit of Band as defined according to the local market standards;Numeric;No;
+Insurance_Premium_Profile;Benefit;All;Type of premium profile;code;No;Level/Yearly increasing/5-yearly increasing/Increasing other
+Insurance_Premium_Frequency;Benefit;All;Frequency of policyholder premium payments;code;No;weekly/monthly/quarterly/biannually/annually/single
+Convertibility_Option;Benefit;All;Indicator if convertibility option is provided to policyholder by default or chosen by policyholder. Allows the insured to convert a term policy into a permanent or new term policy;code;No;Chosen/Not chosen/Available to all/Not available
+Renewal_Option;Benefit;All;Indicator if renewability option is provided to policyholder by default or chosen by policyholder, allowing renewal of policy coverage upon maturity;code;No;Chosen/Not chosen/Available to all/Not available
+Guaranteed_Insurability_Option;Benefit;All;Indicator if option is chosen, allowing an insured to increase its insurance payout without needing to provide any further medical evidence;code;No;Chosen/Not chosen/Available to all/Not available
+Benefit_exclusions;Benefit;All;Indicator if coverage exclusions have been applied to policy due to medical UW;code;No;yes/no
+Rated_Status;Benefit;All;Indicator if policy has been individually rated or not;code;No;yes/no
+Multiplicative_Rated_Status;Benefit;All;Indicator if policy has been individually rated with multiplicative rating;code;No;yes/no
+Additive_Rated_Status;Benefit;All;Indicator if policy has been individually rated with additive rating;code;No;yes/no
+Segment_Type;Benefit;All;Segment type of policy;code;No;Base/Rider cash/Rider WOP
+Waiting_Period_1;Benefit;All;Longest duration from commencement of policy during which (some or all) events are not covered;Numeric+;No;integer/not null
+Waiting_Period_1_Type;Benefit;All;Cause of claims with waiting period 1;Code;No;All/All excl acc/All excl acc and mental/Mental/Accidental
+Waiting_Period_1_Freq;Benefit;All;Frequency that is applicable to the waiting duration 1;Code;No;weekly/monthly/quarterly/biannually/annually
+Waiting_Period_2;Benefit;All;Second longest duration from commencement of policy during which some events are not covered;Numeric+;No;integer/not null
+Waiting_Period_2_Type;Benefit;All;Cause of claims with waiting period 2;Code;No;All/All excl acc/All excl acc and mental/Mental/Accidental
+Waiting_Period_2_Freq;Benefit;All;Frequency that is applicable to the waiting duration 2;Code;No;weekly/monthly/quarterly/biannually/annually
+Waiting_Period_3;Benefit;All;Third longest duration from commencement of policy during which some events are not covered;Numeric+;No;integer/not null
+Waiting_Period_3_Type;Benefit;All;Cause of claims with waiting period 3;Code;No;All/All excl acc/All excl acc and mental/Mental/Accidental
+Waiting_Period_3_Freq;Benefit;All;Frequency that is applicable to the waiting duration 3;Code;No;weekly/monthly/quarterly/biannually/annually
+Perm_Mult_Extra_Rating_1;Benefit;All;First type of permanent multiplicative risk loading. Expressed as multiplication of the standard risk: e.g. 50% extra on a 2% risk -> 3%;Numeric+;No;
+Temp_Mult_Extra_Rating_1;Benefit;All;First type of temporary multiplicative risk loading. Expressed as multiplication of the standard risk: e.g. 50% extra on a 2% risk -> 3%;Numeric+;No;
+Temp_Mult_Extra_Rating_Term_1;Benefit;All;Duration in years of Temporary Multiplicative Extra Rating Type 1;Numeric+;No;integer/not null
+Perm_Add_Extra_Rating_1;Benefit;All;First type of permanent additive risk loading. Expressed as flat loading e.g. 3 per mille on 2% -> 2,3%;Numeric+;No;
+Temp_Add_Extra_Rating_1;Benefit;All;Similar to Permanent Additive Extra Rating but  applicable for determined duration (temporary);Numeric+;No;
+Temp_Add_Extra_Rating_Term_1;Benefit;All;Duration in years of Temporary Additive Extra Rating Type 1;Numeric+;No;integer/not null
+Perm_Mult_Extra_Rating_2;Benefit;All;First type of permanent multiplicative risk loading. Expressed as multiplication of the standard risk: e.g. 50% extra on a 2% risk -> 3%;Numeric+;No;
+Temp_Mult_Extra_Rating_2;Benefit;All;First type of temporary multiplicative risk loading. Expressed as multiplication of the standard risk: e.g. 50% extra on a 2% risk -> 3%;Numeric+;No;
+Temp_Mult_Extra_Rating_Term_2;Benefit;All;Duration in years of Temporary Multiplicative Extra Rating Type 2;Numeric+;No;integer/not null
+Perm_Add_Extra_Rating_2;Benefit;All;First type of permanent additive risk loading. Expressed as flat loading e.g. 3 per mille on 2% -> 2,3%;Numeric+;No;
+Temp_Add_Extra_Rating_2;Benefit;All;Similar to Permanent Additive Extra Rating but  applicable for determined duration (temporary);Numeric+;No;
+Temp_Add_Extra_Rating_Term_2;Benefit;All;Duration in years of Temporary Additive Extra Rating Type 2;Numeric+;No;integer/not null
+Mult_Rating_Upper_Band_1;Benefit;All;Banding of multiplicative ratings type 1;Numeric+;No;
+Add_Rating_Upper_Band_1;Benefit;All;Banding of additive ratings type 1;Numeric+;No;
+Mult_Rating_Upper_Band_2;Benefit;All;Banding of multiplicative ratings type 2;Numeric+;No;
+Add_Rating_Upper_Band_2;Benefit;All;Banding of additive ratings type 2;Numeric+;No;
+Dataquality_Id;Benefit;All;Data quality indicator to be defined which qualifies the global data but also each column. The goal is also to classify the cedent in a quality classification group;code;No;
+Buyback_Option;Benefit;CI / TPD;Inclusion of buyback option in policy;code;No;Yes/No
+Buyback_Option_Type;Benefit;CI / TPD;Type of benefits covered by buyback option;code;No;Main/Accelerated/Main + Accelerated
+Child_Benefit;Benefit;CI / DI;Inclusion of Child Benefit, typically for CI;code;No;Yes/No
+Child_Benefit_Type;Benefit;CI / DI;Type of coverage for children of policyholder;code;No;Standard/Enhanced 
+CI_TPD_benefit;Benefit;CI;Coverage of TPD as part of CI ;code;No;Yes/No
+Acceleration_Benefit;Benefit;Life;Indicator if acceleration benefit included;code;No;Yes/No
+TPD_Definition;Benefit;TPD;Coverage definition of TPD;code;No;Any/Suited/Own/ADL/ADW
+Level_term_status;Status;All;Status of level term policy;code;No;Level term/Last duration/Post level term
+Paid_up_status;Status;All;Status of policy with limited premium payment duration;code;No;Non paid-up/Paid-up
+Buyback_status;Status;All;Status of policy with respect to exercision of buyback option;code;No;pre buyback/post buyback
+Retro_Legal_Entity_status;Status;All;Flag if legal entity retained is internal or external;code;No;Internal/External
+Retro_Legal_Entity;Status;All;Legal Entity of retroceded business, covering retained business portion;refData;No;Omega Subsidiary/Sub Ledger (lab.) + Omega Ret. Retrocessionaire Label
+Retro_Legal_Entity_Omega_code;Status;All;Omega code of Legal Entity of retroceded business, covering retained business portion;refData;No;Omega Subsidiary/Sub Ledger + Omega Ret. Retrocessionaire
+Retro_share_type;Status;All;Structure of retrocession treaty;code;No;QS/XS
+Cause_of_Event_1;Event;All;First cause of event - main categories;code;No;Claim Death/Claim Recovery/Claim Withdrawal/Lapse/Withdrawal/Surrender/Non-renewal/Conversion/Recapture/Infectious Diseases/Neoplasms/Blood Diseases/Nutritional and Endocrine Diseases/Mental Disorders/Nervous System Diseases/Eye Diseases/Ear Diseases/Cardio Vascular Diseases/Respiratory System Diseases/Digestive System Diseases/Skin Diseases/Musculoskeletal System Diseases/Genitourinary System Diseases/Pregnancy and Childbirth/Perinatal Period Diseases/Congenital Anomalies/Undefined conditions/Injury and Poisoning/Accidents and Suicides/Health Services/Special Purposes
+Cause_of_Event_1_det;Event;All;First cause of event - detailed categories;code;No;ICD 3 digits/Switched product/Switched company/Affordability/Repayment Loan/Broker advice
+Cause_of_Event_1_other;Event;All;Other classification of first cause of event;Free text;No;
+Cause_of_Event_2;Event;All;Second cause of event - main categories;code;No;Claim Death/Claim Recovery/Claim Withdrawal/Lapse/Withdrawal/Surrender/Non-renewal/Conversion/Recapture/Infectious Diseases/Neoplasms/Blood Diseases/Nutritional and Endocrine Diseases/Mental Disorders/Nervous System Diseases/Eye Diseases/Ear Diseases/Cardio Vascular Diseases/Respiratory System Diseases/Digestive System Diseases/Skin Diseases/Musculoskeletal System Diseases/Genitourinary System Diseases/Pregnancy and Childbirth/Perinatal Period Diseases/Congenital Anomalies/Undefined conditions/Injury and Poisoning/Accidents and Suicides/Health Services/Special Purposes
+Cause_of_Event_2_det;Event;All;Detailed cause of second cause of event;code;No;ICD 3 digits/Switched product/Switched company/Affordability/Repayment Loan/Broker advice
+Cause_of_Event_2_other;Event;All;Other classification of second cause of event;Free text;No;
+Disability_Degree;Event;TPD;Degree of disability;code;No;total/partial
+Disability_Percentage_Upper_Band;Event;TPD;Band of percentage of disability, upper limit;Numeric;No;
+Claim_Status;Event;All;Status of claim approval (claim management process);code;No;pending/approved/paid
+Claim_Currency;Event;All;Currency of claim;refData;No;Omega Currency Code
+Claim_sequence;Event;All;The number of claim (e.g. first, second, third…);Numeric+;No;integer/not null
+Policy_dummy_text_1;Benefit;All;Free text variable for any information not covered in data dictionary;Free text;No;
+Policy_dummy_text_2;Benefit;All;Free text variable for any information not covered in data dictionary;Free text;No;
+Policy_dummy_text_3;Benefit;All;Free text variable for any information not covered in data dictionary;Free text;No;
+Policy_dummy_text_4;Benefit;All;Free text variable for any information not covered in data dictionary;Free text;No;
+Policy_dummy_text_5;Benefit;All;Free text variable for any information not covered in data dictionary;Free text;No;
+Policy_dummy_value_1;Benefit;All;Numerical variable for any information not covered in data dictionary;Numeric;No;
+Policy_dummy_value_2;Benefit;All;Numerical variable for any information not covered in data dictionary;Numeric;No;
+Policy_dummy_value_3;Benefit;All;Numerical variable for any information not covered in data dictionary;Numeric;No;
+Policy_dummy_value_4;Benefit;All;Numerical variable for any information not covered in data dictionary;Numeric;No;
+Policy_dummy_value_5;Benefit;All;Numerical variable for any information not covered in data dictionary;Numeric;No;
+Event_adjustment;Event;All;;Numeric;No;
+Level_term;Benefit;All;;code;No;Yes/No
+Level_term_years;Benefit;All;;Age;No;
+Education_level;Life;All;;code;No;None/High school/Bachelor/Master/Doctorate/Other
+Premium_discount_rate;Benefit;All;;Numeric+;No;
+Terminal_Illness_claim;Event;Life;;code;No;Yes/No
+CI_condition_claimed;Event;CI;;code;No;Cancer/Heart Attack/Stroke/Kidney Failure
+Ex_gratia_claim;Event;All;;code;No;Yes/No
+Retro_Risk_Amount_Share;Status;All;;numeric;No;>=0 and <=1

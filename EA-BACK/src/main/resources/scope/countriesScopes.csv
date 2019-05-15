@@ -1,0 +1,230 @@
+country code;country;Scope local;Scope regional
+ABW;ARUBA;Latin America;Americas
+AFG;AFGHANISTAN;India;APAC
+AGO;ANGOLA;South Africa;EMEA
+AIA;ANGUILLA;UK Ireland;EMEA
+ALB;ALBANIA;Germany Austria;EMEA
+AND;ANDORRA;Iberia;EMEA
+ANT;NETHERLANDS ANTI;Netherlands;EMEA
+ARE;UNITED ARAB EMIR;Middle East;EMEA
+ARG;ARGENTINA;Latin America;Americas
+ARM;ARMENIA;Israel & others;EMEA
+ASM;SAMOA (AMERICAN);US;Americas
+ATG;ANTIGUA&BARBUDA;US;Americas
+AUS;AUSTRALIA;Australia New Zealand;APAC
+AUT;AUSTRIA;Germany Austria;EMEA
+AZE;AZERBAIJAN;Israel & others;EMEA
+BDI;BURUNDI;France Africa;EMEA
+BEL;BELGIUM;Belgium Luxembourg;EMEA
+BEN;BENIN;France Africa;EMEA
+BFA;BURKINA FASO;France Africa;EMEA
+BGD;BANGLADESH;India;APAC
+BGR;BULGARIA;Israel & others;EMEA
+BHR;BAHRAIN;Middle East;EMEA
+BHS;BAHAMAS;US;Americas
+BIH;BOSNIA-HERZEGOV.;Israel & others;EMEA
+BLR;BELARUS;Israel & others;EMEA
+BLZ;BELIZE;Latin America;Americas
+BMU;BERMUDA;Latin America;Americas
+BOL;BOLIVIA;Latin America;Americas
+BRA;BRAZIL;Latin America;Americas
+BRB;BARBADOS;US;Americas
+BRN;BRUNEI;South East Asia;APAC
+BTN;BHUTAN;India;APAC
+BWA;BOTSWANA;South Africa;EMEA
+CAF;CENTRAL AFRICAN;France Africa;EMEA
+CAN;CANADA;Canada;Americas
+CHE;SWITZERLAND;Israel & others;EMEA
+CHL;CHILE;Latin America;Americas
+CHN;CHINA;China;APAC
+CIV;IVORY COAST;France Africa;EMEA
+CMR;CAMEROON;France Africa;EMEA
+COD;RD CONGO;France Africa;EMEA
+COG;CONGO;France Africa;EMEA
+COK;COOK ISLANDS;Australia New Zealand;APAC
+COL;COLOMBIA;Latin America;Americas
+COM;COMOROS;South Africa;EMEA
+CPV;CAPE VERDE;Iberia;EMEA
+CRI;COSTA RICA;Latin America;Americas
+CUB;CUBA;Latin America;Americas
+CUW;CURACAO;Latin America;Americas
+CYM;CAYMAN ISLANDS;Latin America;Americas
+CYP;CYPRUS;Israel & others;EMEA
+CZE;CZECH REPUBLIC;Germany Austria;EMEA
+DEU;GERMANY;Germany Austria;EMEA
+DJI;DJIBOUTI;France Africa;EMEA
+DMA;DOMINICA;UK Ireland;EMEA
+DNK;DENMARK;Nordic;EMEA
+DOM;DOMINICAN REP.;Latin America;Americas
+DZA;ALGERIA;France Africa;EMEA
+ECU;ECUADOR;Latin America;Americas
+EGY;EGYPT;Middle East;EMEA
+ERI;ERITREA;Italy;EMEA
+ESP;SPAIN;Iberia;EMEA
+EST;ESTONIA;Israel & others;EMEA
+ETH;ETHIOPIA;Italy;EMEA
+FIN;FINLAND;Nordic;EMEA
+FJI;FIJI;Australia New Zealand;APAC
+FRA;FRANCE;France Africa;EMEA
+FRO;FEROE ISLANDS;Nordic;EMEA
+FSM;MICRONESIA;Australia New Zealand;APAC
+GAB;GABON;France Africa;EMEA
+GBR;UNITED KINGDOM;UK Ireland;EMEA
+GEO;GEORGIA;Israel & others;EMEA
+GGY;GUERNSEY;UK Ireland;EMEA
+GHA;GHANA;South Africa;EMEA
+GIB;GIBRALTAR;UK Ireland;EMEA
+GIN;GUINEA;France Africa;EMEA
+GMB;GAMBIA;South Africa;EMEA
+GNB;GUINEA-BISSAU;France Africa;EMEA
+GNQ;EQUATOR. GUINEA;France Africa;EMEA
+GRC;GREECE;Israel & others;EMEA
+GRD;GRENADA;US;Americas
+GRL;GROENLAND;Nordic;EMEA
+GTM;GUATEMALA;Latin America;Americas
+GUM;GUAM;US;Americas
+GUY;GUYANA;Latin America;Americas
+HKG;HONG KONG;Hong Kong;APAC
+HND;HONDURAS;Latin America;Americas
+HRV;CROATIA;Germany Austria;EMEA
+HTI;HAITI;Latin America;Americas
+HUN;HUNGARY;Germany Austria;EMEA
+IDN;INDONESIA;South East Asia;APAC
+IMN;ISLE OF MAN;UK Ireland;EMEA
+IND;INDIA;India;APAC
+IOT;BRITISH IOT;UK Ireland;EMEA
+IRL;IRELAND;UK Ireland;EMEA
+IRN;IRAN;Middle East;EMEA
+IRQ;IRAQ;Middle East;EMEA
+ISL;ICELAND;Nordic;EMEA
+ISR;ISRAEL;Israel & others;EMEA
+ITA;ITALY;Italy;EMEA
+JAM;JAMAICA;US;Americas
+JEY;JERSEY;UK Ireland;EMEA
+JOR;JORDAN;Middle East;EMEA
+JPN;JAPAN;Japan;APAC
+KAZ;KAZAKHSTAN;Israel & others;EMEA
+KEN;KENYA;South Africa;EMEA
+KGZ;KYRGYZSTAN;India;APAC
+KHM;CAMBODIA;South East Asia;APAC
+KIR;KIRIBATI;Australia New Zealand;APAC
+KNA;SAINT KITTS ...;Latin America;Americas
+KOR;KOREA SOUTH;Korea;APAC
+KWT;KUWAIT;Middle East;EMEA
+LAO;LAO;South East Asia;APAC
+LBN;LEBANON;Middle East;EMEA
+LBR;LIBERIA;South Africa;EMEA
+LBY;LIBYA;France Africa;EMEA
+LCA;SAINT LUCIA;US;Americas
+LIE;LIECHTENSTEIN;Israel & others;EMEA
+LKA;SRI LANKA;India;APAC
+LSO;LESOTHO;South Africa;EMEA
+LTU;LITHUANIA;Israel & others;EMEA
+LUX;LUXEMBOURG;Belgium Luxembourg;EMEA
+LVA;LATVIA;Israel & others;EMEA
+MAC;MACAU;China;APAC
+MAR;MOROCCO;France Africa;EMEA
+MCO;MONACO;France Africa;EMEA
+MDA;MOLDOVA;Israel & others;EMEA
+MDG;MADAGASCAR;France Africa;EMEA
+MDV;MALDIVES;India;APAC
+MEX;MEXICO;Latin America;Americas
+MKD;MACEDONIA;Germany Austria;EMEA
+MLI;MALI;France Africa;EMEA
+MLT;MALTA;Italy;EMEA
+MMR;BURMA;South East Asia;APAC
+MNE;MONTENEGRO;Israel & others;EMEA
+MNG;MONGOLIA;China;APAC
+MNP;MARIANA;UK Ireland;EMEA
+MOZ;MOZAMBIQUE;South Africa;EMEA
+MRT;MAURITANIA;France Africa;EMEA
+MSR;MONTSERRAT;Latin America;Americas
+MUS;MAURITIUS;South Africa;EMEA
+MWI;MALAWI;South Africa;EMEA
+MYS;MALAYSIA;South East Asia;APAC
+NAM;NAMIBIA;South Africa;EMEA
+NER;NIGER;France Africa;EMEA
+NGA;NIGERIA;South Africa;EMEA
+NIC;NICARAGUA;Latin America;Americas
+NLD;NETHERLANDS;Netherlands;EMEA
+NOR;NORWAY;Nordic;EMEA
+NPL;NEPAL;India;APAC
+NRU;NAURU;Australia New Zealand;APAC
+NZL;NEW ZEALAND;Australia New Zealand;APAC
+OMN;OMAN;Middle East;EMEA
+PAK;PAKISTAN;India;APAC
+PAL;PALESTINE;Middle East;EMEA
+PAN;PANAMA;Latin America;Americas
+PCN;PITCAIRN;UK Ireland;EMEA
+PER;PERU;Latin America;Americas
+PHL;PHILIPPINES;South East Asia;APAC
+PLW;PALAU Republic;Australia New Zealand;APAC
+PNG;PAPUA NEW GUINEA;Australia New Zealand;APAC
+POL;POLAND;Israel & others;EMEA
+PRI;PUERTO RICO;US;Americas
+PRK;KOREA NORTH;South East Asia;APAC
+PRT;PORTUGAL;Iberia;EMEA
+PRY;PARAGUAY;Latin America;Americas
+QAT;QATAR;Middle East;EMEA
+ROM;ROMANIA;Germany Austria;EMEA
+RUS;RUSSIA;Israel & others;EMEA
+RWA;RWANDA;France Africa;EMEA
+SAU;SAUDI ARABIA;Middle East;EMEA
+SCG;YUGOSLAVIA;Germany Austria;EMEA
+SDN;SUDAN;South Africa;EMEA
+SEN;SENEGAL;France Africa;EMEA
+SGP;SINGAPORE;South East Asia;APAC
+SGS;SOUTH GEORGIA...;UK Ireland;EMEA
+SLB;SOLOMON ISLANDS;South East Asia;APAC
+SLE;SIERRA LEONE;Latin America;Americas
+SLV;EL SALVADOR;Latin America;Americas
+SMR;SAN MARINO;Italy;EMEA
+SOM;SOMALIA;South Africa;EMEA
+SRB;SERBIA;Germany Austria;EMEA
+SSD;SOUTH SUDAN;South Africa;EMEA
+STP;SAO TOME;Iberia;EMEA
+SUR;SURINAME;Netherlands;EMEA
+SVK;SLOVAKIA;Germany Austria;EMEA
+SVN;SLOVENIA;Germany Austria;EMEA
+SWE;SWEDEN;Nordic;EMEA
+SWZ;SWAZILAND;UK Ireland;EMEA
+SXM;SINT MAARTEN;Netherlands;EMEA
+SYC;SEYCHELLES;India;APAC
+SYR;SYRIA;Middle East;EMEA
+TCA;TURKS CAICOS;Israel & others;EMEA
+TCD;CHAD;France Africa;EMEA
+TGO;TOGO;France Africa;EMEA
+THA;THAILAND;South East Asia;APAC
+TJK;TAJIKISTAN;Israel & others;EMEA
+TKM;TURKMENISTAN;Israel & others;EMEA
+TON;TONGA;Australia New Zealand;APAC
+TTO;TRINIDAD&TOBAGO;UK Ireland;EMEA
+TUN;TUNISIA;France Africa;EMEA
+TUR;TURKEY;Israel & others;EMEA
+TWN;TAIWAN;Taiwan;APAC
+TZA;TANZANIA;South Africa;EMEA
+UGA;UGANDA;South Africa;EMEA
+UKR;UKRAINE;Israel & others;EMEA
+URY;URUGUAY;Latin America;Americas
+USA;USA;US;Americas
+USU;U.S. Midwest;US;Americas
+USV;U.S. Northeast;US;Americas
+USW;U.S. West;US;Americas
+USX;U S. Mid-atlanti;US;Americas
+USY;U.S. Southeast;US;Americas
+USZ;U.S. South Centr;US;Americas
+UZB;UZBEKISTAN;Israel & others;EMEA
+VAT;VATICAN;Italy;EMEA
+VCT;SAINT VINCENT...;UK Ireland;EMEA
+VEN;VENEZUELA;Latin America;Americas
+VGB;VIRGIN (GBR);Belgium Luxembourg;EMEA
+VIR;VIRGIN (USA);US;Americas
+VNM;VIET NAM;South East Asia;APAC
+VUT;VANUATU;Australia New Zealand;APAC
+WSM;SAMOA;Australia New Zealand;APAC
+YEM;YEMEN;Middle East;EMEA
+YUG;YUGOSLAVIA Old;Germany Austria;EMEA
+ZAF;SOUTH AFRICA;South Africa;EMEA
+ZAR;ZAIRE Old;Belgium Luxembourg;EMEA
+ZMB;ZAMBIA;South Africa;EMEA
+ZWE;ZIMBABWE;South Africa;EMEA

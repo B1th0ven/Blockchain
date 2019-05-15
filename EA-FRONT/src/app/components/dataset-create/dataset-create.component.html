@@ -1,0 +1,67 @@
+<div class="container-fluid">
+
+  <div class="row">
+
+    <div class="col-md-12">
+
+
+        <div class="fadeInUp">
+
+            <div class="title">
+                <h3> STEP </h3> <h3 class="bubble"> <b>1</b> </h3>
+              </div>
+
+            <h3>
+              <b>- <span *ngIf="dataset.id">MODIFY</span><span *ngIf="!dataset.id">CREATE</span> A DATASET</b>
+              </h3>
+              <hr>
+              <p class="text-muted">Please provide the information below.</p>
+
+              <form>
+                  <div class="form-group">
+                    <label for=""><b>Name</b></label>
+                    <input [(ngModel)]="dataset.name" name="name" type="text" class="form-control" placeholder="Your dataset Name..." required>
+                    <small id="emailHelp" class="form-text text-muted">*required</small>
+                  </div>
+
+                  <div class="form-group">
+                    <label for=""><b>Mode</b></label>
+                    <select [(ngModel)]="dataset.mode" name="mode" class="form-control" required>
+                        <option value="0">Multiple files</option>
+                        <option value="1">Combined file</option>
+                      </select>
+                    <small id="emailHelp" class="form-text text-muted">*required</small>
+                  </div>
+
+                  <div class="form-group">
+                    <label for=""><b>Description</b></label>
+                    <textarea [(ngModel)]="dataset.description" name="description" rows="4" class="form-control" placeholder="Your dataset Description..."></textarea>
+                  </div>
+
+                  <br>
+
+                  <div class="alert alert-danger" *ngIf="errMsg">
+                          <small><fa name="exclamation"></fa> {{errMsg}}</small>
+                    </div>
+
+                    <div class="row nav-row">
+                        <div class="col-6 text-right">
+
+                          <button disabled class="btn btn-circle">
+                            <fa name="chevron-left"></fa>
+
+                          </button>
+                        </div>
+                        <div class="col-6">
+                          <button (click)="createDataset($event)" [disabled]="!dataset.name" class="btn btn-primary btn-circle">
+                              <fa name="chevron-right"></fa>
+                          </button>
+
+                        </div>
+                      </div>
+
+                </form>
+        </div>
+    </div>
+  </div>
+</div>

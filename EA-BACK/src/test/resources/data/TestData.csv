@@ -1,0 +1,10 @@
+Date;DateMandatory;SimpleNum;NumInterger;NumIntergerNotNull;NumNotNull;NumLessThanOne;NumLessThanOneNotNull;simpleNumPos;NumPosInteger;NumPosIntegerNotNull;NumPosLessThanOne;Age;AgeMandatory;Code;CodeMandatory;region_of_residence;treaty_number_omega
+12/10/1994;13/10/1994;112445;112225;2225;115;1;1;122;11;114,5;444;22;77;A;55;fra_auvergne-rhône-alpes;tra017030
+12/10/2016;13/10/2016;1222,554;-2252;1114;44;0;0;555,5;11,5;55,54;1;aaa;44;B;D;fra_bourgogne-franche-comté;tr0010761
+33/10/2016;;1144,55;1,00E+18;0;4441;1,5;1;55,5544;5.5;55;0;gdd;;AB;;fra_bretagne;tra018360
+10/13/2016;10/13/2017;100.11;222,55;;441;222;0.5;55,,5;114,5;-1;1,5;44;;SS;C;fra_centre-val-de-loire;tr0007113
+0/1/2016;0/1/2017;;555,115;22;441;;4;5555.5;557;22;52;;44;554;A;fra_corsee;tra006380
+0/00/2016;0/00/2017;AAAA;;0,5;441;222;7;555,5;-225;44;55,7;555;;;B;ddszz;tr0010765
+;;-222,12;;;147;200;;;-5,5;0;5dd,4;-12;44;CD;ss;155;
+08_12/2222;08_12/2223;-222,12;AAAA;11;0;44,5;5,5;254;;14;44,5;44;;SS;Aa;;trr0007114
+4444444;4444444;0;0;10;0;22;0,5;-255,5;0;557;77,5;77;447;55;BB;5544;fffffff

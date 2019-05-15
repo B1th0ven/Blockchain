@@ -1,0 +1,5 @@
+Attribute;Attribute  Definition;Type;Mandatory;code / detail;Comment;Exclude
+Treaty_Number_Everest;Referential of the treaty contract;free text;yes;;ID for link to Treaty Number in product file;
+Portfolio_Origin;Block of portfolio origin (in particular used for merged entities);ref_portfolio;yes;;ID for link to IBNR amount table;
+Bucket_ID;Aggregation of treaties, for which IBNR amount has been calculated;free text;yes;;ID for link to IBNR amount table;
+Decrement;Type of decrement the IBNR is applied to;code;yes;(?i)(qx)|(ix)|(wx)|(tx)|(ix+qx);ID for link to IBNR amount table;

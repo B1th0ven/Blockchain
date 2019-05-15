@@ -1,0 +1,168 @@
+<div class="row mt-2">
+  <div class="col-md-2 text-right">
+    <label class="col-form-label col-form-label-sm">Base</label>
+  </div>
+  <!-- {{selectedBase}} -->
+  <!-- {{base | json}} -->
+  <div class="col-md-4">
+    <div class="input-group input-group-sm">
+      <!-- <select (change)="onExpChange($event.target.value,'base')" [(ngModel)]="selectedBase" class="form-control form-control-sm"
+        required> 
+        <option *ngIf="baseLoading" value="">Loading...</option>
+        <option *ngIf="!baseLoading" value=""></option>
+        <option *ngFor="let b of base" [value]="b.retId">{{b.retName}}</option>
+       </select>
+      <div class="input-group-append dropdown-append">
+        <button class="btn btn-primary" type="button">
+          <fa name="chevron-down"></fa>
+        </button>
+      </div> -->
+      <angular2-multiselect [style.width]="'100%'"  [data]="base" [(ngModel)]="selectedBase"
+          [settings]="dropdownSettings" (onSelect)="onExpChange($event.id,'base')"  (onDeSelect)="onExpChange('','base')" (onSelectAll)="onSelectAll($event)"
+          (onDeSelectAll)="onDeSelectAll($event)">
+        </angular2-multiselect>
+        <div class="input-group-append dropdown-append">
+          <button  class="btn btn-primary" [disabled]="!editable" type="button">
+            <fa name="chevron-down"></fa>
+          </button>
+        </div>
+    </div>
+  </div>
+  <div class="col-md-1"></div>
+  <div class="col-md-5" *ngIf="baseCheckLoading"><fa name="circle-o-notch" animation="spin"></fa></div>
+  <div class="col-md-5" *ngIf="!baseCheckLoading&&ExpTabRun.ExprReportBase?.length ==  0"><fa class="text-success" name="check-circle"></fa></div>
+  <div class="col-md-5" *ngIf="ExpTabRun.ExprReportBase?.length > 0 && !baseCheckLoading">
+         <fa  name="exclamation"></fa>
+          Report
+          <fa *ngIf="true" name="chevron-down"
+              data-toggle="collapse" attr.href="#collapseExp-Base-{{CompNo}}" role="button" aria-expanded="false"
+            ></fa>
+          <!-- <div class="collapse" id="collapseExp-Base-{{CompNo}}">
+            <ul class="text-danger">
+              <li *ngFor="let err of ExpTabRun.ExprReportBase">
+                  {{err}}
+              </li>
+            </ul>
+          </div> -->
+  </div>
+ </div>
+ <div  class="row mt-2 collapse" style="max-height: 200px;overflow-y:auto"  id="collapseExp-Base-{{CompNo}}">
+    <ul class="ibnr-report-list">
+        <li *ngFor="let err of ExpTabRun.ExprReportBase" [ngClass]="{'warning-report' : err.split('/')[1] == 'Warning','danger-report' : err.split('/')[1] == 'Blocking'}">
+            {{err.split("/")[0]}}
+        </li>
+        <div *ngIf="selectedBase.length>0">        
+        <li *ngIf="!selectedBase[0].version" [ngClass]="'warning-report'">
+          Attention: The table selected is an old version !
+        </li>
+        <li *ngIf="selectedBase[0].status.trim() == 'inactive' " [ngClass]="'warning-report'">
+          Attention: The table selected is inactive !
+        </li>
+    </div>
+    </ul>  
+</div>
+ <div class="row mt-2" [ngClass]="{'custom-disable': !selectedBase||selectedBase.length<1}">
+  <div class="col-md-2 text-right">
+    <label class="col-form-label col-form-label-sm">Adjustment</label>
+  </div>
+  <div class="col-md-4">
+    <div class="input-group input-group-sm">
+      <!-- <select (change)="onExpChange($event.target.value,'adj')" [(ngModel)]="selectedAdj"  class="form-control form-control-sm">
+        <option *ngIf="adjLoading" value="">Loading...</option>
+        <option *ngIf="!adjLoading" value="" selected></option>
+        <option *ngFor="let b of adjs" [value]="b.retId">{{b.retName}}</option>
+      </select>
+      <div class="input-group-append dropdown-append">
+        <button class="btn btn-primary" type="button">
+          <fa name="chevron-down"></fa>
+        </button>
+      </div> -->
+      <angular2-multiselect [style.width]="'100%'" [data]="adjs" [(ngModel)]="selectedAdj"
+          [settings]="dropdownSettings" (onSelect)="onExpChange($event.id,'adj')" (onDeSelect)="onExpChange('','adj')" (onSelectAll)="onSelectAll($event)"
+          (onDeSelectAll)="onDeSelectAll($event)">
+        </angular2-multiselect>
+        <div class="input-group-append dropdown-append">
+          <button  class="btn btn-primary" [disabled]="!editable" type="button">
+            <fa name="chevron-down"></fa>
+          </button>
+        </div>
+    </div>
+  </div>
+  <div class="col-md-1"></div>
+  <div class="col-md-5" *ngIf="adjCheckLoading"><fa name="circle-o-notch" animation="spin"></fa></div>
+  <div class="col-md-5" *ngIf="!adjCheckLoading&&ExpTabRun.ExprReportAdj?.length ==  0"><fa class="text-success" name="check-circle"></fa></div>
+  <div class="col-md-5" *ngIf="ExpTabRun.ExprReportAdj?.length > 0 && !adjCheckLoading">
+          <fa *ngIf="true" name="exclamation"></fa>
+          Report
+          <fa *ngIf="true" name="chevron-down"
+              data-toggle="collapse" attr.href="#collapseExp-Adjustment-{{CompNo}}" role="button" aria-expanded="false"
+            ></fa>
+          <!-- <div class="collapse" id="collapseExp-Adjustment-{{CompNo}}">
+            <ul class="text-danger">
+              <li *ngFor="let e of ExpTabRun.ExprReportAdj">
+                  {{e}}
+              </li>
+            </ul>
+          </div> -->
+  </div>
+ </div>
+ <div  class="row mt-2 collapse" style="max-height: 200px;overflow-y:auto"  id="collapseExp-Adjustment-{{CompNo}}">
+    <ul class="ibnr-report-list">
+        <li *ngFor="let err of ExpTabRun.ExprReportAdj" [ngClass]="{'warning-report' : err.split('/')[1] == 'Warning','danger-report' : err.split('/')[1] == 'Blocking'}">
+            {{err.split("/")[0]}}
+        </li>
+    </ul>
+</div>
+
+ <div class="row mt-2" [ngClass]="{'custom-disable': !selectedBase||selectedBase.length<1}">
+  <div class="col-md-2 text-right">
+    <label class="col-form-label col-form-label-sm">Trend</label>
+  </div>
+  <div class="col-md-4">
+    <div class="input-group input-group-sm">
+      <!-- <select (change)="onExpChange($event.target.value,'trend')" [(ngModel)]="selectedTrend"  class="form-control form-control-sm">
+          <option *ngIf="trendLoading" value="">Loading...</option>
+          <option *ngIf="!trendLoading" value="" selected></option>
+        <option *ngFor="let b of trend" [value]="b.retId">{{b.retName}}</option>
+      </select>
+      <div class="input-group-append dropdown-append">
+        <button class="btn btn-primary" type="button">
+          <fa name="chevron-down"></fa>
+        </button>
+      </div> -->
+      <angular2-multiselect [style.width]="'100%'" [data]="trend" [(ngModel)]="selectedTrend"
+          [settings]="dropdownSettings" (onSelect)="onExpChange($event.id,'trend')" (onDeSelect)="onExpChange('','trend')" (onSelectAll)="onSelectAll($event)"
+          (onDeSelectAll)="onDeSelectAll($event)">
+        </angular2-multiselect>
+        <div class="input-group-append dropdown-append">
+          <button  class="btn btn-primary" type="button" [disabled]="!editable">
+            <fa name="chevron-down"></fa>
+          </button>
+        </div>
+    </div>
+  </div>
+  <div class="col-md-1"></div>
+  <div class="col-md-5" *ngIf="trendCheckLoading"><fa name="circle-o-notch" animation="spin"></fa></div>
+  <div class="col-md-5" *ngIf="!trendCheckLoading&&this.ExpTabRun.ExprReporTTrend&&ExpTabRun.ExprReporTTrend?.length ==  0"><fa class="text-success" name="check-circle"></fa></div>  
+  <div class="col-md-5" *ngIf="ExpTabRun.ExprReporTTrend?.length > 0 && !trendCheckLoading">
+    <fa *ngIf="true" name="exclamation"></fa>
+    Report
+    <fa *ngIf="true" name="chevron-down"
+        data-toggle="collapse" attr.href="#collapseExp-Trend-{{CompNo}}" role="button" aria-expanded="false"
+      ></fa>
+    <!-- <div class="collapse" id="collapseExp-Trend-{{CompNo}}">
+      <ul class="text-danger">
+        <li *ngFor="let er of ExpTabRun.ExprReporTTrend">
+            {{er}}
+        </li>
+      </ul>
+    </div> -->
+  </div>
+ </div>
+ <div  class="row mt-2 collapse" style="max-height: 200px;overflow-y:auto"  id="collapseExp-Trend-{{CompNo}}">
+    <ul class="ibnr-report-list">
+        <li *ngFor="let err of ExpTabRun.ExprReporTTrend" [ngClass]="{'warning-report' : err.split('/')[1] == 'Warning','danger-report' : err.split('/')[1] == 'Blocking'}">
+            {{err.split("/")[0]}}
+        </li>
+    </ul>
+</div>

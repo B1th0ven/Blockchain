@@ -1,0 +1,39 @@
+<nav aria-label="Page navigation example"  [style.display]="'inline-block'">
+  <ul class="pagination  pagination-sm">
+    <li class="page-item" (click)="first()" [ngClass]="{'custom-disable': selected == 1}">
+      <a class="page-link" aria-label="Previous">
+        <fa name="angle-double-left"></fa>
+        <span class="sr-only">Previous</span>
+      </a>
+    </li>
+    <li class="page-item" (click)="previous()" [ngClass]="{'custom-disable': selected == 1}">
+      <a class="page-link" aria-label="Previous">
+        <fa name="angle-left"></fa>
+      </a>
+    </li>
+
+    <li class="page-item" *ngFor="let page of getPagesArray(totalPages)" [ngClass]="{'active text-white': page == selected}" (click)="goTo(page)">
+      <a class="page-link">{{page}}</a>
+    </li>
+
+    <li class="page-item" (click)="next()" [ngClass]="{'custom-disable': selected == totalPages}">
+      <a class="page-link" aria-label="Previous">
+        <fa name="angle-right"></fa>
+      </a>
+    </li>
+    <li class="page-item" (click)="last()" [ngClass]="{'custom-disable': selected == totalPages}">
+      <a class="page-link" aria-label="Next">
+        <fa name="angle-double-right"></fa>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<div class="form-group" *ngIf="bPageSize" [style.display]="'inline-block'">
+  <select class="form-control form-control-sm" [(ngModel)]="pageSize" (change)="pageSizeChange()">
+    <option [value]="10">10</option>
+    <option [value]="20">20</option>
+    <option [value]="50">50</option>
+  </select>
+</div>

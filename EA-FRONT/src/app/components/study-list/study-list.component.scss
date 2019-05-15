@@ -1,0 +1,36 @@
+.nav-tabs .nav-item {
+  margin-right: 3px;
+  min-width: 250px;
+  text-align: center;
+}
+
+.nav-tabs .nav-item .nav-link {
+  background: #f7f8f9;
+  color: #a5a5a5;
+  padding: 10px 30px;
+  border-bottom: 1px solid #dee2e6;
+  &.active {
+    background: white;
+    color: #2786a1;
+    border-bottom: 1px solid white;
+  }
+}
+/*
+.nav-tabs {
+  display: -webkit-inline-box;
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin-bottom: -7px;
+  min-height: 100%;
+  &::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 5px;
+    height: 5px;
+    background-color: rgba(228, 228, 228, 0.781);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(163, 163, 163, 0.781);
+  }
+}
+*/
+

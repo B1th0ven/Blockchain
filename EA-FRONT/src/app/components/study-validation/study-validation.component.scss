@@ -1,0 +1,17 @@
+.tree-view{
+  height: 250px;
+  overflow-y: auto;
+}
+
+.button-aligned{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.aligned-fill{
+  width: 100%;
+}
+

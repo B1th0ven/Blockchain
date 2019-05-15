@@ -1,0 +1,31 @@
+.custom-file-input,
+.custom-file-label,
+.custom-file-label::after
+{
+    border-radius: 0;
+    font-size: 12px;
+    padding: 3px;
+    line-height: 20px;
+    height: 28px;
+}
+
+.custom-file-label::after
+{
+    margin-top: -1px ;
+    border: 0;
+    padding: 3px 9px;
+    content: "\f0c6" !important;
+    background: transparent;
+    font-family: "fontawesome"
+}
+
+.custom-file-label{
+    padding-left: 10px;
+}
+
+.dropdown.dropdown-inline
+{
+    width: 100%;
+    position: relative;
+    text-align: left;
+}

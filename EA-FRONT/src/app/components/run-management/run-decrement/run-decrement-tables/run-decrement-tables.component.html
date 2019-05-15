@@ -1,0 +1,67 @@
+<div class="row">
+  <div class="col-8">
+      <div class="text-primary form-header mb-3 font-weight-bold">
+          Basis
+        </div>
+
+  </div>
+  <div class="col-4 text-right" *ngIf="canCreateBasis()">
+      <div class="btn text-info" [hidden]="!editable" id="headingOne" (click)="createTable()">
+          <span class="font-weight-bold">New Basis</span>
+          <span class="float-right ml-2">
+            <fa name="plus-circle"></fa>
+          </span>
+
+        </div>
+  </div>
+</div>
+<hr class="mt-0 opacity-half">
+
+
+<div class="mb-3" id="accordion">
+  <div class="card mb-2" *ngFor="let tab of decrement.ExpectedTable; let i = index">
+    <div class="card-header fadeIn pointer bg-light text-primary pt-2 pb-2 border-0 collapsed" [attr.id]="'ExpTab'+component_number+'-'+i" data-toggle="collapse"
+      [attr.data-target]="'#collapseExp'+component_number+'-'+i" aria-expanded="true" [attr.aria-controls]="'collapseExp'+component_number+'-'+i">
+
+      <span *ngIf="true"> Basis {{i+1}} </span>
+
+      <span class="float-right">
+        <fa class="show-state" name="chevron-down"></fa>
+      </span>
+
+    </div>
+
+    <div [attr.id]="'collapseExp'+component_number+'-'+i" class="collapse" [attr.aria-labelledby]="'ExpTab'+component_number+'-'+i">
+      <div class="card-body">
+
+        <!-- body -->
+         <app-run-dec-tab-def [ExpTabRun]="tab" [DecType]="decrement.decrement" [runDsId]="runDsID"  [editable]="editable" [run]="run"></app-run-dec-tab-def>
+
+        <div class="clear-fix">
+          <button (click)="deleteTable(i)" [disabled]="!editable" class="btn btn-sm btn-danger float-right mb-3 mt-2">
+            Delete Basis
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-2 text-muted" *ngIf="false">
+     No Basis.
+    </div>
+</div>
+
+
+
+
+  <div class="clear-fix mt-4">
+      <div class="float-right mb-4 m">
+        <button class="btn btn-block btn-sm btn-primary mb-2" style="min-width:100px" (click)="cancel()">Cancel</button>
+      </div>
+      <div class="float-right mb-4 mr-2">
+        <button class="btn btn-block btn-sm btn-primary mb-2" style="min-width:100px" [disabled]="canIsavePlease()||!editable" (click)="saveBasis()">Save and close</button>
+      </div>
+    </div>
+
+  
+  

@@ -1,0 +1,245 @@
+<div>
+  <div class="form-group form-group-sm row">
+    <label class="col-sm-3 col-form-label col-form-label-sm text-right" [ngbTooltip]="hs.getDetail(screen_name,'Decrement')">Decrement*</label>
+    <div class="col-sm-9">
+      <div class="input-group input-group-sm">
+        <select class="form-control form-control-sm" [disabled]="!editable()" [(ngModel)]="decrement.decrement">
+          <option value="" selected disabled>Select Value</option>
+          <option *ngFor="let d of getUnselected(decrementOptions ,run , decrement.decrement)" value="{{d}}"> {{d}}</option>
+        </select>
+        <div class="input-group-append dropdown-append">
+          <button class="btn btn-primary" type="button" [disabled]="!editable()">
+            <fa name="chevron-down"></fa>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+
+  <div class="form-group from-group-sm row">
+    <label class="col-sm-3 col-form-label col-form-label-sm text-right" [ngbTooltip]="hs.getDetail(screen_name,'Slicing Dimensions')" >Slicing Dimensions</label>
+    <div class="col-sm-3" *ngFor="let slice of slicingDimensions; let s = index">
+      <div class=" custom-control custom-checkbox">
+         <!-- <input type="checkbox" [disabled]="slice.value == 'calendar' ||(slice.isDisabled && run.age_of_birth_check) || (slice.value == 'duration' && this.run.automatic_risk_amount) || (slice.value == 'duration' && this.decrement.ExpCalibrationUrl) || (slice.value == 'duration' && run.is_date_of_commencement) || (slice.value == 'duration' && pduration) ||!editable() || (slice.value=='duration' && (isPolicyDurationCompulsory() || InsuranceAgeAttainedInExpected)) || (slice.value =='age' && (isAttainedAgeCompulsory() || attainedAgeInExpected || InsuranceAgeAttainedInExpected))" [name]="'slice1-'+tab+'-'+ind" class="custom-control-input form-control-sm" -->
+
+        <input type="checkbox" [disabled]="!editable()||isSlicingDimensionDisabled(slice)" [name]="'slice1-'+tab+'-'+ind" class="custom-control-input form-control-sm"
+          [checked]="isSlicingDemensionChecked(slice,pduration) || (slice.value =='age' && attainedAgeInExpected)|| (slice.value =='duration' && InsuranceAgeAttainedInExpected)" [value]="slice.value"
+          (change)="onSlicingChange(slice.value,$event.target.checked)" [id]="'slice1-'+tab+'-'+ind+'-'+s">
+        <label class="custom-control-label col-form-label-sm" [for]="'slice1-'+tab+'-'+ind+'-'+s">
+          <!-- <span *ngIf="slice.value=='duration' && decrement.showPolicyDuration()">Policy</span> -->
+          <span *ngIf="slice.value=='duration'">Policy</span>
+          <span *ngIf="slice.value=='age'">Attained</span>
+          {{slice.name}}
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group from-group-sm row" [ngClass]="{'custom-disable':disableAgeAttained()}">
+    <div class="col-md-3 text-right">
+      <label class="col-form-label col-form-label-sm" [ngbTooltip]="hs.getDetail(screen_name,'Attained Age Definition')">Attained Age Definition</label>
+    </div>
+    <div class="col-md-3">
+      <div class="custom-control custom-radio custom-control-inline">
+        <input [(ngModel)]="decrement.attainedAgeDefinition" [disabled]="!editable()" type="radio" id="alb-{{component_number}}" class="custom-control-input"
+          value="Age Last Birthday">
+        <label class="custom-control-label col-form-label-sm" for="alb-{{component_number}}">Age Last Birthday</label>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="custom-control custom-radio custom-control-inline">
+        <input [(ngModel)]="decrement.attainedAgeDefinition" type="radio" [disabled]="!editable()" id="anb-{{component_number}}" class="custom-control-input"
+          value="Age Nearest Birthday">
+        <label class="custom-control-label col-form-label-sm" for="anb-{{component_number}}">Age Nearest Birthday</label>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="custom-control custom-radio custom-control-inline">
+        <input [(ngModel)]="decrement.attainedAgeDefinition" type="radio" [disabled]="!editable()" id="anxb-{{component_number}}" class="custom-control-input"
+          value="Age Next Birthday">
+        <label class="custom-control-label col-form-label-sm" for="anxb-{{component_number}}">Age Next Birthday</label>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div class="form-group from-group-sm row" [ngClass]="{'custom-disable':run.isInitial()}">
+    <label class="col-sm-3 col-form-label col-form-label-sm text-right" [ngbTooltip]="hs.getDetail(screen_name,'Leading Slicing Dimensions')">Leading Slicing Dimension</label>
+    <div class="col-sm-3" *ngFor="let slice of slicingDimensions; let s = index">
+      <div class="custom-control custom-radio">
+        <input type="radio" [name]="'slice2-'+tab+'-'+ind" class="custom-control-input form-control-sm"
+          [checked]="checkedLSlicing(slice.isDisabled,slice.value)" [value]="slice.value" (change)="onLeadingSlicingChange(slice.value)"
+          [id]="'slice2-'+tab+'-'+ind+'-'+s" [disabled]="!isSlcicingDimension(slice.value)||!editable()">
+        <label class="custom-control-label col-form-label-sm" [for]="'slice2-'+tab+'-'+ind+'-'+s">
+          <!-- <span *ngIf="slice.value=='duration' && decrement.showPolicyDuration()">Policy</span> -->
+          <span *ngIf="slice.value=='duration'">Policy</span>
+          <span *ngIf="slice.value=='age'">Attained</span>
+          {{slice.name}}
+        </label>
+      </div>
+    </div>
+  </div>
+
+<!-- We will use this in the next phase, DONT DELETE IT
+  <div class="form-group from-group-sm row" [ngClass]="{'custom-disable':!canSelectMonthly()}">
+    <label class="col-sm-3 col-form-label col-form-label-sm text-right fadeIn" [ngbTooltip]="hs.getDetail(screen_name,'Monthly Slicing')">Monthly Slicing</label>
+
+    <div class="col-sm-3">
+      <div class="input-group input-group-sm">
+        <select class="form-control form-control-sm" [(ngModel)]="decrement.slicingGranularity" [disabled]="!editable()" (change)="onMonthlyChanged($event.target.value)">
+          <option value="" selected> None</option>
+          <option *ngIf="isSlcicingDimension('duration')" value="duration">  <span *ngIf="decrement.showPolicyDuration()">Policy</span> Duration</option>
+          <option *ngIf="isSlcicingDimension('calendar')" value="calendar"> Calendar Year</option>
+        </select>
+        <div class="input-group-append dropdown-append">
+          <button class="btn btn-primary" type="button" [disabled]="!editable()">
+            <fa name="chevron-down"></fa>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <label class="col-sm-2 col-form-label col-form-label-sm text-right">For First</label>
+    <div class="col-sm-2">
+      <input type="number" class="form-control form-control-sm" [(ngModel)]="decrement.monthlyDuration" [disabled]="decrement.slicingGranularity!='duration'||!editable()">
+    </div>
+    <label class="col-sm-2 col-form-label col-form-label-sm">Years</label>
+  </div> --> 
+
+
+  <div class="form-group row">
+    <label class="col-sm-3 col-form-label col-form-label-sm text-right" [ngbTooltip]="hs.getDetail(screen_name,'Study Period Start Date')">Study Period Start Date</label>
+    <div class="col-sm-7">
+      <div class="input-group input-group-sm" #d1Container>
+
+        <input
+        [ngClass]="{'is-invalid':!validDateLowSup(decrement.studyStart,decrement.studyEnd) || !validDateLowSup(study.startObsDate,decrement.studyStart)}"
+        appAutoSlash class="form-control form-control-sm" placeholder="dd/mm/yyyy" [(ngModel)]="decrement.studyStart" name="dp"
+          ngbDatepicker #d1="ngbDatepicker" [disabled]="!editable()">
+        <div class="input-group-append">
+
+          <button class="btn btn-primary" [disabled]="!editable()" (click)="d1.toggle()" type="button">
+            <fa name="calendar"></fa>
+          </button>
+
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+  <div class="from-group row">
+    <label class="col-sm-3 col-form-label col-form-label-sm text-right" [ngbTooltip]="hs.getDetail(screen_name,'Study Period End Date')">Study Period End Date</label>
+    <div class="col-sm-7">
+      <div class="input-group input-group-sm" #d2Container>
+
+        <input
+        [ngClass]="{'is-invalid':!validDateLowSup(decrement.studyStart,decrement.studyEnd) || !validDateLowSup(decrement.studyEnd,study.endObsDate)}"
+        appAutoSlash class="form-control form-control-sm" placeholder="dd/mm/yyyy" [(ngModel)]="decrement.studyEnd" name="dp"
+          ngbDatepicker #d2="ngbDatepicker" [disabled]="!editable()">
+        <div class="input-group-append">
+          <button class="btn btn-primary" (click)="d2.toggle()" [disabled]="!editable()" type="button">
+            <fa name="calendar"></fa>
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <small class="text-danger mb-1 mt-1" *ngIf="!validDateLowSup(decrement.studyStart,decrement.studyEnd)">
+          <em>Study Period End Date</em> >
+          <em>Study Period Start Date</em>
+        </small>
+      </div>
+
+      <div>
+        <small class="text-danger mb-1 mt-1" *ngIf="!validDateLowSup(study.startObsDate,decrement.studyStart)">
+          <em>Start of Observation Period </em>
+          < <em>Study Period Start Date</em>
+        </small>
+      </div>
+
+      <div>
+        <small class="text-danger mb-1 mt-1" *ngIf="!validDateLowSup(decrement.studyEnd,study.endObsDate)">
+          <em>Study Period End Date</em>
+          < <em>End of Observation Period</em>
+        </small>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- <div class="from-group row mt-3" [style.opacity]="(enablePartial())?1:0.5">
+    <label class="col-sm-3 col-form-label col-form-label-sm text-right"></label>
+    <div class="col-sm-9">
+      <div class=" custom-control custom-checkbox">
+        <input type="checkbox" [disabled]="!enablePartial()||!editable()" [name]="'partialDuration'+tab+'-'+ind" class="custom-control-input form-control-sm"
+          [id]="'partialDuration'+tab+'-'+ind" [checked]="decrement.partialDuration" (change)="decrement.partialDuration = !decrement.partialDuration">
+        <label class="custom-control-label col-form-label-sm" [for]="'partialDuration'+tab+'-'+ind">Include Partial
+          <span *ngIf="decrement.showPolicyDuration()">Policy</span> Duration</label>
+      </div>
+    </div>
+  </div> -->
+
+</div>
+
+
+<div class="row mt-3">
+  <div class="col-md-3 text-right">
+    <label class="col-form-label col-form-label-sm" [ngbTooltip]="hs.getDetail(screen_name,'Expected Tables Method')">Expected Tables Method</label>
+  </div>
+  <div class="col-md-3">
+    <div class="input-group input-group-sm">
+      <select [(ngModel)]="decrement.ExpMethod" [disabled]="isExpSelectDisabled() ||!editable()" (change)="onExpMethChange($event)" class="form-control form-control-sm"
+        required>
+        <option value="" selected>None</option>
+        <option value="default_method">Default Method</option>
+        <option value="us_method">US Method</option>
+      </select>
+      <div class="input-group-append dropdown-append">
+        <button class="btn btn-primary" type="button" [disabled]="!editable()">
+          <fa name="chevron-down"></fa>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 text-right">
+    <label class="col-form-label-sm">Expected Tables Selection</label>
+  </div>
+  <div class="col-md-3">
+    <button class="btn btn-block btn-sm btn-primary" [disabled]="!isExpDisabled()"  (click)="open(Expected,Calibration)">
+      <fa name="file"></fa>
+      <span class="ml-2">Select</span>
+    </button>
+  </div>
+
+</div> 
+
+<ng-template #Expected let-ca="close">
+  <div class="modal-header">
+    <b class="text-primary font-weight-boldest">
+      Expected Basis Selection
+    </b>
+  </div>
+  <div class="modal-body">
+    <app-run-decrement-tables [decrement]="decrement" [tab]="tab" [study]="study" [run]="run" [editable]="editable()" (close)="ca('Close click')" (save)="isAgeAttainedInExpTable()"></app-run-decrement-tables>
+  </div>
+  
+</ng-template>
+
+<ng-template #Calibration let-cal="close">
+    <div class="modal-header">
+      <b class="text-primary font-weight-boldest">
+        Expected Basis Calibration
+      </b>
+    </div>
+    <div class="modal-body">
+       <!-- <app-expected-calibration-modal [decrement]="decrement" [tab]="tab" [study]="study" [run]="run" [editable()]="editable()" (close)="cal('Close click')"></app-expected-calibration-modal>-->
+       <app-expected-calibration-modal [decrement]="decrement" [editable]="editable()" (close)="cal('Close click')"></app-expected-calibration-modal>
+      </div>
+    
+  </ng-template>

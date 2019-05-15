@@ -1,0 +1,92 @@
+<div class="wrapper">
+
+  <div class="row mt-3 mb-2" [ngClass]="{'custom-disable':load||err}">
+    <div class="col-md-12 text-center">
+
+      <div *ngIf="!stepper" class="fadeIn btn-group d-none d-lg-block d-xl-block" role="group" aria-label="Basic example">
+        <button type="button" *ngxPermissionsOnly="['PRODUCER','STUDY_READER', 'STUDY_WRITER']" class="btn btn-sm btn-width-fixed " (click)="openTab(0)" [disabled]="load||err" [ngClass]="{'btn-outline-primary':activeTab!=0,'btn-primary':activeTab==0}">
+          <h4 class="mb-0"> </h4> Study Definition</button>
+        <button type="button"  *ngxPermissionsOnly="['PRODUCER','DATASET_READER']" class="btn btn-sm btn-width-fixed " (click)="openTab(1)" [disabled]="!study.id||load||err" [ngClass]="{'btn-outline-primary':activeTab!=1,'btn-primary':activeTab==1}">
+          <h4 class="mb-0"> </h4> Dataset Management</button>
+        <button type="button" class="btn btn-sm btn-width-fixed" *ngxPermissionsOnly="['PRODUCER','RUN_READER']" (click)="openTab(2)" [disabled]="!validControl||load||err" [ngClass]="{'btn-danger':err,'btn-outline-primary':!err&&activeTab!=2,'btn-primary':!err&&activeTab==2}">
+          <h4 class="mb-0"> </h4> Run Management</button>
+        <button type="button" class="btn btn-sm btn-width-fixed"  *ngxPermissionsOnly="['PRODUCER','STUDY_READER', 'STUDY_WRITER']" (click)="openTab(3)" [disabled]="load||err" [ngClass]="{'btn-outline-primary':activeTab!=3,'btn-primary':activeTab==3}">
+          <h4 class="mb-0"> </h4>Study Access Right and Validation</button>
+      </div>
+
+      <!-- NEW -->
+
+      <div *ngIf="stepper" class="fadeIn mt-2 stepper d-none d-lg-block d-xl-block">
+        <div class="stepper-line">
+          <div class="bg-primary"></div>
+        </div>
+        <div class="stepper-item">
+          <button (click)="openTab(0)" type="button" class="btn btn-bubble" [disabled]="load||err" [ngClass]="{'btn-outline-primary bg-white':activeTab!=0,'btn-primary':activeTab==0}">
+            <fa name="pencil"></fa>
+          </button>
+          <div class="stepper-text font-size-sm text-primary">Study Definition</div>
+        </div>
+        <div class="stepper-item">
+          <button (click)="openTab(1)" type="button" class="btn btn-bubble" [disabled]="!study.id||load||err" [ngClass]="{'btn-outline-primary bg-white':activeTab!=1,'btn-primary':activeTab==1}">
+            <fa name="file"></fa>
+          </button>
+          <div class="stepper-text font-size-sm text-primary">Dataset Management</div>
+        </div>
+        <div class="stepper-item">
+          <button (click)="openTab(2)" type="button" class="btn btn-bubble" [disabled]="!validControl||load||err" [ngClass]="{'btn-danger':err,'btn-outline-primary bg-white':!err&&activeTab!=2,'btn-primary':!err&&activeTab==2}">
+            <fa name="microchip"></fa>
+          </button>
+          <div class="stepper-text font-size-sm text-primary">Run Management</div>
+        </div>
+        <div class="stepper-item">
+          <button (click)="openTab(3)" type="button" class="btn btn-bubble" [disabled]="load||err" [ngClass]="{'btn-outline-primary bg-white':activeTab!=3,'btn-primary':activeTab==3}">
+            <fa name="lock"></fa>
+          </button>
+          <div class="stepper-text font-size-sm text-primary">Study Access Right and Validation</div>
+        </div>
+      </div>
+
+      <div class="mx-2 btn-group-vertical d-block d-lg-none" role="group" aria-label="Basic example">
+        <button type="button"  class="btn font-weight-bold mb-1" (click)="openTab(0)" [disabled]="load||err" [ngClass]="{'btn-outline-primary':activeTab!=0,'btn-primary':activeTab==0}">Study Definition</button>
+        <button type="button" class="btn font-weight-bold mb-1" (click)="openTab(1)" [disabled]="!study.id||load||err" [ngClass]="{'btn-outline-primary':activeTab!=1,'btn-primary':activeTab==1}">Dataset Management</button>
+        <button type="button" class="btn font-weight-bold mb-1" (click)="openTab(2)" [disabled]="!validControl||load||err" [ngClass]="{'btn-danger':err,'btn-outline-primary':!err&&activeTab!=2,'btn-primary':!err&&activeTab==2}">Run Management</button>
+        <button type="button" class="btn font-weight-bold mb-1" (click)="openTab(3)" [disabled]="load||err" [ngClass]="{'btn-outline-primary':activeTab!=3,'btn-primary':activeTab==3}">Study Access Right and Validation</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-none d-lg-block d-xl-block text-center" *ngIf="!prod && false">
+      <div class="stepper-switch mb-0 mt-0 pt-0 pb-0 pointer text-secondary" (click)="onStepperChanged()">
+        <fa *ngIf="!stepper" name="circle"></fa> <fa *ngIf="!stepper" name="circle"></fa> <fa *ngIf="!stepper" name="circle"></fa>
+        <fa *ngIf="stepper" name="minus"></fa> <fa *ngIf="stepper" name="minus"></fa> <fa *ngIf="stepper" name="minus"></fa>
+      </div>
+  </div>
+
+
+  <div class="mt-5 mb-5" *ngIf="load">
+    <div class="spinner">
+      <div class="bounce1 bg-secondry"></div>
+      <div class="bounce2 bg-secondry"></div>
+      <div class="bounce3 bg-secondry"></div>
+    </div>
+  </div>
+
+
+  <div class="row">
+
+    <div class="col-md-12" *ngIf="err">
+      <div class="container-fluid">
+        <div class="alert alert-danger">{{err}}</div>
+      </div>
+    </div>
+
+    <div class="col-md-12" *ngIf="!load">
+      <app-study-definition   [hidden]="activeTab!=0" *ngxPermissionsOnly="['PRODUCER','STUDY_READER', 'STUDY_WRITER']" [study]="study" (continue)="onContinue($event)" (save)="onSave($event)" (delete)="onDeleteStudy($event)" (statusChange)="onStatusChange($event)"></app-study-definition>
+      <ng-container *ngxPermissionsOnly="['PRODUCER','DATASET_READER']"><app-dataset-management [hidden]="activeTab!=1"  [study]="study" *ngIf="study.id" (changeDatasetName)="onDatasetNameChanged($event)" (datasetDelete)="onDatasetDelete($event)"  (continueControl)="onContinueControl($event)"></app-dataset-management></ng-container>
+      <ng-container *ngxPermissionsOnly="['PRODUCER','RUN_READER']" ><app-run-management  [hidden]="activeTab!=2" [study]="study" [runs]="runs" (runsSaved)="onRunsSaved($event)" (runDeleted)="onRunDelete($event)" (runStatusChanged)="onRunStatusChange($event)" *ngIf="validControl" #run></app-run-management></ng-container>
+      <ng-container *ngxPermissionsOnly="['PRODUCER','STUDY_READER', 'STUDY_WRITER']"><app-study-validation [hidden]="activeTab!=3"  [study]="study" (studyValidated)="updateDatasets($event)" *ngIf="!load" #validation></app-study-validation></ng-container>
+    </div>
+
+
+  </div>
+</div>

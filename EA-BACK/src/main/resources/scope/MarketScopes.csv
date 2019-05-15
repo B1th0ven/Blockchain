@@ -1,0 +1,29 @@
+Scope;Scope type;Regional Scope
+Germany Austria;Local;EMEA
+France Africa;Local;EMEA
+Belgium Luxembourg;Local;EMEA
+Netherlands;Local;EMEA
+UK Ireland;Local;EMEA
+Nordic;Local;EMEA
+Middle East;Local;EMEA
+Italy;Local;EMEA
+Iberia;Local;EMEA
+Israel & other;Local;EMEA
+South Africa;Local;EMEA
+China;Local;APAC
+Korea;Local;APAC
+Taiwan;Local;APAC
+Japan;Local;APAC
+Hong Kong;Local;APAC
+India;Local;APAC
+South East Asia;Local;APAC
+Australia New Zealand;Local;APAC
+US;Local;Americas
+Latin America;Local;Americas
+Canada;Local;Americas
+EMEA;Regional;
+APAC;Regional;
+Americas;Regional;
+Longevity;Global;
+Financial Solutions;Global;
+Global;Global;

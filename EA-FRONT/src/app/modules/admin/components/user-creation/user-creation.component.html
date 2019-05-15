@@ -1,0 +1,141 @@
+<div class="mb-4" *ngIf="!isOpened" >
+    <button class="btn btn-sm btn-primary pl-4 pr-4" (click)="init()" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+      <fa name="plus"></fa>&nbsp;Add User
+    </button>
+  </div>
+
+  <div class="mb-4" *ngIf="isOpened" >
+      <button class="btn btn-sm btn-primary pl-4 pr-4" (click)="init()" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        <fa name="minus-circle"></fa>&nbsp;Hide
+      </button>
+    </div>
+  
+  <div class="collapse" id="collapseExample">
+    <div class="card card-body">
+ 
+<div class="row">
+  <div class="col-md-3">
+      <div class="form-group row">
+        <div class="col-sm-5 text-right">
+          <label placement="top" container="body" [ngbTooltip]="" class="pointer col-form-label col-form-label-sm text-right">Login*</label>
+        </div>
+        <div class="col-sm-7">
+          <input [disabled]="false"  [(ngModel)]="user.login" [ngClass]="{'form-control':true,'form-control-plaintext':false}" class="form-control-sm">
+        </div>
+      </div>
+  </div>
+  <div class="col-md-3">
+<div class="form-group row">
+  <div class="col-sm-5 text-right">
+    <label placement="top" container="body" [ngbTooltip]="" class="pointer col-form-label col-form-label-sm text-right">First Name*</label>
+  </div>
+  <div class="col-sm-7">
+    <input [disabled]="false"  [(ngModel)]="user.name" [ngClass]="{'form-control':true,'form-control-plaintext':false}" class="form-control-sm">
+  </div>
+</div>
+    </div>
+<div class="col-md-3">
+    <div class="form-group row">
+      <div class="col-sm-5 text-right">
+        <label placement="top" container="body" [ngbTooltip]="" class="pointer col-form-label col-form-label-sm text-right">Last Name*</label>
+      </div>
+      <div class="col-sm-7">
+        <input [disabled]="false"  [(ngModel)]="user.lastname" [ngClass]="{'form-control':true,'form-control-plaintext':false}" class="form-control-sm">
+      </div>
+    </div>
+</div>
+<div class="col-md-3">
+  <div class="form-group row">
+    <div class="col-sm-5 text-right">
+      <label placement="top" container="body" [ngbTooltip]="" class="pointer col-form-label col-form-label-sm text-right">Email*</label>
+    </div>
+    <div class="col-sm-7">
+      <input [disabled]="false"  [(ngModel)]="user.email" [ngClass]="{'form-control':true,'form-control-plaintext':false}" class="form-control-sm">
+    </div>
+  </div>
+</div>
+
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group row">
+          <div class="col-sm-5 text-right">
+            <label placement="top" container="body" [ngbTooltip]="" class="pointer col-form-label col-form-label-sm text-right">Function*</label>
+          </div>
+          <div class="col-sm-7">
+            <!--<input [disabled]="false"  [(ngModel)]="user.function" [ngClass]="{'form-control':true,'form-control-plaintext':false}" class="form-control-sm">-->
+            <div class="input-group input-group-sm">
+                <select [disabled]="false"  [(ngModel)]="user.function" [ngClass]="{'form-control':true,'form-control-plaintext':false}"
+                   class="form-control-sm" >
+                   <option value=""></option>
+                   <option value="EA">EA</option>
+                   <option value="Marketing">Marketing</option>
+                  <option value="Pricing">Pricing</option>
+                  <option value="R&D">R&D</option>
+                  <option value="Reserving">Reserving</option>
+                  <option value="Risk Management">Risk Management</option>
+                </select>
+                <div class="input-group-append  dropdown-append">
+                  <button [hidden]="false" class="btn btn-primary" type="button">
+                    <fa name="chevron-down"></fa>
+                  </button>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group row">
+          <div class="col-sm-5 text-right">
+            <label placement="top" container="body" [ngbTooltip]="" class="pointer col-form-label col-form-label-sm text-right">Role*</label>
+          </div>
+          <div class="col-sm-7">
+            <!--<input [disabled]="false"  [(ngModel)]="user.role" [ngClass]="{'form-control':true,'form-control-plaintext':false}" class="form-control-sm">-->
+            <div class="input-group input-group-sm">
+                <select [disabled]="false"  [(ngModel)]="user.role" [ngClass]="{'form-control':true,'form-control-plaintext':false}"
+                   class="form-control-sm" >
+                   <option value=""></option>
+                   <option value="ADMIN">Admin</option>
+                   <option value="CREATOR">Creator</option>
+                   <option value="DEFAULT">Default</option>
+                  
+                </select>
+                <div class="input-group-append  dropdown-append">
+                  <button [hidden]="false" class="btn btn-primary" type="button">
+                    <fa name="chevron-down"></fa>
+                  </button>
+                </div>
+              </div>
+          </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group row">
+    <div class="col-sm-5 text-right">
+        <label placement="top" container="body" [ngbTooltip]="" class="pointer col-form-label col-form-label-sm text-right">Scope*</label>
+    </div>
+    <div class="col-sm-7 ">
+    <div class="input-group input-group-sm">
+        <select [disabled]="false"  [(ngModel)]="user.scope" [ngClass]="{'form-control':true,'form-control-plaintext':false}"
+           class="form-control-sm" >
+          <option value=""></option>
+          <option *ngFor="let scope of scopes" [value]="scope.rsId">{{scope.rsName}} - {{scope.rsType}}</option>
+        </select>
+        <div class="input-group-append  dropdown-append">
+          <button [hidden]="false" class="btn btn-primary" type="button">
+            <fa name="chevron-down"></fa>
+          </button>
+        </div>
+      </div>
+    </div>
+      </div>
+    </div>
+    <div class="col-md-3 text-right">
+      <button class="btn btn-sm btn-primary pl-4 pr-4 btn-primary" *ngIf="!saveLoading" [disabled]="!isUserValid()"  (click)="saveUser()" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Save User</button>
+      <fa name="loader" *ngIf="saveLoading"></fa>
+    </div>
+  
+</div>
+
+</div>
+</div>

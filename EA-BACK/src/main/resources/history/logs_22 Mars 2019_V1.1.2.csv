@@ -1,0 +1,19 @@
+﻿Type;ID;Component;Functionality;Name
+BUG FIX;74904;APEX;Dataset management;Review control 24
+BUG FIX;74909;APEX;Run management;Greyed-out rule of run management
+BUG FIX;74915;APEX;Table definition;Whitespace in table library
+BUG FIX;75068;APEX;Study management;expected table control (one error at a time)
+BUG FIX;75651;APEX;Dataset management;Greyed-out of duration slicing in case of policy_duration in expected table
+BUG FIX;75859;APEX;Table definition;Hover-over of table library
+BUG FIX;75862;APEX;Run management;Rating Adjustment check leading to duration slicing
+BUG FIX;75873;APEX;Study access rights and validation;"Access rights options in case of ""Creator"" not correct"
+BUG FIX;75875;APEX;Study access rights and validation;Private client rule not correct for global producer
+BUG FIX;75904;APEX;Dataset management;Extraction date and comment edit
+BUG FIX;75950;APEX;Dataset management;Control 34 - Event amount control not correct
+BUG FIX;76102;APEX;Dataset management;Server error in dataset management
+BUG FIX;76161;APEX;Dataset management;dictionary defect (extra_rating)
+BUG FIX;76162;APEX;Dataset management;execution of control 22
+BUG FIX;76163;APEX;Dataset management;control 24 reviewing
+BUG FIX;76467;APEX;Study management;Saved study error
+BUG FIX;76637;APEX;Dataset management;control 24 reviewing II
+CHANGE;76157;APEX;Table library management;"Desactivate ""Complete slicing dimensions"" control for expected Policy files."

@@ -1,0 +1,10 @@
+Attribute;Attribute  Definition;Type;Mandatory;code / detail;Comment;Exclude
+Year;Calendar Year of incurred events the factor applies to;numeric;yes*;[0-9]{4};Mandatory to have one and only one of four attributes (Year / Half-Year / Quarter / Month);1
+Half_Year;Calendar half-year of incurred events the factor applies to;code;yes*;[0-9]{4}H(1|2);Mandatory to have one and only one of four attributes (Year / Half-Year / Quarter / Month);1
+Quarter;Calendar Quarter of incurred events the factor applies to;code;yes*;[0-9]{4}Q(1|2|3|4);Mandatory to have one and only one of four attributes (Year / Half-Year / Quarter / Month);1
+Month;Calendar Month of incurred events the factor applies to;code;yes*;[0-9]{4}M((1[0-2])|[0-9]);Mandatory to have one and only one of four attributes (Year / Half-Year / Quarter / Month);1
+Portfolio_Origin;Block of portfolio origin (in particular used for merged entities);refdata;yes;;;
+Bucket_ID;Aggregation of treaties, for which IBNR amount has been calculated;free text;yes;;;
+Decrement;Type of decrement the IBNR is applied to;code;yes;(?i)(qx)|(ix)|(wx)|(tx)|(ix+qx);;
+IBNR_by_amount;Total IBNR amount for by amount analaysis;numeric+;yes*;;Mandatory to have either IBNR by amount or IBNR by count, but not both;2
+IBNR_by_count;Total IBNR count for by count analaysis;numeric+;yes*;;Mandatory to have either IBNR by amount or IBNR by count, but not both;2

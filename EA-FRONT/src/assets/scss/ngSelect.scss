@@ -1,0 +1,92 @@
+.ng-dropdown-panel {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06)
+}
+
+.ng-dropdown-panel.bottom {
+  top: 100%;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-top-color: #e6e6e6;
+  margin-top: -1px;
+  margin-left: -9px;
+}
+
+.ng-dropdown-panel.bottom .ng-dropdown-panel-items .ng-option:last-child {
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px
+}
+
+.ng-dropdown-panel.top {
+  bottom: 100%;
+  border-top-right-radius: 0px;
+  border-top-left-radius: 0px;
+  border-bottom-color: #e6e6e6;
+  margin-bottom: -1px;
+  margin-left: -9px;
+}
+
+.ng-dropdown-panel.top .ng-dropdown-panel-items .ng-option:first-child {
+  border-top-right-radius: 0px;
+  border-top-left-radius: 0px
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items {
+  margin-bottom: 1px
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup {
+  user-select: none;
+  cursor: default;
+  padding: 3px;
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.disabled {
+  color: rgba(0, 0, 0, 0.54)
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.marked {
+  background-color: #ebf5ff;
+  color: #333
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.selected {
+  color: #333;
+  background-color: #f5faff;
+  font-weight: 600
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.87);
+  padding: 3px;
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.selected {
+  color: #333;
+  background-color: #f5faff
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.selected .ng-option-label {
+  font-weight: 600
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.marked {
+  background-color: #ebf5ff;
+  color: #333
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.disabled {
+  color: #cccccc
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-child {
+  padding-left: 22px
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option .ng-tag-label {
+  padding-right: 5px;
+  font-size: 80%;
+  font-weight: 400
+}

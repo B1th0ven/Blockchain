@@ -1,0 +1,26 @@
+<ul class="sidebar-nav">
+    <li (mouseenter)="enterOrleave('sm',true)" (mouseleave)="enterOrleave('sm',false)" >
+            <a class="nav-link" routerLink="/study" routerLinkActive="active">
+                <div  class ="zoom" [ngClass]="{'zoomed':sm}"><fa name="list"></fa></div>
+                <div *ngIf="!sm">Study Management</div>
+            </a>
+    </li>
+    <li (mouseenter)="enterOrleave('tl',true)" (mouseleave)="enterOrleave('tl',false)">
+      <a class="nav-link" routerLink="/tables" routerLinkActive="active">
+        <div  class ="zoom" [ngClass]="{'zoomed':tl}"><fa name="table"></fa></div>
+          <div  *ngIf="!tl">Table Library</div>
+      </a>
+</li>
+   <li (mouseenter)="enterOrleave('ad',true)" (mouseleave)="enterOrleave('ad',false)">
+        <a class="nav-link"  *ngxPermissionsOnly="['ADMIN']" routerLink="/admin" routerLinkActive="active">
+            <div  class ="zoom" [ngClass]="{'zoomed':ad}"><fa name="cogs"></fa></div>
+            <div  *ngIf="!ad">Admin</div>
+        </a>
+    </li>
+    <li (mouseenter)="enterOrleave('log',true)" (mouseleave)="enterOrleave('log',false)">
+        <a class="nav-link" routerLink="/home" routerLinkActive="active">
+            <div  class ="zoom" [ngClass]="{'zoomed':log}"><fa name="file-text"></fa></div>
+            <div  *ngIf="!log">Doc</div>
+        </a>
+    </li>
+</ul>

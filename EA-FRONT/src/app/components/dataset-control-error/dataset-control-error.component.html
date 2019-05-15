@@ -1,0 +1,182 @@
+
+<td *ngIf="errorType == 3" style="padding: 0;" colspan="10">
+  <div class="collapse collapse-tr" [id]="'collapsefunc-'+i+'-'+tabNbr">
+    <div class="table-sm">
+      <div class="table-row">
+        <div class="table-col-big text-capitalize">
+          <b>Column name</b>
+        </div>
+        <div class="table-col-sm">
+          <b>Type</b>
+        </div>
+        <div class="table-col-sm">
+          <b>Lines Affected</b>
+        </div>
+        <div class="table-col-big">
+          <b>Example</b>
+        </div>
+      </div>
+      <div class="table-row" *ngFor="let err of ls.getColumns(controls)">
+
+        <div class="table-col-big"> {{err.name}} </div>
+        <div class="table-col-sm"> {{err.type}} </div>
+        <div class="table-col-sm"> {{err.errorsNumber}} </div>
+
+        <div class="table-col-big">
+          {{ls.getColumnValue("Policy_ID",policyHeader ,err.examples[0],study)}}
+          <fa name="angle-down" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          </fa>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+            <div class="dropdown-item" style="width:700px;">
+              <div class="row">
+                <div class="col-2">
+                  <b>Line</b>
+                </div>
+                <div class="col-6">
+                  <b>Policy ID</b>
+                </div>
+                <div class="col-4">
+                  <b>Value</b>
+                </div>
+              </div>
+            </div>
+            <div class="dropdown-item" *ngFor="let example of err.examples">
+              <div class="row">
+                <div class="col-2">
+                  {{ls.getColumnValue("data_line",policyHeader,example,study) | stringLimit}}
+                </div>
+                <div class="col-6" [ngbTooltip]="ls.getColumnValue('Policy_ID',policyHeader,example)">
+                  {{ls.getColumnValue("Policy_ID",policyHeader ,example,study) | stringLimit }}
+                </div>
+                <div class="col-4">
+                  {{ls.getColumnValue(err.name,policyHeader,example,study)}}
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</td>
+  <td *ngIf="errorType == 2" style="padding: 0;" colspan="10">
+      <div class="collapse collapse-tr" [id]="'collapsefunc-'+i+'-'+tabNbr">
+        <div class="table-sm-ne">
+          <div class="table-row-ne">
+            <div class = "table-col-xs"></div>
+            <div class="table-col-big">
+              <b>Missing Column</b>
+            </div>
+            <div *ngFor="let field of control.notExecuted.field" >
+              <div class = "table-col-xs"></div>
+              <div class="table-col-big">
+                {{field}}
+              </div>
+            </div>
+            
+            
+          </div>
+          
+        </div>
+      </div>
+    </td>
+  <td *ngIf="errorType == 1 " style="padding: 0;" colspan="10">
+      <div class="collapse collapse-tr" [id]="'collapsefunc-'+i+'-'+tabNbr">
+        <div [class]="ds.getRowClassExemples('sm', control.category)">
+          <div [class]="ds.getRowClassExemples('row', control.category)">
+            <div *ngIf="control.files.includes('policy')" class="table-col-xs">
+              <b>Line  </b>
+            </div>
+            <div class="table-col-big" *ngIf="control.files.includes('policy')">
+              <b>Policy ID</b>
+            </div>
+            <div class="table-col-xxs scroll-button" *ngIf="map.get(i) && map.get(i).length>0" (click)="ls.onScrolLeft(i,control,map)">
+                <fa  name="angle-left"></fa>
+            </div>
+            <div [ngClass]="{'table-col-xs':control.controlColumns.length>3,'table-col-sm':control.controlColumns.length<=3}" *ngFor="let col of control.controlColumns.slice(0,6)">
+              <b>{{ col | undersoreToSpace }}</b>
+            </div>
+            <div class="table-col-xxs scroll-button" *ngIf="control.controlColumns.length>6" (click)="ls.onScrolRight(i,controls,map)">
+              <fa  name="angle-right"></fa>
+            </div>
+          </div>
+          <div *ngIf="control.examples">
+            <div [class]="ds.getRowClassExemples('row', control.category)" *ngFor="let line of control.examples">
+              <div *ngIf="control.files.includes('policy')" class="table-col-xs">{{ls.getColumnValue("data_line",policyHeader,line,study) | stringLimit}} </div>
+              <div class="table-col-big"  *ngIf="control.files.includes('policy')"> {{ls.getColumnValue("Policy_ID",policyHeader,line,study)}}</div>
+              <div class="table-col-xxs" *ngIf="map.get(i) && map.get(i).length>0">
+                  
+                </div>
+              <div [ngClass]="{'table-col-xs':control.controlColumns.length>3,'table-col-sm':control.controlColumns.length<=3}" *ngFor="let col of control.controlColumns.slice(0,6)">
+              {{ls.getColumnValue(col,policyHeader,line,study)}} </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </td>
+  <td *ngIf="errorType == 0" style="padding: 0;" colspan="10">
+      <div class="collapse collapse-tr" [id]="'collapsefunc-'+i+'-'+tabNbr">
+          <div [class]="ds.getRowClassExemples('sm', control.category)">
+              <div [class]="ds.getRowClassExemples('row', control.category)">
+          <div class="table-col-big text-capitalize">
+            <b>Variable column</b>
+          </div>
+         
+          <div class="table-col-sm">
+            <b>Lines Affected</b>
+          </div>
+          <div class="table-col-big">
+            <b>Example</b>
+          </div>
+        </div>
+        <div [class]="ds.getRowClassExemples('row', control.category)" *ngFor="let err of control.affectedColumns">
+            
+
+          <div class="table-col-big">{{err.name.split('/')[0]}}</div>
+          <div class="table-col-sm"> {{err.errorsNumber}} </div>
+
+          <div class="table-col-big">
+              {{ls.getColumnValue(ls.getSecondHeader(control.identifier,err.name),policyHeader,err.examples[0],study)}}
+            <fa name="angle-down" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            </fa>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+              <div class="dropdown-item" style="width:700px;">
+                <div class="row">
+                  <div class="col-2">
+                    <b *ngIf="control.identifier != 'Product file information should match study metadata'">Line</b>
+                  </div>
+                  <div class="col-6">
+                      <b>{{ls.getSecondHeader(control.identifier,err.name)}}</b>
+                    </div>
+                  <div class="col-4">
+                    <b>{{err.name.split('/')[err.name.split('/').length -1 ]}}</b>
+                  </div>
+                </div>
+              </div>
+              <div class="dropdown-item" *ngFor="let example of err.examples">
+                      <div class="row">
+                  <div class="col-2">
+                    <div *ngIf="control.identifier != 'Product file information should match study metadata'">  
+                    {{ls.getColumnValue("data_line",policyHeader,example,study)}}
+                    </div>
+                  </div>
+                  <div class="col-6">
+                      {{ls.getColumnValue(ls.getSecondHeader(control.identifier,err.name),policyHeader,example,study)}}
+                  </div>
+                  <div class="col-4">
+                      {{ls.getColumnValue(err.name.split('/')[err.name.split('/').length -1 ],policyHeader,example,study)}}
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </td> 

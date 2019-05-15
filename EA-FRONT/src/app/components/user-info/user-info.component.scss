@@ -1,0 +1,13 @@
+.user-name
+{
+  position: relative;
+  &::before{
+    //content: '';
+    height: 3px;
+    width: 100%;
+    background: #3fb9df;
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+  }
+}

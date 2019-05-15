@@ -1,0 +1,115 @@
+@import "scor/_variables";
+.top-text {
+  color: $blueScor;
+}
+
+.first-row {
+  margin-top: 20px;
+}
+
+.file-table {
+  border: 1px solid lightgrey;
+  background-color: rgb(245, 245, 245);
+  max-height: 60vh;
+  overflow: scroll;
+}
+
+#search {
+  font-family: Arial, FontAwesome;
+}
+
+.file-list {
+  padding: 3px;
+  margin-bottom: 15px;
+  max-height: 290px;
+  padding-right: 1px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.mb {
+  margin-bottom: 10px;
+}
+
+.file-container {
+  background-color: $greyLight;
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+  white-space: nowrap;
+  /* this does the trick */
+  overflow: visible;
+  &.active {
+    box-shadow: 0px 0px 3px $blueScor;
+  }
+}
+
+.file-container:hover {
+    cursor: pointer;
+  &:not(.active) {
+    box-shadow: 0px 0px 1px lightgrey;
+  }
+}
+
+.file-container:focus,
+.file-container:active {
+  cursor: pointer;
+}
+
+.file-container .file-icon {
+  color: $orange;
+  margin: 0 10px;
+  font-size: 20px;
+}
+
+.file-container .file-info,
+.file-container .file-icon {
+  vertical-align: middle;
+  padding-left: 0px;
+  display: inline-block;
+}
+
+.file-container .file-name {
+  font-size: 10px;
+}
+
+.file-container .file-name {
+  color: $blueScor;
+}
+
+.file-container .file-close {
+  font-size: 12px;
+  color: $red;
+  opacity: 0;
+}
+
+.file-container:hover .file-close {
+  opacity: 0.5;
+  border-radius: 50%;
+  text-align: center;
+  width: 20px;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.file-container .file-type {
+  color: $greyMedium;
+}
+
+.input-group-addon {
+  border-radius: 5px 0 0 5px;
+  background: rgb(194, 194, 194);
+  color: rgb(134, 122, 122);
+  padding: 4px 20px;
+  font-size: 14px;
+}
+
+@media(min-width:768px) {
+  .file-container .file-icon {
+    font-size: 20px;
+  }
+  .file-container .file-name {
+    font-size: 10px;
+  }
+}

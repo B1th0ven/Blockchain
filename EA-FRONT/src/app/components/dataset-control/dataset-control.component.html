@@ -1,0 +1,108 @@
+<div class="container-fluid mt-4" *ngIf="dataset && ds.canDoControl(files)">
+
+  <p class="text-muted">
+    <b> {{dataset?.name}} </b>(ID {{dataset?.id}})</p>
+  <p class="text-muted" *ngIf="dataset.jobID">
+    <button class="btn btn-link" (click)="runNewJob()">
+      <fa name="refresh"></fa>
+    </button>
+    Job ID:
+    <b> {{dataset.jobID}} </b>
+  </p>
+  <div class="row">
+    <div class="col-md-6" *ngFor="let f of files">
+      <div class="text-center">
+        <h5 class="text-capitalize">{{f?.typename}} </h5>
+        <h6 class="text-muted">{{f?.name}}</h6>
+        <p>{{ls.getStatus(f?.typename, formatControl, funcControls, productFormatControl)}}</p>
+        <div class="text-muted">
+          <small>
+
+          </small>
+        </div>
+        <div class="text-muted">
+          <small>
+
+          </small>
+        </div>
+      </div>
+
+    </div>
+    
+    
+  </div>
+  <br>
+  <div class="row mb-2">
+    <div class="col-md-4"></div>
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <div class="text-right">
+      <button class="btn btn-danger" [disabled] ="hasReport || canceled || controlsDone" (click)="cancelExecution()" > Cancel Control Execution </button>
+    </div>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="table-container" id="contentToConvert">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Control Name</th>
+              <th>Description</th>
+              <th>Category</th>
+              <th>Controled file</th>
+              <th>Validated</th>
+              <th>Message</th>
+            </tr>
+          </thead>
+          <tbody app-dataset-control-management  [productHeader]="productHeader" [controls]="controls" [policyHeader]="policyHeader" [study]="study" [dataset]="dataset" [control]="formatControl" [tabNbr]="tabNbr" [index]="1" ></tbody>
+          <tbody app-dataset-control-management  [productHeader]="productHeader" [controls]="productControls" [policyHeader]="policyHeader" [study]="study" [dataset]="dataset" [control]="productFormatControl" [tabNbr]="tabNbr" [index]="2" ></tbody>
+          <tbody app-dataset-control-management [productHeader]="productHeader" [policyHeader]="policyHeader" [dataset]="dataset" *ngFor="let c of funcControls; let i = index" [study]="study" [control]="c" [tabNbr]="tabNbr" [index]="i+3" >
+          </tbody>      
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="alert mb-2" *ngIf="fileSaveStatus.error">An error Occurred</div>
+    <div class="col-md-12 text-right mb-2" [ngClass]="{'custom-disable':fileSaveStatus.loading}">
+      <button class="btn btn-sm btn-primary" style="min-width:120px" [disabled]="!ls.valid(formatControl, productFormatControl, funcControls,notExecuted)" (click)="continueClick()">Continue</button>
+      <!-- <button class="btn btn-sm btn-danger "  [ngClass]="{'custom-disable':fileSaveStatus.loading}" style="min-width:120px" (click)="saveClick()">Cancel</button> -->
+      
+    </div>
+    <div class="col-md-12 text-right">
+      <button class="btn btn-sm btn-primary mb-2" *ngIf="!dataset.hasReport()" [ngClass]="{'custom-disable':fileSaveStatus.loading}"
+        [disabled]="!ls.valid(formatControl, productFormatControl, funcControls,isNotExecuted)" style="min-width:120px" (click)="saveClick()">Save</button>
+
+    </div>
+    <div class="col-md-12 text-right">
+    </div>
+    <div class="col-md-12 text-right">
+        <button class="btn btn-sm btn-primary"  style="min-width:120px" (click)="captureScreen()" [disabled]="canceled" >Download Report</button>
+    </div>
+  </div>
+
+</div>
+
+
+<button id="openModalButton" [hidden]="true" data-toggle="modal" [attr.data-target]="'#myModal'+dataset.id">Open Modal</button>
+
+<div id="myModal{{dataset.id}}" class="modal fade mt-4" data-backdrop="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Controls Execution Warning</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Error Limit was exceeded. The Controls Execution was interrupted.</p>
+      </div>
+    </div>
+  </div>
+</div>

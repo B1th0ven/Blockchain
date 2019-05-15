@@ -1,0 +1,20 @@
+<div class="container-fluid">
+    <ul class="nav nav-tabs nav-main">
+        <li *ngFor="let tab of tabs; let i = index" class="nav-item fadeIn" >
+            <a class="nav-link"  [ngClass]="{'active':i==activeTab}" (click)="openTab(i,$event)">
+              {{tab.name | stringLimit}} &nbsp; <fa *ngIf="tab.type!='list'" class="close-icon"  (click)="closeTab(i,$event)" name="close" href="#"></fa>
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content bordered">
+      <br>
+      <!-- ++ Dynamiclly Generated tabs ++ -->
+      <div *ngFor="let tab of tabs;let i = index">
+        <div id="tab{{i}}">
+          <app-study-list-search *ngIf="tab.type=='list'&&activeTab==i" (newTabEvent)="newTab($event)"></app-study-list-search>
+          <app-study-create *ngIf="tab.type=='modify'||tab.type=='create'"  [hidden]="!((tab.type=='create'||tab.type=='modify')&&activeTab==i)" [study]="tab.study" (save)="onSave($event,i)" (continue)="onContinue($event,i)" (delete)="closeTab(i)" (statusChange)="onStatusChange($event,i)"></app-study-create>
+        </div>
+      </div>
+    </div>
+</div>

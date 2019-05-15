@@ -1,0 +1,44 @@
+@import "../../../node_modules/bootstrap/scss/_functions";
+@import "../../../node_modules/bootstrap/scss/_variables";
+@import "../../../node_modules/bootstrap/scss/_mixins";
+@import "scor/_variables";
+.navbar-scor {
+  background-color: #cde3ea;
+}
+
+.navbar-login {
+  width: 305px;
+  padding: 10px;
+  padding-bottom: 0px;
+}
+
+.navbar-login-session {
+  padding: 10px;
+  padding-bottom: 0px;
+  padding-top: 0px;
+}
+
+.icon-size {
+  font-size: 87px;
+}
+
+$pic-dim: 14px;
+.p-image {
+  display: flex;
+  align-items: center;
+  border: 0px;
+}
+
+.p-image img {
+  padding: 0;
+  margin: 0;
+  height: $pic-dim;
+}
+
+.btn.btn-menu {
+  margin-left: 7px;
+  background: transparent;
+  padding: 0;
+  width: $menu-button-length;
+  height: $menu-button-length;
+}

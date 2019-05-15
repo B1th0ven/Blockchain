@@ -1,0 +1,22 @@
+<app-navbar></app-navbar>
+<div id="wrapper"  class="bg-light fadeIn toggled">
+
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+        <app-sidebar></app-sidebar>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+      <!--
+        <app-navbar></app-navbar>
+      -->
+      <div id="inner">
+          <router-outlet></router-outlet>
+      </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+</div>
+<app-footer></app-footer>

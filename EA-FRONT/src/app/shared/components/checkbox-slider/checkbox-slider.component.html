@@ -1,0 +1,5 @@
+<!-- Rounded switch -->
+<label class="switch">
+  <input [checked]="checked" [ngClass]="{'inputClass':!disabled,'inputClassDisabled':disabled}"  (change)="checkValue($event)" [disabled]="disabled" id="checkboxslider-{{comp_numb}}"  type="checkbox">
+  <span class="slider round"></span>
+</label>

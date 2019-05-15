@@ -1,0 +1,119 @@
+<div class="container-fluid">
+
+  <h3><b>User Dataset List</b></h3>
+  <hr>
+  <p class="text-muted">
+    All created datasets are saved in the <b>Session Storage</b>.
+  </p>
+  <br>
+  <div *ngIf="datasets==null||datasets.length==0" class="text-muted">
+    
+    <div class="text-center">
+      <p>No datasets found</p>
+      <h1><a [routerLink]="['/datasetcreate']"> <fa size="2x" name="plus-circle" ></fa></a> </h1>
+      <h3>Create Dataset</h3>
+    </div>
+      
+  </div>
+
+ <div class="table-container">
+  <table *ngIf="datasets!=null&&datasets.length>0" class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr class="dataset-row">
+        <th class="btn-action">
+            <a [routerLink]="['/datasetcreate']"> <fa name="plus" ></fa> New</a> 
+        </th>
+        <th>
+          <div (click)="changeSortKey('name')">
+            <span > Name</span> 
+            <span *ngIf="sortKey=='name'" class="float-right"><fa [name]="sortIcon()"></fa></span>  
+          </div>
+            <input [(ngModel)]="query.q1" type="text" id="search" class="form-control form-control-sm" placeholder="&#xF002;">
+        </th>
+        <th>
+            <div (click)="changeSortKey('datetime')">
+                <span > Creation Date</span> 
+                <span *ngIf="sortKey=='datetime'" class="float-right"><fa [name]="sortIcon()"></fa></span>  
+            </div>
+            <input [(ngModel)]="query.q2" type="text" id="search" class="form-control form-control-sm" placeholder="&#xF002;">
+        </th>
+        <th>
+            <div (click)="changeSortKey('description')">
+                <span > Description</span> 
+                <span *ngIf="sortKey=='description'" class="float-right"><fa [name]="sortIcon()"></fa></span>  
+            </div>
+            <input [(ngModel)]="query.q3" type="text" id="search" class="form-control form-control-sm" placeholder="&#xF002;">
+        </th>
+        <th>Files
+            <input [(ngModel)]="query.q4" type="text" id="search" class="form-control form-control-sm" placeholder="&#xF002;">
+        </th>
+      </tr>
+    </thead>
+    <tbody >
+      <tr 
+        class="fadeIn"
+        *ngFor="let d of datasets 
+          | filter:{ name:query.q1 } 
+          | filter:{ date:query.q2 } 
+          | filter:{ description:query.q3 } 
+          | filesFilter:query.q4 
+          | sort:sortKey:incremental
+          ; let i = index">
+        <td class="btn-action">
+          <a [routerLink]="['/datasetcreate', d.id]"> <fa name="edit" ></fa></a> 
+          <a data-toggle="modal" href="#" data-target="#deletePrompt"  (click)="deletePrompt($event,d)"><fa name="trash" ></fa></a>
+        </td>
+        <td>{{d.name}} </td>
+        <td>{{d.date}}</td>
+        <td>{{d.description}} </td>
+        <td>
+          <div class="file-list">
+            <div  *ngFor="let ft of d.files">
+              <div *ngIf="ft.file">
+                <fa  [name]="icon(ft.status)"></fa> <b>{{ ft.typename }}</b>: {{ ft.file?.name }}
+              </div>
+          </div>
+
+          <div class="btn-action">
+              <a [routerLink]="['/datasetfiles', d.id]"> <fa name="search-plus" ></fa></a>
+              <a *ngIf="d.files && ds.canDoControl(d.files)" [routerLink]="['/datasetcontrol', d.id]"> <fa name="play-circle" ></fa>
+                Run Controls
+              </a>
+          </div>
+          
+        </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+
+<div class="modal fade" id="deletePrompt">
+    <div class="modal-dialog  modal-sm">
+      <div class="modal-content">
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div>
+            <div class="text-center delete">
+              <div class="icon"><fa name="trash" size="5x"></fa></div>
+              <p>Are you sure you want to delete <b>{{datasetToDelete?.name}}</b>? </p>
+            </div>
+            
+            <div class="row">
+                <div class="col-6">
+                    <button class="btn btn-block btn-info" type="button" data-dismiss="modal">No</button>
+                </div>
+              <div class="col-6">
+                  <button (click)="confirmDelete()" class="btn btn-block btn-danger" type="button" data-dismiss="modal">Yes</button>
+              </div>
+            </div>
+              
+             
+          </div>
+        </div>
+  
+      </div>
+    </div>
+</div>

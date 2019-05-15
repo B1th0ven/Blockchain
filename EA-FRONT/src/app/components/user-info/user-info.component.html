@@ -1,0 +1,48 @@
+<div *ngIf="user" class="mr-3">
+  <div class="user-info text-muted" style="display: flex; align-items: center;">
+
+
+
+    <div class="user-name text-muted  mr-3 ml-3" >
+      <span class="font-weight-bold"> {{ user.ruFirstName }} </span> {{ user.ruLastName}}
+    </div>
+
+    <div class="user-image  mr-2 ml-2">
+      <div class="border bg-info border-info text-center" style="height: 25px;width: 25px; border-radius: 50%;overflow: hidden;">
+          <fa class="text-white" size="2x" name="user"></fa>
+      </div>
+    </div>
+
+    <div ngbDropdown placement="bottom-right" class="d-inline-block">
+        <div class="pointer mr-2 ml-2 pr-1" id="userInfo" ngbDropdownToggle>
+        </div>
+        <div ngbDropdownMenu aria-labelledby="userInfo" class="mt-2 fadeInUp border-bottom-1" style="width:250px">
+          <div class="font-size-sm">
+            <div class="row pl-3 pr-3 pt-2">
+              <div class="col-6 font-weight-light">Role</div>
+              <div class="col-6 text-right text-primary font-weight-bold">{{ user?.ruRole }} </div>
+            </div><hr>
+            <div class="row pl-3 pr-3">
+              <div class="col-6 font-weight-light">Function</div>
+              <div class="col-6 text-right text-primary font-weight-bold">{{ user?.ruFunction }} </div>
+            </div><hr>
+            <div class="row pl-3 pr-3">
+              <div class="col-6 font-weight-light">Scope</div>
+              <div class="col-6 text-right text-primary font-weight-bold">{{ user.scope?.rsName }} </div>
+            </div><hr>
+            <div class="row pl-3 pr-3 pb-2">
+              <div class="col-6 font-weight-light">Type</div>
+              <div class="col-6 text-right text-primary font-weight-bold">{{ user.scope?.rsType }} </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+    <!-- <span class="pointer mr-2 ml-2 font-size-sm" *ngIf="true" >
+      <fa name="power-off" (click)="logout()"></fa>
+    </span> -->
+  </div>
+
+</div>

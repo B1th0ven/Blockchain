@@ -1,0 +1,131 @@
+﻿Type;ID;Component;Functionality;Name
+CHANGE;74979;APEX;Dataset management;Data protection edit
+CHANGE;75787;APEX;Run management;"new ""download reports"" button in run management tab"
+CHANGE;75892;APEX;Table definition;Update missing values controls of table library
+CHANGE;76157;APEX;Table library management;"Desactivate ""Complete slicing dimensions"" control for expected Policy files."
+BUG FIX;74909;APEX;Run management;Greyed-out rule of run management
+BUG FIX;74915;APEX;Table definition;Whitespace in table library
+BUG FIX;75068;APEX;Study management;expected table control (one error at a time)
+BUG FIX;75651;APEX;Dataset management;Greyed-out of duration slicing in case of policy_duration in expected table
+BUG FIX;75859;APEX;Table definition;Hover-over of table library
+BUG FIX;75862;APEX;Run management;Rating Adjustment check leading to duration slicing
+BUG FIX;75873;APEX;Study access rights and validation;"Access rights options in case of ""Creator"" not correct"
+BUG FIX;75904;APEX;Dataset management;Extraction date and comment edit
+BUG FIX;75950;APEX;Dataset management;Control 34 - Event amount control not correct
+BUG FIX;76102;APEX;Dataset management;Server error in dataset management
+BUG FIX;76161;APEX;Dataset management;dictionary defect (extra_rating)
+BUG FIX;76162;APEX;Dataset management;execution of control 22
+BUG FIX;76163;APEX;Dataset management;control 24 reviewing
+CHANGE;74486;APEX;Study management;Logo update
+CHANGE;74838;SAS;Run management;Calculate squared amounts
+CHANGE;74922;APEX;Dataset management;Update control descriptions
+CHANGE;74923;APEX;Dataset management;Control 20 review
+CHANGE;74924;APEX;Dataset management;Control 24 review
+CHANGE;74925;APEX;Dataset management;Control 22 - review of information
+CHANGE;74926;APEX;Dataset management;Coherence of metadata
+CHANGE;74927;APEX;Dataset management;Progress bar
+CHANGE;74928;APEX;Dataset management;Control 35 - Variable dependency
+CHANGE;74929;APEX;Run management;Run management display
+CHANGE;74930;APEX;Run management;Duration refinement
+CHANGE;74931;APEX;Run management;Update hover-over
+CHANGE;74932;APEX;Run management;Expected Basis DB storage - default
+CHANGE;74933;APEX;Run management;Expected Basis DB storage - US
+CHANGE;74934;APEX;Run management;Dimensions selection
+CHANGE;74935;APEX;Run management;IBNR table status in pop-up
+CHANGE;74936;APEX;Study management;Study Management search field
+CHANGE;74937;APEX;Study management;Order of Missing & multiple
+CHANGE;74938;APEX;Study definition;Study documentation pop-up
+CHANGE;74939;APEX;Dataset management;Data pivot documentation
+CHANGE;74940;APEX;Dataset management;Data protection
+CHANGE;74941;APEX;Table definition;Delete Expected Table
+CHANGE;74942;APEX;Table definition;Delete Expected Table 2
+CHANGE;74943;APEX;Table definition;"Control ""Unique age variables"" (table library)"
+CHANGE;74944;APEX;Table definition;"Control ""variable dependency"" (table library)"
+CHANGE;74945;APEX;Table definition;Deactivate
+CHANGE;74946;APEX;Dataset management;Data pivot change
+CHANGE;74947;APEX;Table definition;Run parameter visualisation
+CHANGE;74948;APEX;General;Possibility to copy field values
+CHANGE;74949;APEX;Dataset management;New control: Consistent date of last medical selection
+CHANGE;74950;APEX;Dataset management;Control 24 update
+CHANGE;74951;APEX;Run management;"Control selection of decrements based on Policy file ""Main Risk Type"" and ""Acceleration Risk Type"""
+CHANGE;74952;APEX;Dataset management;Now control with insurer & reinsurer amounts
+CHANGE;74953;APEX;Study management;Treaty number field
+CHANGE;74954;APEX;Run management;Rating Adjustment Method
+CHANGE;74955;APEX;Run management;Control of IBNR tables
+CHANGE;74956;APEX;Run management;"New control ""Missing value check"""
+CHANGE;74957;APEX;Run management;Control of the selection of expected tables
+CHANGE;74958;APEX;Run management;Calibration file
+CHANGE;74959;APEX;Run management;Insurance age attained control
+CHANGE;74960;APEX;Run management;Control for US method
+CHANGE;74961;APEX;Table definition;Control of Expected Tables
+CHANGE;74962;APEX;Table library management;Sorting column
+CHANGE;74963;APEX;Table definition;Display of controls
+CHANGE;74964;APEX;Table definition;"New control: ""Missing values"""
+CHANGE;74965;APEX;Admin;User profile management
+CHANGE;74966;APEX;Other;Platform version
+CHANGE;74971;APEX;Dataset management;New control: Coherence of Benefit Max Age with policy file
+CHANGE;74972;APEX;Dataset management;New control: Status date space
+CHANGE;74973;APEX;Dataset management;Improvement of data control reports
+CHANGE;74974;APEX;Dataset management;Control 35 - Product/ Policy variable consistency
+CHANGE;74975;APEX;Dataset management;New control - no mix qx vs qx+ix
+CHANGE;74977;APEX;Table definition;new control for expected tables
+CHANGE;74978;APEX;Run management;Duration refinement 2
+CHANGE;74979;APEX;Dataset management;Data protection edit
+CHANGE;74982;Tableau;Other;Data dictionary update (results)
+CHANGE;75010;APEX;Dataset management;Exposure/Event Extraction Date edit
+CHANGE;75063;APEX;Other;Update log section
+CHANGE;75593;APEX;Other;Update policy data pivot
+BUG FIX;74381;SAS;Run management;problem with the additive qx factor and its multiplier
+BUG FIX;74492;SAS;Run management;Error Insufficient space in file sasuser.parms.catalog
+BUG FIX;74850;APEX;Dataset management;Previous control report non-readable
+BUG FIX;74888;APEX;Dataset management;Controls: Empty values in columns
+BUG FIX;74889;APEX;Dataset management;Display of product_ID in control 31
+BUG FIX;74890;APEX;Dataset management;Nearest birthday in control
+BUG FIX;74891;APEX;Study definition;Study doc cross
+BUG FIX;74892;APEX;Dataset management;Omega list for client risk carrier
+BUG FIX;74893;APEX;Other;Name of user
+BUG FIX;74894;APEX;Table definition;Undefined variables in table library
+BUG FIX;74895;APEX;Run management;Greyed-out rule for loss ratio
+BUG FIX;74896;SAS;Run management;Expected count with duration_year
+BUG FIX;74897;Tableau;General;Variables in tableau
+BUG FIX;74898;APEX;Study definition;Locked field in study management
+BUG FIX;74899;APEX;Study access rights and validation;Study unvalidation
+BUG FIX;74900;APEX;Run management;Rating adjustment method rule
+BUG FIX;74901;APEX;Run management;Expected tables with Insurance_age_attained variables
+BUG FIX;74902;APEX;Run management;Age slicing of expected tables
+BUG FIX;74903;APEX;Table definition;Compulsory values for expected tables
+BUG FIX;74904;APEX;Dataset management;Review control 24
+BUG FIX;74905;APEX;Study management;Study management sorting
+BUG FIX;74906;APEX;Run management;Table ID in run parameter
+BUG FIX;74907;APEX;Dataset management;Review control 39
+BUG FIX;74908;APEX;Dataset management;pdf report
+BUG FIX;74909;APEX;Run management;Greyed-out rule of run management
+BUG FIX;74910;APEX;Run management;Lock update of run parameter
+BUG FIX;74911;APEX;Run management;Bug with max tab number
+BUG FIX;74912;APEX;Dataset management;Report update issue
+BUG FIX;74913;APEX;Run management;Dimension display
+BUG FIX;74914;APEX;Run management;Age_attained slicing
+BUG FIX;74915;APEX;Table definition;Whitespace in table library
+BUG FIX;74916;APEX;Table definition;Rate column in expected table
+BUG FIX;74917;APEX;Table definition;Insurance_age_attained
+BUG FIX;74918;APEX;Run management;Duration slicing greyed-out
+BUG FIX;74919;APEX;Dataset management;Control 34 defect
+BUG FIX;74920;APEX;Dataset management;Control 35 defect
+BUG FIX;74921;APEX;Table definition;USA expected table control
+BUG FIX;74999;APEX;Dataset management;Key of control
+BUG FIX;75000;APEX;Dataset management;partial key error control
+BUG FIX;75064;APEX;Run management;Policy Adjustment Joint Life Lapses greyed-out
+BUG FIX;75065;APEX;Dataset management;adaptation of the key
+BUG FIX;75066;APEX;Run management;dimensions issues
+BUG FIX;75067;APEX;Run management;dataset names
+BUG FIX;75068;APEX;Study management;expected table control (one error at a time)
+BUG FIX;75581;APEX;Dataset management;Control NaN error
+BUG FIX;75598;APEX;Run management;automatic risk amount split
+BUG FIX;75651;APEX;Dataset management;Greyed-out of duration slicing in case of policy_duration in expected table
+BUG FIX;74917;APEX;Table definition;Insurance_age_attained
+BUG FIX;74920;APEX;Dataset management;Control 35 defect
+BUG FIX;75066;APEX;Run management;dimensions issues
+BUG FIX;75678;APEX;Run management;Loss ratio reinsurer is always greyed-out
+BUG FIX;75774;APEX;Run management;Controls of expected table selection
+BUG FIX;75824;APEX;Run management;Save run parameters (input dimensions)
+BUG FIX;75889;APEX;Table definition;Object error in table library

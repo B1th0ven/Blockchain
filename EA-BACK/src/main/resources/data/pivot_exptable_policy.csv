@@ -1,0 +1,25 @@
+Attribute;Attribute definition;Type;Mandatory;code / detail
+Data_Line;Data Line;numeric;no;
+Life_ID;Life ID;free text;yes;
+Policy_ID;Policy ID;free text;yes;
+Benefit_ID;Benefit ID;free text;yes;
+Duration_Year;Duration Year;numeric;yes;
+Base_Table_1_Rate;Base Table 1 Rate;numeric+;yes;>= 0
+Base_Table_1_Multiplier_1;Base Table 1 Multiplier 1;numeric+;yes;>= 0
+Base_Table_1_Multiplier_2;Base Table 1 Multiplier 2;numeric+;yes;>= 0
+Base_Table_1_Multiplier_3;Base Table 1 Multiplier 3;numeric+;yes;>= 0
+Base_Table_1_Multiplier_4;Base Table 1 Multiplier 4;numeric+;yes;>= 0
+Base_Table_1_Multiplier_5;Base Table 1 Multiplier 5;numeric+;yes;>= 0
+Base_Table_1_Multiplier_6;Base Table 1 Multiplier 6;numeric+;yes;>= 0
+Base_Table_1_Multiplier_7;Base Table 1 Multiplier 7;numeric+;yes;>= 0
+Base_Table_1_Multiplier_8;Base Table 1 Multiplier 8;numeric+;yes;>= 0
+Base_Table_1_Multiplier_9;Base Table 1 Multiplier 9;numeric+;yes;>= 0
+Base_Table_1_Multiplier_10;Base Table 1 Multiplier 10;numeric+;yes;>= 0
+Base_Table_1_Multiplier_11;Base Table 1 Multiplier 11;numeric+;yes;>= 0
+Base_Table_1_Multiplier_12;Base Table 1 Multiplier 12;numeric+;yes;>= 0
+Base_Table_1_Additive_1;Base Table 1 Additive 1;Numeric;yes;
+Base_Table_1_Additive_1_Mult;Base Table 1 Additive 1 Mult;Numeric+;yes;>= 0
+Base_Table_2_Rate;Base Table 2 Rate;Numeric+;yes;>= 0
+Base_Table_2_Multiplier_1;Base Table 2 Multiplier 1;Numeric+;yes;>= 0
+Base_Table_2_Multiplier_2;Base Table 2 Multiplier 2;Numeric+;yes;
+Base_Table_1_Weight_factor;Base Table 1 Weight factor;Numeric+;yes;>= 0 and <= 1

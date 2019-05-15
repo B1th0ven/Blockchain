@@ -1,0 +1,18 @@
+
+  <td (click)="showerror()" >{{control.order}}</td>
+  <td (click)="showerror()" class="small1 ">{{control.name}}</td>
+  <td (click)="showerror()" class="small2 text-justify ">{{control.description}}</td>
+  <td (click)="showerror()">{{control.category}}</td>
+  <td (click)="showerror()" class="text-capitalize">{{control.files[0]}}</td>
+  <td (click)="showerror()" >
+    <span *ngIf="control.valid">
+      <fa [name]="ds.icon(control.valid)"></fa>
+    </span>
+  </td>
+  <td (click)="showerror()">
+    <span *ngIf="control.running">
+      <fa name="circle-o-notch" animation="spin"></fa> Pending</span>
+    {{control.message}}
+    <fa *ngIf="control.errors >0 || control.notExecuted" name="chevron-down"></fa>
+
+  </td>

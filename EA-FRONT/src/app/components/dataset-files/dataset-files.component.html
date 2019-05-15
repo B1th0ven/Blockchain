@@ -1,0 +1,121 @@
+<div *ngIf="error&&!busy">
+  <div class="alert alert-danger">
+    <fa [name]="error.icon"></fa> {{error.message}}
+  </div>
+</div>
+
+<div *ngIf="!error&&!busy">
+
+  <div class="text-muted">
+
+    <div>
+      <table class="table border text-center">
+        <thead>
+          <tr class="font-size-sm text-secondary border-0">
+            <td class="border-0">File Type</td>
+            <td class="border-0">File Name</td>
+            <td class="border-0">Columns</td>
+            <!-- <td class="border-0">Empty Headers</td> -->
+            <td class="border-0">Missing Columns</td>
+            <td class="border-0">Duplicated Columns</td>
+            <td class="border-0">Unknown Columns</td>
+            <td class="border-0">Pivots</td>
+            <td class="border-0"></td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let f of dataset.files" class="text-small">
+
+
+            <td>
+              <b class="text-dark"> {{f.typename}} File</b>
+            </td>
+            <td>{{f.name}}</td>
+            <td>
+              <div *ngIf="f.columns" (click)="open(columns,'sm',f.columns)" class="btn btn-sm btn-link">
+                {{f.columns?.length}}
+
+              </div>
+            </td>
+            <!-- <td>
+                <div *ngIf="f.missing"  class="btn btn-sm btn-link">
+                  0
+  
+                </div>
+              </td> -->
+            <td>
+              <div *ngIf="f.missing" (click)="open(columns,'sm',f.missing)" class="btn btn-sm btn-link">
+                {{f.missing?.length}}
+
+              </div>
+            </td>
+             <td>
+                <div *ngIf="f.duplicated" (click)="open(columns,'sm',f.duplicated)" class="btn btn-sm btn-link">
+                  {{f.duplicated?.length}}
+  
+                </div>
+              </td>
+            <td>
+              <div *ngIf="f.ignored" (click)="open(columns,'sm',f.ignored)" class="btn btn-sm btn-link">
+                {{f.ignored?.length}}
+              </div>
+            </td>
+            <td>
+                <button (click)="download(f.typename)" class="btn btn-sm btn-link">
+                  <fa name="eye" size="lg"></fa>
+                </button>
+              </td>
+            <td class="text-right" [ngClass]="{'custom-disable':disabled}">
+              <fa [class]="'text-'+color(f.status)" *ngIf="f.status!='load'" size="lg" [name]="icon(f.status)"> </fa>
+              <fa [class]="'text-'+color(f.status)" *ngIf="f.status=='load'" size="lg" [name]="icon(f.status)" animation="spin"> </fa>
+              <button *ngIf="!dataset.hasReport()" [disabled]="!canBrowseSpec(f)" (click)="onSelectType(f.type);open(content,'lg')" class="btn btn-sm btn-link">
+                <fa name="cloud-upload" size="lg"></fa>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+  </div>
+
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <!-- Modal body -->
+  <div class="modal-header">
+    <div class="text-primary"> File Browser </div>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body fadeIn">
+    <app-filebrowser [study]="study" [struct]="modeName(dataset.mode)" [type]="selectedType" (metadata)="sendMetaData($event)" (fileLoadFail)="onFileLoadFail($event)" (fileLoading)="onFileLoading($event,content)"
+      (fileLoaded)="onFileLoaded($event)"></app-filebrowser>
+  </div>
+</ng-template>
+
+<ng-template #columns let-c="close" let-d="dismiss">
+  <!-- Modal body -->
+  <div class="modal-body fadeIn">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <td class="text-center">#</td>
+          <td>Column Name</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of popUpCols; let i = index">
+          <td class="text-center">{{i+1}} </td>
+          <td>{{c}} </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button type="button" class="btn btn-block btn-sm btn-danger" aria-label="Close" (click)="d('Cross click')">
+      Close
+    </button>
+  </div>
+</ng-template>

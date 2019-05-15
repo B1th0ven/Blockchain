@@ -1,0 +1,52 @@
+$color: lightgrey;
+$color-hover: gold;
+
+.subtext{
+    color:  rgb(87, 87, 87);
+}
+.subsubtext{
+    color: grey;
+    font-weight: lighter;
+}
+
+
+.n404{
+    font-weight: bolder;
+    font-size: 130px;
+    color: $color;
+}
+
+.back{
+    font-size: 70px;
+    border-radius:50%;
+    display: inline-block;
+    padding: 0;
+    position: relative;
+    width: 100px;
+    height: 100px;
+}
+
+
+.back fa{
+    color: $color;
+    width: max-content;
+    height: max-content;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    transition: color  0.2s;
+}
+
+.back fa:hover{
+    color: $color-hover;
+}
+
+.content{
+    position: relative;
+    margin-top: -300px;
+    min-height: 200px;
+    top: 50vh;
+}

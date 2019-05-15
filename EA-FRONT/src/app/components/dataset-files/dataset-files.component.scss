@@ -1,0 +1,18 @@
+.title h3 {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.dropdown-menu{
+    max-height: 150px;
+    overflow: auto;
+    z-index: 5000;
+}
+
+.dropdown fa{
+    cursor: pointer;
+}
+
+.nav-row{
+    color: grey;
+}

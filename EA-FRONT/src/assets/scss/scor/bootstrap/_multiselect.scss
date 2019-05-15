@@ -1,0 +1,54 @@
+.study-search-multiselect {
+  & h5{
+    font-size: 12px !important;
+  }
+  & .dropdown-btn {
+    border: 0 !important;
+    padding: 0 !important;
+    font-size: inherit !important;
+    & .dropdown-up,
+    .dropdown-down {
+      border-color: transparent !important;
+    }
+
+    & .selected-item{
+      padding: 0 2px !important;
+      border: 0 !important;
+      background: transparent !important;
+      color: $input-color !important;
+      font-weight: $input-font-weight !important;
+
+      & > a{
+        display: none !important;
+      }
+
+
+      &:hover{
+        border: 0 !important;
+        background: transparent !important;
+        color: $input-color !important;
+        box-shadow: 0 0 transparent !important;
+        -webkit-box-shadow: 0 0 transparent   !important;
+      }
+
+      transition: background-color 0.2s ease;
+      transition: color 0.2s ease;
+
+
+    }
+  }
+}
+
+.multiselect-item-checkbox input:checked + div:before {
+  background: #007090 !important;
+}
+
+.multiselect-item-checkbox input[type=checkbox] + div:before {
+  color: #007090 !important;;
+  border: 2px solid #007090 !important;
+}
+
+.filter-textbox>input{
+  padding: 0 !important;
+}
+

@@ -1,0 +1,288 @@
+<div class="wrapper container-fluid p-4">
+  <div class="mb-4" *ngxPermissionsOnly="['CREATOR','ADMIN']" >
+    <button class="btn btn-sm btn-primary pl-4 pr-4" (auxclick)="newTab(false,'create')" (click)="newTab(true,'create')">
+      <fa name="plus"></fa> Add
+    </button>
+  </div>
+
+  <div class="table-container table-main">
+    <table class="table table-bordered table-hover table-sm table-pointer">
+      <thead class="pointer">
+        <tr class="dataset-row text-secondary">
+            <td>
+                <div (click)="changeSortKey('code')">
+                  <span> Table Id</span>
+                  <span class="">
+                    <fa *ngIf="sortKey=='code'" [name]="sortIcon"></fa>
+                    <fa *ngIf="sortKey!='code'" name="sort" class="text-light"></fa>
+                  </span>
+                </div>
+                <div class="input-group input-group-sm">
+                    <input (keyup)="filter()" [(ngModel)]="query.code" type="text" id="search" class="form-control form-control-sm" placeholder="&#xF002;">
+                    <span *ngIf="query.code != ''"
+                          (click)="clearSearchField('code')"
+                          class="glyphicon glyphicon-remove form-control-feedback" 
+                          style="cursor: pointer; pointer-events: all;z-index: 910;">
+                      <fa name="close"></fa>
+                    </span>
+                </div>
+              </td>
+          <td class="btn-action">
+            <div (click)="changeSortKey('country')">
+              <span> Table Country</span>
+              <span class="">
+                <fa *ngIf="sortKey=='country'" [name]="sortIcon"></fa>
+                <fa *ngIf="sortKey!='country'" name="sort" class="text-light"></fa>
+              </span>
+            </div>
+            <div class="input-group input-group-sm">
+                <input (keyup)="filter()" [(ngModel)]="query.country" type="text" id="search" class="form-control form-control-sm" placeholder="&#xF002;">
+                <span *ngIf="query.country != ''"
+                      (click)="clearSearchField('country')"
+                      class="glyphicon glyphicon-remove form-control-feedback" 
+                      style="cursor: pointer; pointer-events: all;z-index: 910;">
+                  <fa name="close"></fa>
+                </span>
+            </div>
+          </td>
+          <td>
+              <div (click)="changeSortKey('decrement')">
+                <span> Decrement</span>
+                <span class="">
+                  <fa *ngIf="sortKey=='decrement'" [name]="sortIcon"></fa>
+                  <fa *ngIf="sortKey!='decrement'" name="sort" class="text-light"></fa>
+                </span>
+              </div>
+              <div class="input-group input-group-sm">
+                  <input (keyup)="filter()" [(ngModel)]="query.decrement" type="text" id="search" class="form-control form-control-sm" placeholder="&#xF002;">
+                  <span *ngIf="query.decrement != ''"
+                        (click)="clearSearchField('decrement')"
+                        class="glyphicon glyphicon-remove form-control-feedback" 
+                        style="cursor: pointer; pointer-events: all;z-index: 910;">
+                    <fa name="close"></fa>
+                  </span>
+              </div>
+            </td>
+            <td>
+                <div (click)="changeSortKey('type')">
+                  <span> Table Type</span>
+                  <span class="">
+                    <fa *ngIf="sortKey=='type'" [name]="sortIcon"></fa>
+                    <fa *ngIf="sortKey!='type'" name="sort" class="text-light"></fa>
+                  </span>
+                </div>
+                <div class="input-group input-group-sm">
+                    <input (keyup)="filter()" [(ngModel)]="query.type" type="text" id="search" class="form-control form-control-sm" placeholder="&#xF002;">
+                    <span *ngIf="query.type != ''"
+                          (click)="clearSearchField('type')"
+                          class="glyphicon glyphicon-remove form-control-feedback" 
+                          style="cursor: pointer; pointer-events: all;z-index: 910;">
+                      <fa name="close"></fa>
+                    </span>
+                </div>
+              </td>
+          <td>
+            <div (click)="changeSortKey('name')">
+              <span> Table Name</span>
+              <span class="">
+                <fa *ngIf="sortKey=='name'" [name]="sortIcon"></fa>
+                <fa *ngIf="sortKey!='name'" name="sort" class="text-light"></fa>
+              </span>
+            </div>
+            <div class="input-group input-group-sm">
+                <input (keyup)="filter()" [(ngModel)]="query.name" type="text" id="search" class="form-control form-control-sm" placeholder="&#xF002;">
+                <span *ngIf="query.name != ''"
+                      (click)="clearSearchField('name')"
+                      class="glyphicon glyphicon-remove form-control-feedback" 
+                      style="cursor: pointer; pointer-events: all;z-index: 910;">
+                  <fa name="close"></fa>
+                </span>
+            </div>
+          </td>
+          
+          <td>
+            <div (click)="changeSortKey('version')">
+              <span> Table Version</span>
+              <span class="">
+                <fa *ngIf="sortKey=='version'" [name]="sortIcon"></fa>
+                <fa *ngIf="sortKey!='version'" name="sort" class="text-light"></fa>
+              </span>
+            </div>
+            <div class="input-group input-group-sm">
+                <input (keyup)="filter()" [(ngModel)]="query.version" type="text" id="search" class="form-control form-control-sm" placeholder="&#xF002;">
+                <span *ngIf="query.version != ''"
+                      (click)="clearSearchField('version')"
+                      class="glyphicon glyphicon-remove form-control-feedback" 
+                      style="cursor: pointer; pointer-events: all;z-index: 910;">
+                  <fa name="close"></fa>
+                </span>
+            </div>
+          </td>
+          
+          
+
+          <td>
+            <div (click)="changeSortKey('origin')">
+              <span> Table Origin</span>
+              <span class="">
+                <fa *ngIf="sortKey=='origin'" [name]="sortIcon"></fa>
+                <fa *ngIf="sortKey!='origin'" name="sort" class="text-light"></fa>
+              </span>
+            </div>
+            <div class="input-group input-group-sm">
+                <input (keyup)="filter()" [(ngModel)]="query.origin" type="text" id="search" class="form-control form-control-sm" placeholder="&#xF002;">
+                <span *ngIf="query.origin != ''"
+                      (click)="clearSearchField('origin')"
+                      class="glyphicon glyphicon-remove form-control-feedback" 
+                      style="cursor: pointer; pointer-events: all;z-index: 910;">
+                  <fa name="close"></fa>
+                </span>
+            </div>
+          </td>
+
+          <td>
+            <div (click)="changeSortKey('application',true)">
+              <span> Application Year</span>
+              <span class="">
+                <fa *ngIf="sortKey=='application'" [name]="sortIcon"></fa>
+                <fa *ngIf="sortKey!='application'" name="sort" class="text-light"></fa>
+              </span>
+            </div>
+            <div class="input-group input-group-sm">
+                <input (keyup)="filter()" [(ngModel)]="query.application" type="text" id="search" class="form-control form-control-sm" placeholder="&#xF002;">
+                <span *ngIf="query.application != ''"
+                      (click)="clearSearchField('application')"
+                      class="glyphicon glyphicon-remove form-control-feedback" 
+                      style="cursor: pointer; pointer-events: all;z-index: 910;">
+                  <fa name="close"></fa>
+                </span>
+            </div>
+          </td>
+
+          <td>
+            <div (click)="changeSortKey('publication',true)">
+              <span> Publication Year</span>
+              <span class="">
+                <fa *ngIf="sortKey=='publication'" [name]="sortIcon"></fa>
+                <fa *ngIf="sortKey!='publication'" name="sort" class="text-light"></fa>
+              </span>
+            </div>
+            <div class="input-group input-group-sm">
+                <input (keyup)="filter()" [(ngModel)]="query.publication" type="text" id="search" class="form-control form-control-sm" placeholder="&#xF002;">
+                <span *ngIf="query.publication != ''"
+                      (click)="clearSearchField('publication')"
+                      class="glyphicon glyphicon-remove form-control-feedback" 
+                      style="cursor: pointer; pointer-events: all;z-index: 910;">
+                  <fa name="close"></fa>
+                </span>
+            </div>
+          </td>
+
+
+          <td>
+            <div (click)="changeSortKey('source')">
+              <span> Table Source</span>
+              <span class="">
+                <fa *ngIf="sortKey=='source'" [name]="sortIcon"></fa>
+                <fa *ngIf="sortKey!='source'" name="sort" class="text-light"></fa>
+              </span>
+            </div>
+            <div class="input-group input-group-sm">
+                <input (keyup)="filter()" [(ngModel)]="query.source" type="text" id="search" class="form-control form-control-sm" placeholder="&#xF002;">
+                <span *ngIf="query.source != ''"
+                      (click)="clearSearchField('source')"
+                      class="glyphicon glyphicon-remove form-control-feedback" 
+                      style="cursor: pointer; pointer-events: all;z-index: 910;">
+                  <fa name="close"></fa>
+                </span>
+            </div>
+          </td>
+
+          <td>
+              <div (click)="changeSortKey('creation_date',true)">
+                <span> Creation Date</span>
+                <span class="">
+                  <fa *ngIf="sortKey=='creation_date'" [name]="sortIcon"></fa>
+                  <fa *ngIf="sortKey!='creation_date'" name="sort" class="text-light"></fa>
+                </span>
+              </div>
+              <div class="input-group input-group-sm">
+                  <input (keyup)="filter()" [(ngModel)]="query.creation_date" type="text" id="search" class="form-control form-control-sm" placeholder="&#xF002;">
+                  <span *ngIf="query.creation_date != ''"
+                        (click)="clearSearchField('creation_date')"
+                        class="glyphicon glyphicon-remove form-control-feedback" 
+                        style="cursor: pointer; pointer-events: all;z-index: 910;">
+                    <fa name="close"></fa>
+                  </span>
+              </div>
+            </td>
+
+        </tr>
+
+      </thead>
+
+
+      <tbody *ngIf="!busy">
+        <tr class="fadeInBottom text-center" *ngFor="let t of tables; let i = index" (auxclick)="newTab(false,'modify',t)" (click)="newTab(true,'modify',t)" [class.grayed]="grayed(t)">
+          <!-- {{t | json}} -->
+            <td [ngbTooltip]="t.code" container="body">{{t.code  | stringLimit }}</td>
+          <td [ngbTooltip]="t.country['rcName']" container="body"><span *ngIf="t.country">{{t.country['rcName']  | stringLimit }}</span> </td>
+          <td [ngbTooltip]="t.decrement" container="body">{{ t.decrement  | stringLimit}}</td>
+          <td [ngbTooltip]="t.type" container="body">{{t.type | stringLimit}}</td>
+          <td [ngbTooltip]="t.name" container="body">{{t.name  | stringLimit }}</td>
+          <td [ngbTooltip]="t.version" container="body"> {{t.version}}
+              <span class="badge badge-success ml-2" *ngIf="t.latest_version">LATEST</span>
+              <!-- <span class="badge badge-secondary ml-2" *ngIf="!t.latest_version"> OLD </span> -->
+           </td>
+          
+          
+          <td [ngbTooltip]="t.origin" container="body">{{t.origin  | stringLimit}}</td>
+          <td [ngbTooltip]="t.application_year" container="body">{{t.application_year  | stringLimit}}</td>
+          <td [ngbTooltip]="t.publication_year" container="body">{{ t.publication_year  | stringLimit}}</td>
+          <td [ngbTooltip]="t.source" container="body">{{t.source | stringLimit}}</td>
+          <!-- <td [ngbTooltip]="t.creation_date" container="body">{{formatDateString(t.creation_date)  | stringLimit }}</td> -->
+          <td [ngbTooltip]="t.creation_date" container="body">{{t.creation_date.toString()  | stringLimit }}</td>
+
+        </tr>
+      </tbody>
+
+      <tbody *ngIf="busy || err">
+        <tr>
+          <td colspan="11" class="td-middle bg-light">
+            <div class="text-muted" *ngIf="busy">
+              <fa name="circle-o-notch" animation="spin"></fa> Loading...
+            </div>
+            <div class="text-danger" *ngIf="err">
+              <span class="text-primary" (click)="init()">
+                <fa name="repeat"></fa>
+                <br>
+              </span>
+              {{err}}
+            </div>
+          </td>
+        </tr>
+      </tbody>
+
+      <tbody *ngIf="!busy&&!err&&tables&&tables.length==0">
+        <tr>
+          <td colspan="11" class="td-middle bg-light">
+            No tables found
+          </td>
+        </tr>
+      </tbody>
+
+
+    </table>
+
+  </div>
+
+  <div class="row justify-content-center" *ngIf="tables!=null&&tables.length>0">
+      <app-pagination
+      [selected]="selectedpage"
+      [totalPages]="totalpages"
+      (onSelected) = "onSelectPage($event)"
+      (onSizeSelected) = "onSelectPageSize($event)"
+      ></app-pagination>
+  </div>
+
+</div>

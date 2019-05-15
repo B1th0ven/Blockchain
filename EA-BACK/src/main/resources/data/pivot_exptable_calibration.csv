@@ -1,0 +1,22 @@
+Attribute;Attribute  Definition;Type;Mandatory;code / detail
+Table_Name;Name of expected basis;Free text;yes;
+Policy_Table_ID;ID of corresponding expected table in policy format;code;yes;
+Trend_Table_ID;ID of corresponding trend table;code;no;
+IBNR_allocation_basis;Indicator of expected basis forming the basis for allocation of IBNR amounts;code;yes;Yes/No
+Base_Table_1_Multiplier_1_Indic;Indicator if Base Table 1 Multiple 1 is included in expected basis;code;yes;Yes/No
+Base_Table_1_Multiplier_2_Indic;Indicator if Base Table 1 Multiple 2 is included in expected basis;code;yes;Yes/No
+Base_Table_1_Multiplier_3_Indic;Indicator if Base Table 1 Multiple 3 is included in expected basis;code;yes;Yes/No
+Base_Table_1_Multiplier_4_Indic;Indicator if Base Table 1 Multiple 4 is included in expected basis;code;yes;Yes/No
+Base_Table_1_Multiplier_5_Indic;Indicator if Base Table 1 Multiple 5 is included in expected basis;code;yes;Yes/No
+Base_Table_1_Multiplier_6_Indic;Indicator if Base Table 1 Multiple 6 is included in expected basis;code;yes;Yes/No
+Base_Table_1_Multiplier_7_Indic;Indicator if Base Table 1 Multiple 7 is included in expected basis;code;yes;Yes/No
+Base_Table_1_Multiplier_8_Indic;Indicator if Base Table 1 Multiple 8 is included in expected basis;code;yes;Yes/No
+Base_Table_1_Multiplier_9_Indic;Indicator if Base Table 1 Multiple 9 is included in expected basis;code;yes;Yes/No
+Base_Table_1_Multiplier_10_Indic;Indicator if Base Table 1 Multiple 10 is included in expected basis;code;yes;Yes/No
+Base_Table_1_Multiplier_11_Indic;Indicator if Base Table 1 Multiple 11 is included in expected basis;code;yes;Yes/No
+Base_Table_1_Multiplier_12_Indic;Indicator if Base Table 1 Multiple 12 is included in expected basis;code;yes;Yes/No
+Base_Table_1_Add_1_Indic;Indicator if Base Table 1 Additive 1 is included in expected basis;code;yes;Yes/No
+Base_Table_1_Add_1_Mult_Indic;Indicator if Base Table 1 Additive 1 is included in expected basis;code;yes;Yes/No
+Base_Table_2_Multiplier_1_Indic;Indicator if Base Table 2 Multiple 1 is included in expected basis;code;yes;Yes/No
+Base_Table_2_Multiplier_2_Indic;Indicator if Base Table 2 Multiple 2 is included in expected basis;code;yes;Yes/No
+Base_Table_1_Weight_factor_Indic;Indicator if Base Table 1 Weight factor is included in expected basis;code;yes;Yes/No

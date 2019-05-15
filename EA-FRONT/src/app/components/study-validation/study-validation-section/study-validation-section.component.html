@@ -1,0 +1,168 @@
+<div class="text-primary form-header mb-3 font-weight-bold mt-3">
+  Study Validation
+</div>
+<hr class="mt-0 opacity-half">
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header text-primary font-size-sm font-weight-bold">Master Run Selection</div>
+      <div class="card-body border-bottom-2">
+
+        <!-- q(x) -->
+        <div class="row mb-3">
+          <div class="col-md-3  text-right">
+            <label class="col-form-label col-form-label-sm">q(x)</label>
+          </div>
+          <div class="col-md-5">
+            <div class="input-group input-group-sm">
+              <select class="form-control form-control-sm" [disabled]="!editable || validated || isIxQxSelected" (change)="manageQxIx('qx');updateOptions(1)" [(ngModel)]="selectedQx" [ngClass]="{'is-invalid':warnings.qx}">
+                <option value="" selected></option>
+                <option [value]="run.id" *ngFor="let run of qxL"> {{run.name}} </option>
+              </select>
+              <div class="input-group-append dropdown-append">
+                <button class="btn btn-primary" [disabled]="!editable || validated || isIxQxSelected" type="button">
+                  <fa name="chevron-down"></fa>
+                </button>
+              </div>
+            </div>
+
+            <!-- WARNING START-->
+            <div class="mt-2" *ngIf="warnings.qx">
+              <div class="alert bg-light text-danger font-size-sm mb-0">
+                <div *ngFor="let m of warnings.qx">
+                  {{ m }}
+                </div>
+              </div>
+            </div>
+            <!-- WARNING END-->
+
+          </div>
+
+
+        </div>
+
+        <!-- i(x) -->
+        <div class="row mb-3">
+          <div class="col-md-3  text-right">
+            <label class="col-form-label col-form-label-sm">i(x)</label>
+          </div>
+          <div class="col-md-5">
+            <div class="input-group input-group-sm">
+              <select class="form-control form-control-sm" [disabled]="!editable || validated || isIxQxSelected"  (change)="manageQxIx('ix');updateOptions(2)" [(ngModel)]="selectedIx" [ngClass]="{'is-invalid':warnings.ix}">
+                <option value="" selected></option>
+                <option [value]="run.id" *ngFor="let run of ixL"> {{run.name}} </option>
+              </select>
+              <div class="input-group-append dropdown-append">
+                <button class="btn btn-primary" [disabled]="!editable || validated || isIxQxSelected" type="button">
+                  <fa name="chevron-down"></fa>
+                </button>
+              </div>
+            </div>
+
+            <!-- WARNING START-->
+            <div class="mt-2" *ngIf="warnings.ix">
+                <div class="alert bg-light text-danger font-size-sm mb-0">
+                  <div *ngFor="let m of warnings.ix">
+                    {{ m }}
+                  </div>
+                </div>
+              </div>
+              <!-- WARNING END-->
+
+          </div>
+        </div>
+
+        <!-- w(x) -->
+        <div class="row mb-3">
+          <div class="col-md-3  text-right">
+            <label class="col-form-label col-form-label-sm">w(x)</label>
+          </div>
+          <div class="col-md-5">
+            <div class="input-group input-group-sm">
+              <select class="form-control form-control-sm" [disabled]="!editable || validated"  (change)="updateOptions(3)" [(ngModel)]="selectedWx" [ngClass]="{'is-invalid':warnings.wx}">
+                <option value="" selected></option>
+                <option [value]="run.id" *ngFor="let run of wxL"> {{run.name}} </option>
+              </select>
+              <div class="input-group-append dropdown-append">
+                <button class="btn btn-primary" [disabled]="!editable || validated" type="button">
+                  <fa name="chevron-down"></fa>
+                </button>
+              </div>
+            </div>
+
+            <!-- WARNING START-->
+            <div class="mt-2" *ngIf="warnings.wx">
+                <div class="alert bg-light text-danger font-size-sm mb-0">
+                  <div *ngFor="let m of warnings.wx">
+                    {{ m }}
+                  </div>
+                </div>
+              </div>
+              <!-- WARNING END-->
+
+          </div>
+
+        </div>
+         <!-- i(x) + q(x) -->
+         <div class="row mb-3">
+          <div class="col-md-3  text-right">
+            <label class="col-form-label col-form-label-sm">i(x) + q(x)</label>
+          </div>
+          <div class="col-md-5">
+            <div class="input-group input-group-sm">
+              <select class="form-control form-control-sm" [disabled]="!editable || validated || isIxouQxSelected"  (change)="manageQxIx('ix+qx');updateOptions(4)" [(ngModel)]="selectedIxQx" [ngClass]="{'is-invalid':warnings.ixqx}">
+                <option value="" selected></option>
+                <option [value]="run.id" *ngFor="let run of ixqxL"> {{run.name}} </option>
+              </select>
+              <div class="input-group-append dropdown-append">
+                <button class="btn btn-primary" [disabled]="!editable || validated || isIxouQxSelected" type="button">
+                  <fa name="chevron-down"></fa>
+                </button>
+              </div>
+            </div>
+
+            <!-- WARNING START-->
+            <div class="mt-2" *ngIf="warnings.ixqx">
+                <div class="alert bg-light text-danger font-size-sm mb-0">
+                  <div *ngFor="let m of warnings.ixqx">
+                    {{ m }}
+                  </div>
+                </div>
+              </div>
+              <!-- WARNING END-->
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card" style="height: 100%;">
+      <div class="card-header text-primary font-size-sm font-weight-bold">Retained Runs Selection</div>
+      <div class="card-body border-bottom-2">
+
+        <div class="row mb-5">
+          <div class="col-md-3  text-right" [ngbTooltip]="hs.getDetail(screen,'Additional Runs Retained')">
+            <label class="col-form-label col-form-label-sm">Additional Runs Retained</label>
+          </div>
+          <div class="col-md-5" [ngClass]="{'custom-disable':!editable || validated}">
+            <app-dropdown [(model)]="selectedRetained" [singleSelection]="false" [items]="retainedL" [idField]="'id'" [textField]="'name'"></app-dropdown>
+           </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="custom-control custom-checkbox">
+            <div class="col-12">
+              <input type="checkbox" [disabled]="!editable || validated"  class="custom-control-input mt-1 mr-1" id="validation-{{comp_num}}" [checked]="deleteUnused" (change)="datasetDeleteChange()">
+              <label class="custom-control-label col-form-label col-form-label-sm mt-0 ml-2" for="validation-{{comp_num}}">Delete unused Dataset</label>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>

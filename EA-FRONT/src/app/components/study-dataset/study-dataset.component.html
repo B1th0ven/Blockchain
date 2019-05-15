@@ -1,0 +1,62 @@
+<ul class="nav nav-tabs inner mt-3">
+  <li class="nav-item">
+    <a  (click)="activeTab=1" class="nav-link" [ngClass]="{'active':activeTab==1}" >Dataset Information</a>
+  </li>
+  <li class="nav-item" [ngClass]="{'custom-disable':!canEdit() && canReadControls()}">
+      <a (click)="openControlTab()" class="nav-link" [ngClass]="{'disabled':!ds.canDoControl(dataset.files),'active':activeTab==2&&ds.canDoControl(dataset.files)}" >Dataset Control</a>
+    </li>
+</ul>
+
+<div class="tab-content">
+
+  <div  class="tab-pane container-fluid" [ngClass]="{'active':activeTab==1}"  id="create" >
+      <app-study-dataset-create (save)="updateDataset($event)" [doneControls]="doneControls"  [study]="study" [datasets]="datasets" [dataset]="dataset" [isDatasetAssociatedToRun]="isDatasetAssociatedToRun"></app-study-dataset-create>
+
+      <div class="row mb-4 mt-2">
+          <div class="col-12">
+            <div class="pull-right">
+                <button class="btn btn-sm btn-danger mr-1" style="min-width: 150px;" (click)="openDeletePopUp(content)" [disabled]="!dataset.id || !canEdit() || isDatasetAssociatedToRun" *ngIf="dataset.id&&!dataset.changed">
+                    <span>Delete Dataset</span>
+                </button>
+
+                <button class="btn btn-sm btn-primary" style="min-width: 150px;" (click)="openControlTab(true)" [disabled]="!ds.canDoControl(dataset.files)|| !canEdit()" *ngIf="dataset.id&&!dataset.changed">
+                  <span *ngIf="dataset.hasReport()">View Report</span>
+                  <span *ngIf="!dataset.hasReport()">Execute controls</span>
+                  </button>
+            </div>
+          </div>
+        </div>
+
+    </div>
+
+    <div  class="tab-pane container-fluid" [ngClass]="{'active':activeTab==2}"  id="control">
+      <app-dataset-control [tabNbr]="tabNbr" [study]="study" [dataset]="dataset" (done)="loadProgression($event)" (continue)="onContinueControl($event)"></app-dataset-control>
+    </div>
+</div>
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <div class="row">
+        <div class="col-md-12">
+          <b class="text-primary font-weight-boldest">
+            Warning
+          </b>
+        </div>
+      </div>
+    </div>
+    <div class="modal-body text-center row">
+        <div class="col-md-1"></div>
+        <div class="col-md-1">
+            <fa name="trash fa-3x" class="text-danger"></fa>
+        </div>
+        <div class="col-md-9 align-middle">
+            <p class="font-weight-normal mt-2">Do you really want to delete the dataset ?</p>
+       </div>
+        <div class="col-md-1"></div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="confirmD(c)">Yes</button>
+      <button type="button" class="btn btn-light" (click)="c('Close click')">No</button>
+    </div>
+  </ng-template>

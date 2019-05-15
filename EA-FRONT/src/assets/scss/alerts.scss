@@ -1,0 +1,16 @@
+@import "scor/_variables";
+
+.alert{
+  & .alert-icon, .alert-text{
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  & .alert-icon{
+    font-size: 25px;
+  }
+
+  & .alert-text{
+    margin-left: 10px; 
+  }
+}

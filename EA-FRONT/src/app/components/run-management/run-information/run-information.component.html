@@ -1,0 +1,86 @@
+<div class="row" [ngClass]="{'custom-disable':!run.run_calc}">
+
+  <!-- <div class="col-12">
+    <div class="text-primary font-weight-bold form-header mb-4">Run Information</div>
+    <hr class="border-top border-primary mb-4 mt-2 opacity-half">
+  </div> -->
+
+  <div class="col-md-12">
+
+    <div>
+      <div class="row font-size-sm run-info">
+        <div class="col-lg-2">
+          <div class="row border border-{{getColors(getRunStatus(run.run_calc?.rclcStatus,run.run_calc?.rclcStatusEa))}}">
+            <div class="col-4">
+              <b>
+                <fa name="circle" class="text-light" style="position:absolute"></fa>
+                <fa name="circle" class="mr-1 status" [ngClass]="'text-'+getColors(getRunStatus(run.run_calc?.rclcStatus,run.run_calc?.rclcStatusEa))"></fa> Status</b>
+            </div>
+            <div class="col-8 text-right"  [ngbTooltip]="getRunStatus(run.run_calc?.rclcStatus,run.run_calc?.rclcStatusEa)">{{getRunStatus(run.run_calc?.rclcStatus,run.run_calc?.rclcStatusEa) | stringLimit : 30}}</div>
+          </div>
+        </div>
+        <!-- <div class="col-lg-3">
+            <div class="row border border-{{getColorEa()}}">
+              <div class="col-6">
+                <b>
+                  <fa name="circle" class="text-light" style="position:absolute"></fa>
+                  <fa name="circle" class="mr-1 status" [ngClass]="'text-'+getColorEa()"></fa> Status EA</b>
+              </div>
+              <div class="col-6 text-right"  [ngbTooltip]="run.run_calc?.rclcStatusEa">{{run.run_calc?.rclcStatusEa | stringLimit : 20}}</div>
+            </div>
+          </div> -->
+          
+        <div class="col-lg-3">
+          <div class="row">
+            <div class="col-6">
+              <b>
+                <fa class="mr-1" name="clock-o"></fa> Launched at </b>
+            </div>
+            <div class="col-6 text-right">{{ getDate(run.run_calc?.rclcStartDate) | date : 'dd/MM/yyyy HH:mm:ss'}}</div>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="row">
+            <div class="col-6">
+              <b>
+                <fa class="mr-1" name="clock-o"></fa> Ended at </b>
+            </div>
+            <div class="col-6 text-right"> {{ getDate(run.run_calc?.rclcEndDate) | date : 'dd/MM/yyyy HH:mm:ss' }} </div>
+          </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="row">
+              <div class="col-5">
+                <b>
+                  <fa class="mr-1" name="info"></fa> Description</b>
+              </div>
+              <div class="col-7 text-right" [ngbTooltip]="run.run_calc?.rclcDescription" > {{run.run_calc?.rclcDescription| stringLimit : 24}}</div>
+            </div>
+          </div>
+        
+          <div class="col-lg-1">
+              <div class="row">
+                <div class="col-6">
+                  <b>Version</b>
+                </div>
+                <div class="col-6 text-right">{{run.run_calc?.rclcVersion}}</div>
+              </div>
+            </div>
+      </div>
+      <!-- <div class="row font-size-sm run-info">
+        
+          <div class="col-lg-3">
+              <div class="row">
+                <div class="col-5">
+                  <b>
+                    <fa class="mr-1" name="info"></fa> Description</b>
+                </div>
+                <div class="col-7 text-right" [ngbTooltip]="run.run_calc?.rclcDescription" > {{run.run_calc?.rclcDescription| stringLimit : 20}}</div>
+              </div>
+            </div>
+      </div> -->
+    </div>
+
+  </div>
+  <div class="col-md-6"></div>
+</div>

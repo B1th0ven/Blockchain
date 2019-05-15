@@ -1,0 +1,138 @@
+<div class="row first-row">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-12">
+        <!--
+                <div class="text-muted" *ngIf="type"><b class="text-capitalize">{{type}}</b> file</div>
+                <div class="text-muted" *ngIf="type"><b class="text-capitalize">{{struct}}</b> Structure</div>
+                -->
+        <div class="form-group">
+          <input [autofocus]="true" [(ngModel)]="query" type="text" id="search" class="form-control" placeholder="&#xF002;">
+        </div>
+      </div>
+
+      <div class="col-12">
+          <div class="row">
+              <div class="col-3" *ngIf="selectedFile && selectedFile.userFile">
+                  <div class="text-muted" *ngIf="copying"><fa name="spinner" animation="spin"></fa>Attaching File to Study...</div>
+                  <button class="btn btn-sm btn-info btn-outline-primary font-weight-bold" *ngIf="!copying" (click)="attachUserFileToStudy()">Attach  &nbsp;
+                    <fa name="file"></fa>
+                  </button>
+  
+              </div>
+            <div [class]="'col-'+getColsNumber()">
+                <app-fileupload [studyID]="study.id" [fileType]="type" (fileUploading)="selectedFile = undefined" (fileUploaded)="onFileUploaded($event)"></app-fileupload>
+  
+            </div>
+             
+          </div>
+      </div>
+    </div>
+
+    <div *ngIf="!files&&!loading&&!errMsg" class="text-muted">
+      No data found
+    </div>
+    <div *ngIf="loading" class="text-center text-muted">
+      <fa name="circle-o-notch" animation="spin"></fa>
+    </div>
+
+    <div *ngIf="files" class="file-list">
+      <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-4 mb" *ngFor="let f of files  | filesFilter:query ;let i=index">
+          <div class="file-container slideInRight" [ngClass]="{'active':isSelected(f.path)}" (click)="selectFile(f,directory,i)">
+            <div style="display: inline-block">
+              <fa class="text-info file-icon" *ngIf="f.userFile" size="1x" name="user-secret"></fa>
+              <fa class="text-success file-icon" *ngIf="!f.userFile"  name="file"></fa>
+              <div class="file-info">
+                <span class="file-name font-weight-bold">{{shortName(f.name,25)}}</span>
+                <br>
+                <span class="file-type font-weight-light">
+                  <small>.{{f.type}}</small>
+                </span>
+              </div>
+            </div>
+            <div class="float-right" style="z-index:900;" (click)="deleteFile(f.name,f.path)">
+              <div class="file-close">
+                <fa name="close"></fa>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-12 file-section">
+
+    <div *ngIf="loadingFileInfo" class=" text-center text-muted">
+      <fa name="circle-o-notch" animation="spin"></fa>
+    </div>
+
+    <div class="file-selected" *ngIf="selectedFile&&!loadingFileInfo">
+      <div class="form-group">
+        <div class="input-group input-group-sm">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <fa name="folder-open-o"></fa>
+            </div>
+          </div>
+          <input class="form-control" disabled [value]="selectedFile.path">
+        </div>
+      </div>
+      <div>
+        <div *ngIf="selectedFile.worksheets.length > 0" class="form-group row">
+          <div class="input-group input-group-sm col-md-12">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                <fa name="copy"></fa>
+              </div>
+            </div>
+            <select class="form-control">
+              <option *ngFor="let op of selectedFile.worksheets">{{op}}</option>
+            </select>
+          </div>
+          <small class=" col-md-12 text-muted">*Please select a worksheet for the Excel file.</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+
+<div *ngIf="errMsg" class="alert alert-info">
+  {{errMsg}}.
+  <a href="" class="link" (click)="reLoadFiles($event)">Retry</a>
+</div>
+
+<div class="row" *ngIf="type == 'policy'">
+    <div class="col-md-10">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" [(ngModel)]="isPrivacyChecked" id="bca-privacy-popup-{{CompNO}}" (change)="privacyCheckChanged()">
+        <label class="custom-control-label col-form-label-sm " for="bca-privacy-popup-{{CompNO}}">Herewith i confirm that data uploaded is conform with SCOR anonymization Guideline</label>
+      </div>
+    </div>
+  </div> 
+
+   <div class="row" *ngIf="isPrivacyChecked">
+    <ul  style="list-style-type:none">
+      <li>
+          <label class="small">User Name : {{privacySubmitter?.name?.toUpperCase()}} {{privacySubmitter?.lastname?.toUpperCase()}}</label>
+      </li>
+      <li>
+          <label class="small">Date : {{date}}</label>
+
+      </li>
+      <li>
+          <label class="small">Time : {{time}}</label>
+
+      </li>
+    </ul>
+
+  </div> 
+
+<div *ngIf="type">
+  <button (click)="confirm($event)" class="btn btn-block btn-primary" data-dismiss="modal" [disabled]="!selectedFile || (!isPrivacyChecked && type == 'policy' )" [ngClass]="{'disabled': !selectedFile || (!isPrivacyChecked&& type == 'policy')}">
+    <fa name="check"></fa> Select
+  </button>
+</div>

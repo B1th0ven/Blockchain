@@ -1,0 +1,11 @@
+<div class="input-group input-group-sm" *ngIf="settings">
+  <ng-multiselect-dropdown [class]="inputClass" [(ngModel)]="model" (ngModelChange)="this.modelChange.emit(this.model)" [data]="items"
+    [settings]="settings" (onDeSelect)="DeSelect($event)" (onSelect)="Select($event)" (onDeSelectAll)="DeSelectAll($event)"
+    (onSelectAll)="SelectAll($event)">
+  </ng-multiselect-dropdown>
+  <div class="input-group-append dropdown-append">
+    <button [class]="btnClass" type="button">
+      <fa name="chevron-down"></fa>
+    </button>
+  </div>
+</div>

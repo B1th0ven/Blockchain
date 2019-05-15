@@ -1,0 +1,170 @@
+<div class="row mb-4 ml-2">
+  <div class="col-4">
+    <div class="row">
+      <div class="text-primary form-header mb-3 font-weight-bold">
+        Run parametrization
+      </div>
+      <hr class="mt-0 opacity-half">
+    </div>
+    <div class="row">
+      <button class="btn btn-sm btn-primary pl-4 pr-4" *ngIf="!isSaveLoading()" [disabled]="!editable||loading" (click)="saveChanges()">
+        <fa name="save"></fa>&nbsp;Save
+      </button>
+      <fa name="circle-o-notch" animation="spin" *ngIf="isSaveLoading()">Loading...</fa>
+    </div>
+
+  </div>
+  <div class="col-4 offset-md-4">
+    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+      <h4 class="alert-heading">Notice</h4>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <ul>
+        <li>A Producer can read, modify and validate the study.</li>
+        <li>A Reviewer can read the study at any time.</li>
+        <li>A Private Client can read the study once it is validated.</li>
+        <li>Other users have no access to the study.</li>
+      </ul>
+      <hr>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="table-container table-main" style="overflow-y: visible;">
+  <table class="table table-striped table-bordered table-hover table-sm table-pointer text-center">
+    <thead class="font-weight-normal pointer">
+      <tr class="dataset-row  text-secondary">
+        <td class="btn-action">
+          <div>User <fa name="sort" class="text-light" (click)="sort('user')"></fa>
+          </div>
+          <input type="text" (keyup)="filter()" [(ngModel)]="query.user" id="search" class="form-control form-control-sm"
+            placeholder="&#xF002;">
+        </td>
+
+        <td class="btn-action">
+          <div [ngbTooltip]="hs.getDetail(screen,'General Profile')">General Profile <fa name="sort" class="text-light" (click)="sort('gp')"></fa>
+          </div>
+          <input type="text" (keyup)="filter()" [(ngModel)]="query.gp" id="search" class="form-control form-control-sm"
+            placeholder="&#xF002;">
+        </td>
+        <td class="btn-action">
+          <div>Function <fa name="sort" class="text-light" (click)="sort('func')"></fa>
+          </div>
+          <input type="text" (keyup)="filter()" [(ngModel)]="query.func" id="search" class="form-control form-control-sm"
+            placeholder="&#xF002;">
+        </td>
+        <td class="btn-action">
+          <div>Scope <fa name="sort" class="text-light" (click)="sort('scope')"></fa>
+          </div>
+          <input type="text" (keyup)="filter()" [(ngModel)]="query.scope" id="search" class="form-control form-control-sm"
+            placeholder="&#xF002;">
+        </td>
+        <td class="btn-action">
+          <div>Scope Type <fa name="sort" class="text-light" (click)="sort('scopetype')"></fa>
+          </div>
+          <input type="text" (keyup)="filter()" [(ngModel)]="query.scopetype" id="search" class="form-control form-control-sm"
+            placeholder="&#xF002;">
+        </td>
+        <td class="btn-action">
+          <div>Study Profile <fa name="sort" class="text-light" (click)="sort('sp')"></fa>
+          </div>
+          <input type="text" (keyup)="filter()" [(ngModel)]="query.sp" id="search" class="form-control form-control-sm"
+            placeholder="&#xF002;">
+        </td>
+        <td class="btn-action">
+          <div [ngbTooltip]="hs.getDetail(screen,'Exception')">Exception<fa name="sort" class="text-light"></fa>
+          </div>
+          <!-- <input type="text"  id="search" class="form-control form-control-sm" placeholder="&#xF002;"> -->
+          <div class="input-group input-group-sm" *ngIf="dropdownSettings&&values">
+            <ng-multiselect-dropdown class="form-control form-control-sm study-search-multiselect" [(ngModel)]="selectedValues"
+              [data]="values" [settings]="dropdownSettings" (onDeSelect)="filter($event)" (onSelect)="filter($event)"
+              (onDeSelectAll)="filter($event)" (onSelectAll)="filter($event)">
+            </ng-multiselect-dropdown>
+            <div class="input-group-append dropdown-append">
+              <button class="btn btn-primary text-white" type="button">
+                <fa name="chevron-down"></fa>
+              </button>
+            </div>
+          </div>
+        </td>
+
+      </tr>
+    </thead>
+
+
+    <tbody *ngIf="!loading&&users.length>0">
+
+      <tr *ngFor="let user of users,let i=index" class="middle-content">
+        <td *ngIf="user.user.id">{{ user.user.name +" "+ user.user.lastname }}</td>
+        <td *ngIf="!user.user.id">
+          <div class="input-group input-group-sm">
+            <select class="form-control form-control-sm" [(ngModel)]="selecteduser" (ngModelChange)="newExcep($event,i)">
+              <option value="" selected></option>
+              <option *ngFor="let u of allUsers" [value]="u.id">{{u.name +" "+ u.lastname}}</option>
+            </select>
+            <div class="input-group-append dropdown-append">
+              <button class="btn btn-primary" type="button">
+                <fa name="chevron-down"></fa>
+              </button>
+            </div>
+          </div>
+        </td>
+        <td>{{ user.user.role }}</td>
+        <td>{{ user.user.function }}</td>
+        <td>{{ user.user.scope.rsName }}</td>
+        <td>{{ user.user.scope.rsType }}</td>
+        <td class="pl-2 pr-2">
+          <!-- <app-dropdown [itemsShowLimit]="1" [items]="studyProfiles" (modelChange)="onChange($event)"></app-dropdown> -->
+          <div class="input-group input-group-sm">
+            <select [(ngModel)]="user.role" class="form-control form-control-sm" [disabled]="!editable" (ngModelChange)="onRoleChange($event,user)">
+              <option *ngIf="user.user.role.toLowerCase() != 'default'" value="producer">Producer</option>
+              <option *ngIf="user.user.role.toLowerCase() != 'creator'" value="reviewer">Reviewer</option>
+              <option *ngIf="user.user.role.toLowerCase() != 'admin'" value="private_client">Private client</option>
+              <!-- <option value="admin">Admin</option> -->
+              <option *ngIf="user.user.role.toLowerCase() != 'admin'" value="other">Other</option>
+            </select>
+            <div class="input-group-append dropdown-append">
+              <button class="btn btn-primary" [disabled]="!editable" type="button">
+                <fa name="chevron-down"></fa>
+              </button>
+            </div>
+          </div>
+        </td>
+        <td>{{!user.isDefault}}</td>
+      </tr>
+
+
+    </tbody>
+
+    <tbody *ngIf="!loading&&users.length==0">
+      <tr>
+        <td colspan="10" class="td-middle">
+          No Exceptions
+        </td>
+      </tr>
+    </tbody>
+    <tbody *ngIf="loading">
+      <tr>
+        <td colspan="10" class="td-middle">
+          <div class="text-muted">
+
+            <fa name="circle-o-notch" animation="spin"></fa> Loading...
+
+          </div>
+        </td>
+      </tr>
+    </tbody>
+
+  </table>
+
+  <div class="pt-3 text-center">
+    <app-pagination [selected]="this.pager.selectedpage" [totalPages]="this.pager.totalOfPages" (onSelected)="onSelectPage($event)"
+      (onSizeSelected)="onSelectPageSize($event)"></app-pagination>
+  </div>
+
+</div>

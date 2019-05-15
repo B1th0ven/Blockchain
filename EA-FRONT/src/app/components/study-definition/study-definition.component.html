@@ -1,0 +1,593 @@
+<hr class="mb-0 pb-0">
+<app-loader [type]="1" *ngIf="!haveOption&&!err"></app-loader>
+
+<div class="container-fluid" *ngIf="err">
+  <div class="alert bg-danger text-white mb-3 mt-2">
+    <div class="alert-icon">
+      <fa name="exclamation-circle"></fa>
+    </div>
+    <div class="alert-text"> {{err}}</div>
+  </div>
+</div>
+
+
+<div *ngIf="study">
+
+  <div class="tab-content mt-3" [ngClass]="{'custom-disable':!haveOption}">
+    <div class="tab-pane active" id="def">
+      <div class="mb-3 mt-3 container-fluid">
+        <div class="row row-header font-size-sm">
+          <div class="col-lg-4 row" *ngIf="study.id">
+            <div class="col-4 text-primary font-weight-bold">Study ID</div>
+            <div class="col-8"> {{study.code}} </div>
+          </div>
+          <div class="col-lg-4 row">
+            <div class="col-4 text-primary font-weight-bold">Created By</div>
+            <div class="col-8"> {{concatinate(study.creator?.ruFirstName,study.creator?.ruLastName)}}</div>
+          </div>
+          <div class="col-lg-4 row">
+            <div class="col-4 text-primary font-weight-bold">Creation Date</div>
+            <div class="col-8"> {{study.creationDate.toString()}}</div>
+          </div>
+        </div>
+        <div class="row mt-3 row-header font-size-sm" *ngIf="study.id">
+          <div class="col-lg-4 row">
+            <div class="col-4 text-primary font-weight-bold">Current Study Status</div>
+            <div class="col-8"> {{getStatus(study.status)}}</div>
+          </div>
+          <div class="col-lg-4 row">
+              <div class="col-4 text-primary font-weight-bold">Status Last Modified By</div>
+              <div class="col-8">{{concatinate(study.lastStatusModifiedBy?.ruFirstName,study.lastStatusModifiedBy?.ruLastName)}}</div>
+            </div>
+          <div class="col-lg-4 row">
+            <div class="col-4 text-primary font-weight-bold">Date of Status Update</div>
+            <div class="col-8"> {{study.lastStatusModificationDate?.toString()}} </div>
+          </div>
+        </div>
+        <div class="row mt-3 row-header font-size-sm" *ngIf="study.id">
+          <div class="col-lg-4 row">
+            <div class="col-4 text-primary font-weight-bold">Number of Runs</div>
+            <div class="col-8">{{study.getNumberOfRuns()}}</div>
+          </div>
+          <div class="col-lg-4 row">
+            <div class="col-4 text-primary font-weight-bold">Master Run ID</div>
+            <div class="col-8">None</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="mt-0">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-6 col-xl-6">
+          <div class="text-primary font-weight-bold form-header mb-4">Study General Information</div>
+          <hr class="border-top border-primary mb-4 mt-2 opacity-half">
+          
+
+          <div class="form-group from-group-sm row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body" [ngbTooltip]="hs.getDetail(screen,'Study Requester')" class="pointer col-form-label col-form-label-sm ">Study Requester*</label>
+            </div>
+            <div class="col-sm-7 ">
+              <div class="input-group input-group-sm" *ngIf="canEdit() && !study.hasRuns()">
+                <select [(ngModel)]="study.studyClient"  class="form-control-sm" [disabled]="!canEdit()||study.hasRuns()" [ngClass]="{'form-control-plaintext':!canEdit()||study.hasRuns() , 'form-control':canEdit()&&!study.hasRuns()}" required>
+                  <option value=""></option>
+                  <option *ngFor="let op of clienttypes" [value]="op.stcId">{{op.stcName}}</option>
+                </select>
+                <div class="input-group-append dropdown-append">
+                  <button   [hidden]="!canEdit()||study.hasRuns()" class="btn btn-primary" type="button">
+                    <fa name="chevron-down"></fa>
+                  </button>
+                </div>
+              </div>
+              <div *ngIf="!canEdit()||study.hasRuns()">
+                <div class="font-size-sm">
+                  {{matchStudyRequester(study.studyClient)}}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body" [ngbTooltip]="hs.getDetail(screen,'EA Data Source')" class="pointer col-form-label col-form-label-sm text-right">EA Data Source*</label>
+            </div>
+            <div class="col-sm-7">
+
+              <div class="input-group input-group-sm" *ngIf="canEdit()">
+                <select [(ngModel)]="study.dataSource" class="form-control-sm" [disabled]="!canEdit()" [ngClass]="{'form-control-plaintext':!canEdit() , 'form-control':canEdit()}" required>
+                  <option value=""></option>
+                  <option *ngFor="let op of datasources" [value]="op.rdsId">{{op.rdsName}}</option>
+                </select>
+                <div class="input-group-append dropdown-append">
+                  <button  [hidden]="!canEdit()" class="btn btn-primary" type="button">
+                    <fa name="chevron-down"></fa>
+                  </button>
+                </div>
+              </div>
+              <div *ngIf="!canEdit()">
+                <div class="font-size-sm">
+                  {{matchStudyDatasource(study.dataSource)}}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body" [ngbTooltip]="hs.getDetail(screen,'Study documentation')" class="pointer col-form-label col-form-label-sm text-right">Study Documentation</label>
+            </div>
+            <div class="col-sm-7">
+
+              <div class="input-group input-group-sm">
+                <input type="file" [disabled]="!canEdit()||study.isValidated()" hidden="true" class="custom-file-input form-control-sm" [id]="'inputGroupFile'+study.number" [(ngModel)]="chargedFile" (change)="uploadFile($event,study,loadfile)">
+                <label class="form-control-sm" [ngClass]="{'form-control-plaintext':!canEdit()||study.isValidated() , 'form-control':canEdit()&&!study.isValidated(),'custom-file-label':canEdit()&&!study.isValidated()}" [for]="'inputGroupFile'+study.number">
+
+                  <fa *ngIf="percentDone>=0&&percentDone<99" name="circle-o-notch" animation="spin"></fa>
+                  <fa *ngIf="percentDone==100" name="check"></fa>
+                  <fa *ngIf="percentDone==-2" name="exclamation"></fa>
+                  <span [ngbTooltip]="fileName(study.attachedFilePath)" container="body"> {{ fileName(study.attachedFilePath) | stringLimit:30 }} </span>
+
+                </label>
+
+                <div class="input-group-append">
+                    <button (click)="deleteStudyDoc()" *ngIf="study.attachedFilePath &&study.attachedFilePath!='' && canEdit() && !study.isValidated()" class="btn btn-danger">
+                        <fa name="close" ></fa>
+                      </button>
+                  <button (click)="download()"  *ngIf="study.attachedFilePath &&study.attachedFilePath!=''" class="btn btn-primary">
+                    <fa name="eye"></fa>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body" [ngbTooltip]="hs.getDetail(screen,'comment')" class="pointer col-form-label col-form-label-sm text-right">Comment</label>
+            </div>
+            <div class="col-sm-7">
+              <textarea [(ngModel)]="study.comment" [disabled]="!canEditDataQualityAndComment()" class="form-control-sm"  [ngClass]="{'form-control-plaintext':!canEditDataQualityAndComment(), 'form-control':canEditDataQualityAndComment()}" maxlength="255" cols="30" rows="5"></textarea>
+            </div>
+          </div>
+          <hr>
+
+          <div class="text-primary font-weight-bold form-header mb-4">Observation Period</div>
+          <hr class="border-top border-primary mb-4 mt-2 opacity-half">
+
+          <div class="form-group row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body" [ngbTooltip]="hs.getDetail(screen,'Start of Observation Period')" class="pointer col-form-label col-form-label-sm text-right">Start of Observation Period*</label>
+            </div>
+            <div class="col-sm-7">
+              <div class="input-group input-group-sm" (clickOutside)="d1.close()">
+                <input appAutoSlash [ngClass]="{'is-invalid':!study.validStartDate(), 'form-control':canEdit()&&!study.isValidated(),'form-control-plaintext':!canEdit()||study.isValidated()}"
+                  class="form-control-sm" [disabled]="!canEdit()||study.isValidated()" placeholder="dd/mm/yyyy" name="dp" [(ngModel)]="study.startObsDate"
+                  ngbDatepicker #d1="ngbDatepicker" (click)="d1.close()">
+                <div class="input-group-append">
+                  <button class="btn btn-primary" [hidden]="!canEdit()||study.isValidated()" (click)="d1.toggle()" type="button">
+                    <fa name="calendar"></fa>
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <div><small class="text-danger mb-1 mt-1" *ngIf="!study.validStartDateFormat()">
+                    <em>Invalid date format</em>.</small></div>
+                <small class="text-danger mb-1 mt-1" *ngIf="!study.validStartDate() && study.validStartDateFormat()">
+                  <em>Start of Observation Date</em> >
+                   <em>Current Date</em>.</small>
+              </div>
+
+            </div>
+
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body" [ngbTooltip]="hs.getDetail(screen,'End of Observation Period')" class="pointer col-form-label col-form-label-sm text-right">End of Observation Period*</label>
+            </div>
+            <div class="col-sm-7">
+              <div class="input-group input-group-sm" (clickOutside)="d2.close()">
+                <input appAutoSlash [ngClass]="{'is-invalid':!study.validDates()||!study.validEndDate(),'form-control':canEdit()&&!study.isValidated(),'form-control-plaintext':!canEdit()||study.isValidated()}"
+                  class="form-control-sm" [disabled]="!canEdit()||study.isValidated()" placeholder="dd/mm/yyyy" name="dp" [(ngModel)]="study.endObsDate"
+                  ngbDatepicker #d2="ngbDatepicker" (click)="d2.close()">
+                <div class="input-group-append">
+                  <button class="btn btn-primary" [hidden]="!canEdit()||study.isValidated()" (click)="d2.toggle()" type="button">
+                    <fa name="calendar"></fa>
+                  </button>
+                </div>
+              </div>
+              <div>
+                <div>
+                <small class="text-danger mb-1 mt-1" *ngIf="!study.validEndDateFormat()">
+                      <em>Invalid date format</em>.</small></div>
+                <small class="text-danger mb-1 mt-1" *ngIf="!study.validDates() && study.validStartDateFormat()">
+                  <em>End of Observation Date</em> >
+                  <em>Start of Observation date</em>.</small>
+
+                <small class="text-danger mb-1 mt-1" *ngIf="!study.validEndDate() && study.validStartDateFormat()">
+                  <em>End of Observation Date</em>
+                  < <em>Current Date</em>.</small>
+              </div>
+            </div>
+          </div>
+
+
+
+
+          <hr>
+          <div class="text-primary font-weight-bold form-header mb-4">Calculation Engine</div>
+          <hr class="border-top border-primary mb-4 mt-2 opacity-half">
+
+
+
+          <div class="form-group row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body" [ngbTooltip]="hs.getDetail(screen,'Type of calculation engine')" class="pointer col-form-label col-form-label-sm text-right">Type Of Calculation Engine*</label>
+            </div>
+            <div class="col-sm-7">
+              <div class="input-group input-group-sm" *ngIf="canEdit() && !study.hasRuns()">
+                <select [(ngModel)]="study.calcEngine" class="form-control-sm" [disabled]="!canEdit()||study.hasRuns()" [ngClass]="{'form-control-plaintext':!canEdit()||study.hasRuns() , 'form-control':canEdit()&&!study.hasRuns()}" required>
+                  <option value=""></option>
+                  <option *ngFor="let op of engines" [value]="op.rcetId">{{op.rcetName}}</option>
+                </select>
+                <div class="input-group-append dropdown-append">
+                  <button class="btn btn-primary" [hidden]="!canEdit()||study.hasRuns()" type="button">
+                    <fa name="chevron-down"></fa>
+                  </button>
+                </div>
+              </div>
+              <div *ngIf="!canEdit()||study.hasRuns()">
+                  <div class="font-size-sm">
+                    {{matchStudyEngine(study.calcEngine)}}
+                  </div>
+                </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-lg-6 col-xl-6">
+
+          <div class="text-primary font-weight-bold form-header mb-4">Study Scope</div>
+          <hr class="border-top border-primary mb-4 mt-2 opacity-half">
+
+         <!-- <div class="form-group row">
+              <div class="col-sm-5 text-right">
+                <label placement="top" container="body" [ngbTooltip]="hs.getDetail(screen,'Client')" class="pointer col-form-label col-form-label-sm text-right">Client*</label>
+              </div>
+              <div class="col-sm-7">
+                <div class="input-group input-group-sm">
+                  <select [disabled]="study.hasDatasets()||!canEdit()" [ngClass]="{'form-control':!study.hasDatasets()&&canEdit(),'form-control-plaintext':study.hasDatasets() || !canEdit()}"
+                    [(ngModel)]="study.client" (change)="onClientChanged()" class="form-control-sm" [disabled]="!study.validClient()||clientState.loading">
+                    <option value=""></option>
+                    <option value="other">Other</option>
+                    <option value="multi">Multiple</option>
+                    <option *ngFor="let op of clientsOfParent(clients,study.clientGroup)" [value]="op.rcnId">{{op.rcnShortName}} </option>
+                  </select>
+                  <div class="input-group-append dropdown-append">
+                    <button [hidden]="study.hasDatasets() || !canEdit()" class="btn btn-primary" type="button">
+                      <fa name="chevron-down"></fa>
+                    </button>
+                  </div>
+                 
+                </div>-->
+                <!-- <app-dropdown [allowSearchFilter]="true" [(model)]="study.client" [idField]="'rcnId'" [items]="clients" [singleSelection]="true"
+                [textField]="'rcnShortName'" [disabled]="study.hasDatasets() || !canEdit()" [lazy]="true" (lazyload)="loadData($event)"> </app-dropdown> -->
+                <!-- <div class="input-group input-group-sm">
+                    <ng-select [ngClass]="{'form-control':!study.hasDatasets()&&canEdit(),'form-control-plaintext':study.hasDatasets()||!canEdit()}" [disabled]="!study.validClient()||clientState.loading||study.hasDatasets()||!canEdit()"
+                      [style.z-index]="903" class="form-control-sm" [items]="clients" bindLabel="rcnShortName" bindValue="rcnId" [clearable]="false"
+                      (change)="onClientChanged()" [(ngModel)]="study.client">
+                    </ng-select>
+                    <div class="input-group-append dropdown-append" style="z-index: 903 !important;">
+                      <button [hidden]="study.hasDatasets() || !canEdit()" class="btn btn-primary" type="button">
+                        <fa name="chevron-down"></fa>
+                      </button>
+                    </div>
+                  </div> -->
+             <!-- </div>
+            </div>-->
+
+          <div class="form-group form-group-sm row">
+            <div class="col-sm-5 text-right">
+                <label placement="top" container="body" [ngbTooltip]="hs.getDetail(screen,'Client')" class="pointer col-form-label col-form-label-sm text-right">Client*</label>
+            </div>
+            <div class="col-sm-7">
+              
+
+              <div   class="input-group input-group-sm" *ngIf="!study.hasDatasets()&&canEdit()">
+                <ng-select (scrollToEnd)="getPageOfClients($event)" [ngClass]="{'form-control':!study.hasDatasets()&&canEdit(),'form-control-plaintext':study.hasDatasets() || !canEdit()}" [disabled]="study.hasDatasets()||!canEdit()"
+                  [style.z-index]="905" class="form-control-sm" [items]="clients" bindLabel="rcnShortName" bindValue="rcnId"
+                  (change)="onClientChanged()" [(ngModel)]="study.client"  (keyup)="clientSearch($event)" (close)="closeClient($event)" >
+                </ng-select>
+                <div class="input-group-append dropdown-append" style="z-index: 906 !important;">
+                  <button [hidden]="study.hasDatasets()||!canEdit()" class="btn btn-primary" type="button">
+                    <fa name="chevron-down"></fa>
+                  </button>
+                </div>
+              </div>
+              <div *ngIf="study.hasDatasets()||!canEdit()">
+                  <div class="font-size-sm">
+                    {{matchStudyClient(study.client)}}
+                  </div>
+                </div>
+            </div>
+          </div>
+
+          <div class="form-group form-group-sm row">
+              <div class="col-sm-5 text-right">
+                <label placement="top" container="body" [ngbTooltip]="hs.getDetail(screen,'Client Group')" class="pointer col-form-label col-form-label-sm text-right">Client Group*</label>
+              </div>
+              <div class="col-sm-7">
+                <div class="input-group input-group-sm"  *ngIf="!study.hasDatasets()&&canEdit()">
+                  <ng-select [ngClass]="{'form-control':!study.hasDatasets()&&canEdit(),'form-control-plaintext':study.hasDatasets() || !canEdit()}" [disabled]="study.hasDatasets() || !canEdit()"
+                    [style.z-index]="903" class="form-control-sm" [items]="groups" bindLabel="rpgName" bindValue="rpgId" [clearable]="false"
+                    (change)="onGroupChanged()" [(ngModel)]="study.clientGroup">
+                  </ng-select>
+                  <div class="input-group-append dropdown-append" style="z-index: 904 !important;">
+                    <button [hidden]="study.hasDatasets() || !canEdit()" class="btn btn-primary" type="button">
+                      <fa name="chevron-down"></fa>
+                    </button>
+                  </div>
+                </div>
+                <div *ngIf="study.hasDatasets()||!canEdit()">
+                    <div class="font-size-sm">
+                      {{matchStudyClientGroup(study.clientGroup)}}
+                    </div>
+                  </div>
+              </div>
+            </div>
+
+          
+
+          <div class="form-group row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body" [ngbTooltip]="hs.getDetail(screen,'Client Short Name')" class="pointer col-form-label col-form-label-sm text-right">Client Short Name*</label>
+            </div>
+            <div class="col-sm-7">
+              <input 
+                [(ngModel)]="study.clientShortName" 
+                [disabled]="!canEdit()||study.hasRuns()" 
+                [ngClass]="{'is-invalid':!study.validClientsShortName() || !study.validClientsShortNameCharacters(),'form-control':canEdit(),'form-control-plaintext':!canEdit()}" 
+                class="form-control-sm"
+              >
+              <div *ngIf="!study.validClientsShortName()"><small class="text-danger">Must contain from 3 to 5 characters.</small></div>
+              <!-- <br *ngIf="!study.validClientsShortName() && !study.shortName()"/> -->
+              <div *ngIf="!study.validClientsShortNameCharacters()"><small class="text-danger">Should not contain special characters.</small></div>
+
+            </div>
+          </div>
+
+
+
+          <div class="form-group row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body" [ngbTooltip]="hs.getDetail(screen,'Distribution Brand')" class="pointer col-form-label col-form-label-sm text-right">Distribution Brand</label>
+            </div>
+            <div class="col-sm-7">
+              <input [(ngModel)]="study.distributionBrand"  [disabled]="!canEdit()" [ngClass]="{'form-control':canEdit(),'form-control-plaintext':!canEdit()}" class="form-control-sm">
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body" [ngbTooltip]="hs.getDetail(screen,'Client Country')" class="pointer col-form-label col-form-label-sm text-right">Client Country*</label>
+            </div>
+            <div class="col-sm-7">
+              <div class="input-group input-group-sm" *ngIf="!study.hasDatasets()&&canEdit()">
+                <select [disabled]="study.hasDatasets() || !canEdit()" [ngClass]="{'form-control':!study.hasDatasets()&&canEdit(),'form-control-plaintext':study.hasDatasets()||!canEdit()}"
+                  [(ngModel)]="study.clientCountry" class="form-control-sm">
+                  <option value=""></option>
+                  <option *ngFor="let c of countries" [value]="c.rcId">{{c.rcName}} </option>
+                </select>
+                <div class="input-group-append dropdown-append">
+                  <button [hidden]="study.hasDatasets() || !canEdit()" class="btn btn-primary" type="button">
+                    <fa name="chevron-down"></fa>
+                  </button>
+                </div>
+              </div>
+              <div *ngIf="study.hasDatasets()||!canEdit()">
+                  <div class="font-size-sm">
+                    {{matchStudyClientCountry(study.clientCountry)}}
+                  </div>
+                </div>
+            </div>
+          </div>
+
+          <!-- Dont Delet this commented code we gonna use it later-->
+          <!-- 
+          <div class="form-group row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body" [ngbTooltip]="hs.getDetail(screen,'Quality data provider')" class="pointer col-form-label col-form-label-sm text-right">Data Quality Provider</label>
+            </div>
+            <div class="col-sm-7">
+
+              <div class="input-group input-group-sm">
+                <select [(ngModel)]="study.qualityDataProvider" [disabled]="!canEditDataQualityAndComment()" class="form-control-sm" [ngClass]="{'form-control':canEditDataQualityAndComment(),'form-control-plaintext':!canEditDataQualityAndComment()}">
+                  <option value=""></option>
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
+                <div class="input-group-append dropdown-append">
+                  <button class="btn btn-primary" [hidden]="!canEditDataQualityAndComment()" type="button">
+                    <fa name="chevron-down"></fa>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div> -->
+          <!-- <div class="form-group row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body" [ngbTooltip]="hs.getDetail(screen,'Treaty Number')" class="pointer col-form-label col-form-label-sm text-right">Treaty Number</label>
+            </div>
+            <div class="col-sm-7">
+
+              <div class="input-group input-group-sm">
+                <select [(ngModel)]="study.treatyNumber" [disabled]="study.hasDatasets()||disableTreaty()||treatyState.loading||!canEdit()" class="form-control-sm"
+                  [ngClass]="{'form-control':!study.hasDatasets()&&canEdit(),'form-control-plaintext':study.hasDatasets()||!canEdit()}">
+                  <option value=""></option>
+                  <option value="multi" *ngIf="showMultiClient()">Multiple</option>
+                  <option *ngFor="let op of TreatyOfclient(treaties, study.client)" [value]="op.rtId">{{op.rtName}}</option>
+                </select>
+
+                <div class="input-group-append dropdown-append">
+                  <button [hidden]="study.hasDatasets()||!canEdit()" [disabled]="disableTreaty()||treatyState.loading" class="btn btn-primary" type="button">
+                    <fa name="chevron-down"></fa>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div> -->
+<!--------------------------------------------------------------------------------------------------------------------->
+          <div class="form-group row">
+              <div class="col-sm-5 text-right">
+                <label placement="top" container="body" [ngbTooltip]="hs.getDetail(screen,'Treaty Number')" class="pointer col-form-label col-form-label-sm text-right">Treaty Number</label>
+              </div>
+              <div class="col-sm-7">
+  
+                <div class="input-group input-group-sm" *ngIf="!study.hasDatasets()&&canEdit()">
+                    <ng-select [ngClass]="{'form-control':!study.hasDatasets()&&canEdit(),'form-control-plaintext':study.hasDatasets() || !canEdit()}" [disabled]="study.hasDatasets() || !canEdit()"
+                    [style.z-index]="901" class="form-control-sm" [items]="treaties" bindLabel="rtName" bindValue="rtId" [clearable]="false"
+                    [(ngModel)]="study.treatyNumber"
+                    [typeahead]="typeahead"
+                    (change)="onTreatyChanged()">
+                  </ng-select>
+                   
+                  <div class="input-group-append dropdown-append" style="z-index: 902 !important;">
+                    <button [hidden]="study.hasDatasets()||!canEdit()" class="btn btn-primary" type="button">
+                      <fa name="chevron-down"></fa>
+                    </button>
+                  </div>
+                </div>
+                <div *ngIf="study.hasDatasets()||!canEdit()">
+                    <div class="font-size-sm">
+                      {{matchStudyClientTreaty(study.treatyNumber)}}
+                    </div>
+                  </div>
+              </div>
+            </div>
+
+          <div class="form-group row">
+            <div class="col-sm-5 text-right">
+              <label placement="top" container="body" [ngbTooltip]="hs.getDetail(screen,'Line of Business')" class="pointer col-form-label col-form-label-sm text-right">Line of Business*</label>
+            </div>
+            <div class="col-sm-7">
+
+              <div class="input-group input-group-sm">
+                <select [hidden]="study.hasDatasets() || !canEdit()" class="form-control form-control-sm" (change)="addBusiness($event.target.value,$event)">
+                  <option value=""></option>
+                  <option *ngFor="let b of business" [value]="b.rlobId">{{b.rlobName}}</option>
+                </select>
+
+                <div class="input-group-append dropdown-append">
+                  <button [hidden]="study.hasDatasets() || !canEdit()" class="btn btn-primary" type="button">
+                    <fa name="chevron-down"></fa>
+                  </button>
+                </div>
+              </div>
+              <div [ngClass]="{'mt-2':!study.hasDatasets()|| !canEdit()}">
+                <button [disabled]="study.hasDatasets() || !canEdit()" class="btn btn-sm btn-outline-primary mr-1" *ngFor="let b of study.lineOfBuisness"
+                  (click)="removeBusiness(b)">{{b.rlobName}}</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      
+
+        <div class="clear-fix">
+          <div class="float-right" *ngxPermissionsOnly="['PRODUCER','STUDY_READER','STUDY_WRITER']">
+            <button class="btn btn-sm btn-primary  mb-4" style="min-width:100px" [disabled]="!valid()" (click)="continueClick()">Continue</button>
+          </div>
+          <div class="float-right" *ngxPermissionsOnly="['PRODUCER','STUDY_WRITER']">
+            <button class="btn btn-sm btn-primary  mb-4 mr-2" style="min-width:100px" [disabled]="!valid()" (click)="saveClick()">Save</button>
+          </div>  
+          <div class="float-right"  *ngxPermissionsOnly="['STUDY_CANCELLER']">
+            <button class="btn btn-sm btn-primary  mb-4 mr-2" *ngIf="isStudyValidated()" style="min-width:100px" [disabled]="false" (click)="cancelClick(modal)">Cancel</button>
+          </div>
+          <div class="float-right"  *ngxPermissionsOnly="['STUDY_WRITER']">
+            <button class="btn btn-sm btn-primary  mb-4 mr-2" *ngIf="isStudyCancelled()" style="min-width:100px" [disabled]="false" (click)="activateClick(modal)">Activate</button>
+          </div>   
+            <div class="float-right"  *ngxPermissionsOnly="['STUDY_WRITER']">
+                <button class="btn btn-sm btn-danger  mb-4 mr-2" style="min-width:100px" [disabled]="!canDeleteStudy()" (click)="deleteClick(modal)">Delete</button>
+            </div>
+        </div>
+
+    </div>
+  </div>
+
+  <ng-template #modal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <div class="row">
+        <div class="col-md-12">
+          <b class="text-primary font-weight-boldest">
+            {{message.title}}
+          </b>
+        </div>
+      </div>
+    </div>
+    <div class="modal-body row">
+        <div class="col-md-1"></div>
+        <div class="col-md-1">
+            <fa *ngIf="message.icon == 'delete'" name="trash fa-3x" class="text-danger"></fa>
+            <fa *ngIf="message.icon == 'cancel'" name="power-off fa-3x" class="text-primary"></fa>
+            <fa *ngIf="message.icon == 'activate'" name="power-off fa-3x" class="text-primary"></fa>
+        </div>
+        <div class="col-9">
+          <div class="row text-center">
+        <div class=" col-12 align-middle">
+            <p class="font-weight-normal mt-2">{{message.msg}}</p>
+       </div>
+      </div>
+       <div class="row" *ngIf="message.icon == 'delete'">
+        <div class="col-2"></div>
+       <div class="custom-control custom-checkbox my-1 mr-sm-2">
+          <input type="checkbox" class="custom-control-input" id="customControlInline"  [(ngModel)]="deleteDataCheck">
+          <label class="custom-control-label" for="customControlInline">Delete all backups of portfolio input data</label>
+        </div>
+      </div>
+       </div>
+        <div class="col-md-1"></div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="message.confirm();c('Close click')">Yes</button>
+      <button type="button" class="btn btn-light" (click)="c('Close click')">No</button>
+    </div>
+  </ng-template>
+  <ng-template #loadfile let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <div class="row">
+          <div class="col-md-12">
+            <b class="text-primary font-weight-boldest">
+              {{message.title}}
+            </b>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body text-center row">
+          <div class="col-md-1"></div>
+          <div class="col-md-1">
+              <fa name="exclamation-triangle fa-3x" class="text-danger"></fa>
+          </div>
+          <div class="col-md-9 align-middle">
+              <p class="font-weight-normal mt-2">{{message.msg}}</p>
+         </div>
+          <div class="col-md-1"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="message.confirm();c('Close click')">Yes</button>
+        <button type="button" class="btn btn-light" (click)="c('Close click')">No</button>
+      </div>
+    </ng-template>
+
+</div>
+

@@ -333,7 +333,17 @@
                             <goal>npm</goal>
                         </goals>
                         <configuration>
-                            <arguments>install --no-package-lock</arguments>
+                            <arguments>install </arguments>
+                            <arguments>sntp@1.0.9</arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>npm install</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>install</arguments>
                         </configuration>
                     </execution>
                     <execution>

@@ -328,7 +328,7 @@
                     </execution>
               
                     <execution>
-                        <id>npm install</id>
+                        <id>npm sntp install</id>
                         <goals>
                             <goal>npm</goal>
                         </goals>

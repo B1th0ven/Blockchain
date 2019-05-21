@@ -350,7 +350,7 @@
                             <goal>npm</goal>
                         </goals>
                         <configuration>
-                            <arguments>run build</arguments>
+                            <arguments>run scor</arguments>
                         </configuration>
                     </execution>
                 </executions>

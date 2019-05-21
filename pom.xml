@@ -8,7 +8,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>EA-FRONT</module> 
+<!--         <module>EA-FRONT</module>  -->
         <module>EA-BACK</module>
         <module>EA-BACK-BATCH</module>
     </modules>

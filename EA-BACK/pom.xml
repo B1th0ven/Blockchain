@@ -326,8 +326,16 @@
                             <arguments>cache clean --force</arguments>
                         </configuration>
                     </execution>
-              
                     <execution>
+                        <id>npm rebuild node sass</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>rebuild node-sass</arguments>
+                        </configuration>
+                    </execution>
+                     <execution>
                         <id>npm sntp install</id>
                         <goals>
                             <goal>npm</goal>
@@ -343,7 +351,7 @@
                             <goal>npm</goal>
                         </goals>
                         <configuration>
-                            <arguments>install</arguments>
+                            <arguments>install --no-package-lock</arguments>
                         </configuration>
                     </execution>
                     <execution>
@@ -352,11 +360,12 @@
                             <goal>npm</goal>
                         </goals>
                         <configuration>
-                            <arguments>run scor</arguments>
+                            <arguments>run build</arguments>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>

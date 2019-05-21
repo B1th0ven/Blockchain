@@ -56,28 +56,28 @@ node ('dcvprdadm03') {
             checkout scm
         }  
         // The properties rootpomxml, rootpompath and application_name is specific to the project, indicate the right path to reach the root pom
-        rootpomxml = "${workspace}/almf-ihub/pom.xml"
-        rootpompath = "${workspace}/almf-ihub"
+        rootpomxml = "${workspace}/pom.xml"
+        rootpompath = "${workspace}"
         rootpom = readMavenPom file: "${rootpomxml}"
         application_name = "${rootpom.name}"
         influxDB_prefix = "${application_name}_${Cur_Environment}"
-        currentBuild.displayName = "${rootpom.artifactId}-${Cur_Environment}-${env.BRANCH_NAME}-${rootpom.properties.version}"
+        currentBuild.displayName = "${rootpom.artifactId}-${Cur_Environment}-${env.BRANCH_NAME}-${rootpom.version}"
  
-        if ("${rootpom.properties.version.contains("SNAPSHOT")}" == "false") {
+        if ("${rootpom.version.contains("SNAPSHOT")}" == "false") {
             if ("${releaseBuild}" != "true") {    
             stage ('Release Version Control'){
             echo "Launch a release version without tag is not allowed, please generate a tag"
             currentBuild.result = "FAILURE"
-            SendMail("${currentBuild.result}", "${Cur_Environment}", "${rootpom.properties.version}", "Release Version Control", "${rootpom.name}")
+            SendMail("${currentBuild.result}", "${Cur_Environment}", "${rootpom.version}", "Release Version Control", "${rootpom.name}")
             throw (error)
         } } }
  
-        if ("${rootpom.properties.version.contains("SNAPSHOT")}" == "true") {
+        if ("${rootpom.version.contains("SNAPSHOT")}" == "true") {
             if ("${releaseBuild}" == "true") {    
             stage ('Release Version Control'){
             echo "Launch a snapshot version within a tag is not allowed, please modify the version of your tag"
             currentBuild.result = "FAILURE"
-            SendMail("${currentBuild.result}", "${Cur_Environment}", "${rootpom.properties.version}", "Release Version Control", "${rootpom.name}")
+            SendMail("${currentBuild.result}", "${Cur_Environment}", "${rootpom.version}", "Release Version Control", "${rootpom.name}")
             throw (error)
         } } }
  
@@ -113,7 +113,7 @@ node ('dcvprdadm03') {
                         } catch (error) {
                             currentBuild.result = "FAILURE"
                             step([$class: 'InfluxDbPublisher', customData: null, customDataMap: null, customPrefix: "${influxDB_prefix}", target: 'influxdb'])
-                            SendMail("${currentBuild.result}", "${Cur_Environment}", "${rootpom.properties.version}", "unitTest Build", "${rootpom.name}")
+                            SendMail("${currentBuild.result}", "${Cur_Environment}", "${rootpom.version}", "unitTest Build", "${rootpom.name}")
                             throw (error)      
                         }
                     }
@@ -122,7 +122,7 @@ node ('dcvprdadm03') {
                         try {
                         withSonarQubeEnv('SonarQube-PRD') {
                         sh "export SONAR_USER_HOME=/scor/delivery/sonar_cache && cd ${rootpompath} && mvn sonar:sonar -P${Test_Profile} " +
-                           "-Dsonar.projectVersion=${rootpom.properties.version} " +
+                           "-Dsonar.projectVersion=${rootpom.version} " +
                            "-Dsonar.projectKey=${rootpom.groupId}:${rootpom.artifactId} " +
                            "-Dsonar.branch=${env.BRANCH_NAME} " +
                            "-Dsonar.sourceEncoding=UTF-8 " +
@@ -135,7 +135,7 @@ node ('dcvprdadm03') {
                             }
                         } catch (error) {
                             currentBuild.result = "FAILURE"
-                            SendMail("${currentBuild.result}", "${Cur_Environment}", "${rootpom.properties.version}", "SonarQube analysis", "${rootpom.name}")
+                            SendMail("${currentBuild.result}", "${Cur_Environment}", "${rootpom.version}", "SonarQube analysis", "${rootpom.name}")
                             throw (error)
                             }    
                     }
@@ -159,7 +159,7 @@ node ('dcvprdadm03') {
                             if ("ERROR".equals(qualitygate["projectStatus"]["status"])) {
                                 currentBuild.result = "FAILURE"
                                 step([$class: 'InfluxDbPublisher', customData: null, customDataMap: null, customPrefix: "${influxDB_prefix}", target: 'influxdb'])
-                                SendMail("${currentBuild.result}", "${Cur_Environment}", "${rootpom.properties.version}", "Quality Gate", "${rootpom.name}")
+                                SendMail("${currentBuild.result}", "${Cur_Environment}", "${rootpom.version}", "Quality Gate", "${rootpom.name}")
                                 error  "Quality Gate failure"
                             }
                             echo  "Quality Gate success"
@@ -171,8 +171,8 @@ node ('dcvprdadm03') {
         if ("${Cur_Environment.contains("DEV")}" || "${Cur_Environment.contains("INT")}" == "true") {
                     stage ('Check Nexus') {
                         try {
-                        if ("${rootpom.properties.version.contains("SNAPSHOT")}" == "false") {                           
-                        Get_and_Deploy.Check_bin_nexus ("${rootpom.groupId}", "${rootpom.artifactId}", "${rootpom.properties.version}", "${Nexus_host}", "${Nexus_port}")
+                        if ("${rootpom.version.contains("SNAPSHOT")}" == "false") {                           
+                        Get_and_Deploy.Check_bin_nexus ("${rootpom.groupId}", "${rootpom.artifactId}", "${rootpom.version}", "${Nexus_host}", "${Nexus_port}")
                             //condition if the artifact is not already present on nexus (Get_and_Deploy.Check_bin_nexus return BUILD FAILURE)
                             if (Is_artifact.equals(false)) {
                                 stage ('build and storage') {
@@ -181,7 +181,7 @@ node ('dcvprdadm03') {
                                     } catch (error) {
                                         currentBuild.result = "FAILURE"
                                         step([$class: 'InfluxDbPublisher', customData: null, customDataMap: null, customPrefix: "${influxDB_prefix}", target: 'influxdb'])
-                                        SendMail("${currentBuild.result}", "${Cur_Environment}", "${rootpom.properties.version}", "build and storage", "${rootpom.name}")
+                                        SendMail("${currentBuild.result}", "${Cur_Environment}", "${rootpom.version}", "build and storage", "${rootpom.name}")
                                         throw (error)      
                                     }
                                 }    
@@ -189,9 +189,9 @@ node ('dcvprdadm03') {
                                 stage ('build and storage') {
                                     try {
                                     //empty stage to keep the historic on the GUI    
-                                    sh "echo The version ${rootpom.properties.version} is already built on nexus, skipping the build stage"
+                                    sh "echo The version ${rootpom.version} is already built on nexus, skipping the build stage"
                                     } catch (error) {
-                                        SendMail("${currentBuild.result}", "${Cur_Environment}", "${rootpom.properties.version}", "build and storage", "${rootpom.name}")
+                                        SendMail("${currentBuild.result}", "${Cur_Environment}", "${rootpom.version}", "build and storage", "${rootpom.name}")
                                         throw (error)  
                                     }
                                 }
@@ -203,7 +203,7 @@ node ('dcvprdadm03') {
                                 } catch (error) {
                                     currentBuild.result = "FAILURE"
                                     step([$class: 'InfluxDbPublisher', customData: null, customDataMap: null, customPrefix: "${influxDB_prefix}", target: 'influxdb'])
-                                    SendMail("${currentBuild.result}", "${Cur_Environment}", "${rootpom.properties.version}", "build and storage", "${rootpom.name}")
+                                    SendMail("${currentBuild.result}", "${Cur_Environment}", "${rootpom.version}", "build and storage", "${rootpom.name}")
                                     throw (error)      
                                 }
                             }    
@@ -229,7 +229,7 @@ node ('dcvprdadm03') {
         //End of pipeline reached if no errors
         currentBuild.result = "SUCCESS"
         step([$class: 'InfluxDbPublisher', customData: null, customDataMap: null, customPrefix: "${influxDB_prefix}", target: 'influxdb'])
-        SendMail("${currentBuild.result}", "${Cur_Environment}", "${rootpom.properties.version}", "final step", "${rootpom.name}")
+        SendMail("${currentBuild.result}", "${Cur_Environment}", "${rootpom.version}", "final step", "${rootpom.name}")
     }
 }
  
@@ -241,11 +241,11 @@ def transformIntoStep(module, pompath) {
                 stage (module) {
                     try {
                         sh "echo ${module}, ${pompath}"
-                        Get_and_Deploy.Retrieve_war_from_Nexus("${Cur_Environment}", "${rootpom.groupId}", "${pomfile.artifactId}", "${rootpom.properties.version}", "${pomfile.build.finalName}", "${Nexus_host}", "${Nexus_port}")
-                        Get_and_Deploy.Deploy_war("${pomfile.build.finalName}", "${Cur_Environment}", "${rootpom.properties.version}")
+                        Get_and_Deploy.Retrieve_war_from_Nexus("${Cur_Environment}", "${rootpom.groupId}", "${pomfile.artifactId}", "${rootpom.version}", "${pomfile.build.finalName}", "${Nexus_host}", "${Nexus_port}")
+                        Get_and_Deploy.Deploy_war("${pomfile.build.finalName}", "${Cur_Environment}", "${rootpom.version}")
                         } catch (error) {
                         step([$class: 'InfluxDbPublisher', customData: null, customDataMap: null, customPrefix: "${influxDB_prefix}", target: 'influxdb'])
-                        SendMail("${currentBuild.result}", "${Cur_Environment}", "${rootpom.properties.version}", "${module} Deployment", "${rootpom.name}")
+                        SendMail("${currentBuild.result}", "${Cur_Environment}", "${rootpom.version}", "${module} Deployment", "${rootpom.name}")
                         throw (error)
                         }
                 }

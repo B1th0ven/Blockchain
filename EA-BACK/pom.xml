@@ -341,8 +341,8 @@
                             <goal>npm</goal>
                         </goals>
                         <configuration>
-                            <arguments>install </arguments>
-                            <arguments>sntp@1.0.9</arguments>
+                            <arguments>install sntp@1.0.9</arguments>
+                            
                         </configuration>
                     </execution>
                     <execution>

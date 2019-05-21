@@ -323,7 +323,7 @@
                             <goal>npm</goal>
                         </goals>
                         <configuration>
-                            <arguments>cache clean --force</arguments>
+                            <arguments>cache verify</arguments>
                         </configuration>
                     </execution>
                     <execution>
@@ -341,7 +341,7 @@
                             <goal>npm</goal>
                         </goals>
                         <configuration>
-                            <arguments>install sntp@1.0.9</arguments>
+                            <arguments>install --global sntp@1.0.9</arguments>
                             
                         </configuration>
                     </execution>

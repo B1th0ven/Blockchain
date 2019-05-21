@@ -13,7 +13,7 @@
 
 	<groupId>com.scor.apex</groupId>
 	<artifactId>apex-back</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<name>expan-b</name>
@@ -321,15 +321,15 @@
 	<profiles>
 		<profile>
 			<id>local</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<artifact-packaging>jar</artifact-packaging>
 			</properties>
 		</profile>
 		<profile>
 			<id>remote</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<properties>
 				<artifact-packaging>war</artifact-packaging>
 			</properties>

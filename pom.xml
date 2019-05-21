@@ -4,12 +4,13 @@
 
     <groupId>com.scor.apex</groupId>
     <artifactId>apex</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
         <module>EA-FRONT</module>
         <module>EA-BACK</module>
+        <module>EA-BACK-BATCH</module>
     </modules>
 
     <name>expan</name>

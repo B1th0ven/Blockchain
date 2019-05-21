@@ -12,12 +12,12 @@
 		<relativePath />
 	</parent>
 
-	<groupId>com.scor</groupId>
-	<artifactId>expan-back-batch</artifactId>
-	<version>0.0.1</version>
-	<packaging>${artifact-packaging}</packaging>
+	<groupId>com.scor.apex</groupId>
+	<artifactId>apex-back-batch</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 
-	<name>expan-batch</name>
+	<name>apex-batch</name>
 	<description>EA Back End Application</description>
 
 	<properties>
@@ -279,15 +279,15 @@
 	<profiles>
 		<profile>
 			<id>local</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<artifact-packaging>jar</artifact-packaging>
 			</properties>
 		</profile>
 		<profile>
 			<id>remote</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<properties>
 				<artifact-packaging>war</artifact-packaging>
 			</properties>

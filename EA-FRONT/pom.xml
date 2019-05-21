@@ -3,9 +3,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.scor</groupId>
-  <artifactId>expan-fornt</artifactId>
+  <artifactId>apex-front</artifactId>
   <version>0.0.1</version>
-  <packaging>${artifact-packaging}</packaging>
+  <packaging>war</packaging>
 
   <name>expan-f</name>
   <description>EA front build</description>

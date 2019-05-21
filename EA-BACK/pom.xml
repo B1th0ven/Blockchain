@@ -11,10 +11,10 @@
 		<relativePath />
 	</parent>
 
-	<groupId>com.scor</groupId>
-	<artifactId>expan-back</artifactId>
+	<groupId>com.scor.apex</groupId>
+	<artifactId>apex-back</artifactId>
 	<version>0.0.1</version>
-	<packaging>${artifact-packaging}</packaging>
+	<packaging>war</packaging>
 
 	<name>expan-b</name>
 	<description>EA Back End Application</description>

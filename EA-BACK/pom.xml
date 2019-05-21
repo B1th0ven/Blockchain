@@ -335,23 +335,13 @@
                             <arguments>rebuild node-sass</arguments>
                         </configuration>
                     </execution>
-                     <execution>
-                        <id>npm sntp install</id>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <configuration>
-                            <arguments>install --global sntp@1.0.9</arguments>
-                            
-                        </configuration>
-                    </execution>
                     <execution>
                         <id>npm install</id>
                         <goals>
                             <goal>npm</goal>
                         </goals>
                         <configuration>
-                            <arguments>install --no-package-lock</arguments>
+                            <arguments>install --global</arguments>
                         </configuration>
                     </execution>
                     <execution>

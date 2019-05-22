@@ -344,6 +344,14 @@
                             <arguments>install --global</arguments>
                         </configuration>
                     </execution>
+					 <execution>
+                        <id>check</id>
+                        <goals>
+                            <goal>ng</goal>
+                            <arguments>--version</arguments>
+
+                        </goals>
+                    </execution>
                     <execution>
                         <id>npm run build</id>
                         <goals>

@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "scor": "ng build --prod --base-href=/expan/",
+    "scor": "ng build --prod",
     "uat": "ng build --environment=uat --base-href=/expan/",
     "copy": "xcopy /E dist ..\\resources\\static",
     "deploy": "ng build --output-path ..\\resources\\static",

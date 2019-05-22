@@ -345,10 +345,10 @@
 					 <execution>
                         <id>check</id>
                         <goals>
-                            <goal>ng</goal>
+                            <goal>npm</goal>
                         </goals>
 						  <configuration>
-                            <arguments>--version</arguments>
+                            <arguments>run test</arguments>
                         </configuration>
                     </execution>
                     <execution>

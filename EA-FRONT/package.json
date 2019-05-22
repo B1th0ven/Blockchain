@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "ng serve | nodemon testNodeServer/server",
     "build": "ng build --prod --base-href=/expan/",
-    "test": "ng test",
+    "test": "ng --version",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "scor": "ng build --prod",

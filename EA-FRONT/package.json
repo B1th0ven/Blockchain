@@ -5,11 +5,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve | nodemon testNodeServer/server",
-    "build": "ng build --prod --base-href=/expan/",
+    "build": "node --max_old_space_size=5048 node_modules/@angular/cli/bin/ng build --output-path=../EA-BACK/src/main/resources/static --base-href=/Apex/EA-FRONT/ --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "scor": "ng build --prod --base-href=/expan/",
+    "scor": "ng build --prod --base-href=/Apex/",
     "uat": "ng build --environment=uat --base-href=/expan/",
     "copy": "xcopy /E dist ..\\resources\\static",
     "deploy": "ng build --output-path ..\\resources\\static",

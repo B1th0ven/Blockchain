@@ -14,7 +14,7 @@
 
 	<groupId>com.scor.apex</groupId>
 	<artifactId>apex-back-batch</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>war</packaging>
 
 	<name>apex-batch</name>

@@ -168,7 +168,7 @@ node ('dcvprdadm03') {
             }
         }
  
-        if ("${Cur_Environment.contains("DEV")}" || "${Cur_Environment.contains("INT")}" == "true") {
+     if ("${Cur_Environment.contains("DEV")}" || "${Cur_Environment.contains("INT")}" == "true") {
                     stage ('Check Nexus') {
                         try {
                         if ("${rootpom.version.contains("SNAPSHOT")}" == "false") {                           
@@ -213,7 +213,7 @@ node ('dcvprdadm03') {
                         }
                     }
  
-        }
+        } 
  
         Manage_modules.Get_modules(fullmapmodule, "${rootpompath}")
         Manage_modules.Filter_modules(fullmapmodule, warmapmodule)
@@ -241,8 +241,8 @@ def transformIntoStep(module, pompath) {
                 stage (module) {
                     try {
                         sh "echo ${module}, ${pompath}"
-                        Get_and_Deploy.Retrieve_war_from_Nexus("${Cur_Environment}", "${rootpom.groupId}", "${pomfile.artifactId}", "${rootpom.version}", "${pomfile.build.finalName}", "${Nexus_host}", "${Nexus_port}")
-                        Get_and_Deploy.Deploy_war("${pomfile.build.finalName}", "${Cur_Environment}", "${rootpom.version}")
+                        Get_and_Deploy.Retrieve_war_from_Nexus("${Cur_Environment}", "${rootpom.groupId}", "${pomfile.artifactId}", "${rootpom.version}", "${pomfile.artifactId}", "${Nexus_host}", "${Nexus_port}")
+                        Get_and_Deploy.Deploy_war("${pomfile.artifactId}", "${Cur_Environment}", "${rootpom.version}")
                         } catch (error) {
                         step([$class: 'InfluxDbPublisher', customData: null, customDataMap: null, customPrefix: "${influxDB_prefix}", target: 'influxdb'])
                         SendMail("${currentBuild.result}", "${Cur_Environment}", "${rootpom.version}", "${module} Deployment", "${rootpom.name}")

@@ -313,6 +313,7 @@
                             <goal>install-node-and-npm</goal>
                         </goals>
                         <configuration>
+                        <nodeDownloadRoot>https://nodejs.org/dist/</nodeDownloadRoot>
                             <nodeVersion>v10.15.3</nodeVersion>
                             <npmVersion>6.9.0</npmVersion>
                         </configuration>
@@ -335,25 +336,18 @@
                             <arguments>rebuild node-sass</arguments>
                         </configuration>
                     </execution>
-                     <execution>
-                        <id>npm sntp install</id>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <configuration>
-                            <arguments>install --global sntp@1.0.9</arguments>
-                            
-                        </configuration>
-                    </execution>
                     <execution>
                         <id>npm install</id>
                         <goals>
                             <goal>npm</goal>
                         </goals>
-                        <configuration>
-                            <arguments>install --no-package-lock</arguments>
+                         <configuration>
+                    
+                            <arguments>install --global --ddd</arguments>
                         </configuration>
+                      
                     </execution>
+					
                     <execution>
                         <id>npm run build</id>
                         <goals>
@@ -381,7 +375,7 @@
 						</resource>
 					</webResources>
 				</configuration>
-			</plugin>
+			</plugin> 
 			
 		</plugins>
 	</build>

@@ -106,7 +106,7 @@ node ('dcvprdadm03') {
     }
  
         if ("${userInput}" == "true" || "${releaseBuild}" == "true") {
-            if ("${Cur_Environment.contains("DEV")}" || "${Cur_Environment.contains("INT")}" == "true") {
+            if ("${Cur_Environment.contains("DEV")}" == "true") {
                     stage ('unitTest Build') {
                         try {
                         Get_and_Deploy.Test_bin_local ("${rootpomxml}", "${Test_Profile}")
@@ -130,7 +130,7 @@ node ('dcvprdadm03') {
                            //add here your ecxlusions path if any
                            //"-Dsonar.exclusions=[path_to eclude-1]," +
                            //"[path_to eclude-2]"      
-                         def Sonarprops = readProperties file: 'almf-ihub/target/sonar/report-task.txt'
+                         def Sonarprops = readProperties file: 'target/sonar/report-task.txt'
                          env.SONAR_CE_TASK_URL = Sonarprops['ceTaskUrl']
                             }
                         } catch (error) {
@@ -168,7 +168,7 @@ node ('dcvprdadm03') {
             }
         }
  
-     if ("${Cur_Environment.contains("DEV")}" || "${Cur_Environment.contains("INT")}" == "true") {
+     if ("${Cur_Environment.contains("DEV")}" == "true") {
                     stage ('Check Nexus') {
                         try {
                         if ("${rootpom.version.contains("SNAPSHOT")}" == "false") {                           

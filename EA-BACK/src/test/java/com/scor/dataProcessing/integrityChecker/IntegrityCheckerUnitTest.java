@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.apache.spark.api.java.JavaRDD;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.common.io.Resources;
@@ -20,7 +21,7 @@ import com.scor.dataProcessing.dataChecker.integrityChecker.IntegrityCheckerRegi
 import com.scor.dataProcessing.models.AffectedColumn;
 import com.scor.dataProcessing.models.ControlResults;
 import com.scor.dataProcessing.sparkConnection.Connection;
-
+@Ignore
 public class IntegrityCheckerUnitTest {
 	private Map<String, List<String>> refData = new HashMap<>();
 

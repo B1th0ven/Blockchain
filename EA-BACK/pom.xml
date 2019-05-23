@@ -313,7 +313,7 @@
                             <goal>install-node-and-npm</goal>
                         </goals>
                         <configuration>
-                        <nodeDownloadRoot>https://nodejs.org/dist/</nodeDownloadRoot>
+<!--                         <nodeDownloadRoot>https://nodejs.org/dist/</nodeDownloadRoot> -->
                             <nodeVersion>v10.15.3</nodeVersion>
                             <npmVersion>6.9.0</npmVersion>
                         </configuration>
@@ -343,7 +343,7 @@
                         </goals>
                          <configuration>
                     
-                            <arguments>install --global --ddd</arguments>
+                            <arguments>install --ddd</arguments>
                         </configuration>
                       
                     </execution>

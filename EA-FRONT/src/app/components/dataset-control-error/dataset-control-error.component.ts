@@ -28,10 +28,13 @@ export class DatasetControlErrorComponent implements OnInit, OnChanges {
         if(this.control.errors>0 ){
           if(this.control.identifier =='formatControl' || this.control.identifier =='productFormatControl' ){
             this.errorType = 3 ;
+          } else if(this.control.order == 51){
+            this.errorType = 4;
           }
-          else if(this.control.identifier == 'Missing Values Check' || this.control.identifier == 'Missing Values Check_2' || this.control.identifier == 'Missing Values Check Blocking' || this.control.identifier == 'Product file information should match study metadata' || this.control.identifier == 'Incidence_Death XOR Incidence/Death'){
+          else if(this.control.identifier == 'Missing Values Check' || this.control.order == 52  || this.control.order == 45 ||  this.control.identifier == 'Missing Values Check_2' || this.control.identifier == 'Missing Values Check Blocking' || this.control.identifier == 'Product file information should match study metadata' || this.control.identifier == 'Incidence_Death XOR Incidence/Death'){
+
             this.errorType = 0
-          }else if(this.control.identifier != 'Missing Values Check' && this.control.identifier != 'Missing Values Check_2' && this.control.identifier != 'Missing Values Check Blocking' && this.control.identifier != 'Product file information should match study metadata' && this.control.identifier != 'Incidence_Death XOR Incidence/Death') {
+          }else if(this.control.identifier != 'Missing Values Check' && this.control.order != 52 && this.control.order != 45 && this.control.identifier != 'Missing Values Check_2' && this.control.identifier != 'Missing Values Check Blocking' && this.control.identifier != 'Product file information should match study metadata' && this.control.identifier != 'Incidence_Death XOR Incidence/Death') {
             this.errorType = 1
           }
         }

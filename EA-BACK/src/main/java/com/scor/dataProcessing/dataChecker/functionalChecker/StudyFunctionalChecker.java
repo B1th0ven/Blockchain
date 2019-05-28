@@ -3,12 +3,9 @@ package com.scor.dataProcessing.dataChecker.functionalChecker;
 import com.scor.dataProcessing.Helpers.*;
 import com.scor.dataProcessing.Helpers.filters.FilterForClaimsExistance;
 import com.scor.dataProcessing.accumulators.ControlResultAccumulator;
+import com.scor.dataProcessing.accumulators.ControlResultAccumulatorV2;
 import com.scor.dataProcessing.common.DataProduct;
-import com.scor.dataProcessing.dataChecker.functionalChecker.Controls.Control40;
-import com.scor.dataProcessing.dataChecker.functionalChecker.Controls.Control43;
-import com.scor.dataProcessing.dataChecker.functionalChecker.Controls.IRule;
-import com.scor.dataProcessing.dataChecker.functionalChecker.Controls.MainControls;
-import com.scor.dataProcessing.dataChecker.functionalChecker.Controls.RuleFactory;
+import com.scor.dataProcessing.dataChecker.functionalChecker.Controls.*;
 import com.scor.dataProcessing.dataChecker.functionalChecker.Operations.studyOperations.ControlByGroup;
 import com.scor.dataProcessing.dataChecker.functionalChecker.Operations.studyOperations.ControlByGroupLifeId;
 import com.scor.dataProcessing.dataChecker.functionalChecker.Operations.studyOperations.ControlReduceBy;
@@ -22,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.util.LongAccumulator;
+import org.omg.CORBA.DATA_CONVERSION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -98,6 +96,14 @@ public class StudyFunctionalChecker implements InterfaceToFunctionalChecker {
 
         controlResultsList.add(new ControlResult("Unique ProductID Control", affectedColumns));
         controlResultsList.add(productCoherenceMetadata);
+
+        Control53 control53 = new Control53();
+
+        ControlResult controlResult53 = control53.control53review(path_prod);
+        if (controlResult53 != null){
+            controlResultsList.add(controlResult53);
+        }
+
         return new ControlResults(null, (long) affectedColumn.getErrorsNumber(), controlResultsList, "", new HashMap<>());
     }
 
@@ -132,13 +138,18 @@ public class StudyFunctionalChecker implements InterfaceToFunctionalChecker {
 //			rf.getErrorsCount().add(1);
 //		}
 
+
         ControlResults claimsExistanceControl  = null;
         if (names.containsAll(Arrays.asList(Headers.LIFE_ID))) {
             claimsExistanceControl = this.control21(data, names,type);
         }
-
+        ControlResultAccumulator controlResultacc = new ControlResultAccumulator(
+                new ControlResult("Variables consistency", new ArrayList<>()));
+        sc.sc().register(controlResultacc); // sprint 3
+        new Control51(controlResultacc, rf.getErrorsCount(), names, type).validate(data); ; 
+        
         List<ControlResult> controlResultsList = this.collectResult(rf,groupedControls,claimsExistanceControl,exposure_coherent_status);
-
+        controlResultsList.add(controlResultacc.value()) ; 
         return new ControlResults(null, rf.getErrorsCount().value(), controlResultsList, header
                 + ";age_at_commencement_definition;product_start_date;product_end_date;min_face_amount;max_face_amount;min_age_at_commencement;max_age_at_commencement;client_risk_carrier_name;study_client;client_group;study_client_group;treaty_number_omega;study_treaty_number;distribution_brand_name;distribution_brand;Client_Country;Study_Country",rf.getValuesPersistAccumulator().value());
     }

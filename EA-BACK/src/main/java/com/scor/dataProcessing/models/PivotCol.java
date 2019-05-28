@@ -9,6 +9,8 @@ public class PivotCol implements Serializable{
 	private String type;
 	private boolean mandatory;
 	private List<String> possiblesValues;
+	private String entity ; 
+	
 	public String getName() {
 		return name;
 	}
@@ -39,6 +41,21 @@ public class PivotCol implements Serializable{
 		this.type = type;
 		this.mandatory = mandatory;
 		this.possiblesValues = possiblesValues;
+	}
+	
+	public PivotCol(String name, String type, boolean mandatory, List<String> possiblesValues, String entity) {
+		super();
+		this.name = name;
+		this.type = type;
+		this.mandatory = mandatory;
+		this.possiblesValues = possiblesValues;
+		this.entity=entity ;
+	}
+	public String getEntity() {
+		return entity;
+	}
+	public void setEntity(String entity) {
+		this.entity = entity;
 	}
 
 	

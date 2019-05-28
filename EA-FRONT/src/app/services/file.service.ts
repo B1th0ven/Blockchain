@@ -65,7 +65,7 @@ export class FileService {
     })
   }
 
-  validateFile(path, type, sheet) {
+validateFile(path, type, sheet) {
     let body = {
       path: path,
       type: type

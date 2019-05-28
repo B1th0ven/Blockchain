@@ -24,12 +24,18 @@ export class DatasetService {
     console.log("ds------------>",dataset)
     return this.http.post(environment.api_endpint+"datasets/report",Dataset.mapFiles(dataset)).map(res => res.json()).catch((response: any) => Observable.throw(response.json()))
   }
-
+  saveSnapshotFiles(res)
+  {
+    return this.http.post(environment.api_endpint+"datasets/snapshot",Dataset.SaveFiles(res)).map(res => res.json()).catch((response: any) => Observable.throw(response.json()))
+  }
   getByStudyId(study:Study)
   {
     return this.http.get(environment.api_endpint+"datasets/study/"+study.id).map(res => res.json()).catch((response: any) => Observable.throw(response.json()))
   }
-
+  getSnapshotByDatasetId(id)
+  {
+    return this.http.get(environment.api_endpint+"datasets/snapshot/"+id).map(res => res.json()).catch((response: any) => Observable.throw(response.json()))
+  }
   getPivots(type : string)
   {
     return this.http.get(environment.api_endpint+"datasets/pivots/"+type).map(res => res.json()).catch((response: any) => Observable.throw(response.json()))

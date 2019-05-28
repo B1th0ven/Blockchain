@@ -14,23 +14,31 @@
           <tr class="font-size-sm text-secondary border-0">
             <td class="border-0">File Type</td>
             <td class="border-0">File Name</td>
+            <td class="border-0" *ngIf="dataset.mode == 2">Reporting Period</td>
             <td class="border-0">Columns</td>
             <!-- <td class="border-0">Empty Headers</td> -->
             <td class="border-0">Missing Columns</td>
             <td class="border-0">Duplicated Columns</td>
             <td class="border-0">Unknown Columns</td>
+            <td class="border-0" *ngIf="dataset.mode == 2">Inconsistent Columns</td>
             <td class="border-0">Pivots</td>
             <td class="border-0"></td>
+            <td class="border-0 "  *ngIf="dataset.mode == 2"></td>
           </tr>
         </thead>
-        <tbody>
-          <tr *ngFor="let f of dataset.files" class="text-small">
-
+        <tbody >
+                
+          <tr  *ngFor="let f of fileDisplay;let i = index" class="text-small">
 
             <td>
-              <b class="text-dark"> {{f.typename}} File</b>
+              <b class="text-dark"> {{f.typename}} File <span *ngIf="dataset.mode == 2 && fileDisplay.length > 2 && f.typename != 'Product' ">{{i + 1 }}</span>   </b>
             </td>
             <td>{{f.name}}</td>
+            <td *ngIf="dataset.mode == 2">
+                <div *ngIf="f.maxyear"  class="btn btn-sm ">
+                  {{f.maxyear}}
+                </div>
+              </td>
             <td>
               <div *ngIf="f.columns" (click)="open(columns,'sm',f.columns)" class="btn btn-sm btn-link">
                 {{f.columns?.length}}
@@ -56,10 +64,16 @@
                 </div>
               </td>
             <td>
-              <div *ngIf="f.ignored" (click)="open(columns,'sm',f.ignored)" class="btn btn-sm btn-link">
+              <div *ngIf="f.ignored " (click)="open(columns,'sm',f.ignored)" class="btn btn-sm btn-link">
                 {{f.ignored?.length}}
               </div>
             </td>
+            <td *ngIf="dataset.mode == 2">
+                <div *ngIf="f.inconsistent"  (click)="open(columns,'sm',f.inconsistent)"class="btn btn-sm btn-link">
+                  {{f.inconsistent?.length}}
+                </div>
+              </td>
+              
             <td>
                 <button (click)="download(f.typename)" class="btn btn-sm btn-link">
                   <fa name="eye" size="lg"></fa>
@@ -68,8 +82,16 @@
             <td class="text-right" [ngClass]="{'custom-disable':disabled}">
               <fa [class]="'text-'+color(f.status)" *ngIf="f.status!='load'" size="lg" [name]="icon(f.status)"> </fa>
               <fa [class]="'text-'+color(f.status)" *ngIf="f.status=='load'" size="lg" [name]="icon(f.status)" animation="spin"> </fa>
-              <button *ngIf="!dataset.hasReport()" [disabled]="!canBrowseSpec(f)" (click)="onSelectType(f.type);open(content,'lg')" class="btn btn-sm btn-link">
+              <button *ngIf="!dataset.hasReport()" [disabled]="!canBrowseSpec(f)" (click)="onSelectType(f.type);onSelectrank(i);open(content,'lg')" class="btn btn-sm btn-link">
                 <fa name="cloud-upload" size="lg"></fa>
+              </button>
+            </td>
+            <td class="text-right" *ngIf="dataset.mode == 2" [ngClass]="{'custom-disable':disabled}">
+                <button *ngIf="!dataset.hasReport() && f.type == 'policy' && dataset.mode == 2 && i==0 " [disabled]="!canBrowseSpec(f)" (click)="dataset.addPolicyFile()" class="btn btn-sm btn-link">
+                    <fa name="plus-circle" size="lg"></fa>
+                  </button>
+              <button *ngIf="!dataset.hasReport() && f.type == 'policy' && dataset.mode == 2 && i>0 " [disabled]="!canBrowseSpec(f)" (click)="removeFile(i)" class="btn btn-sm btn-link">
+                <fa name="trash" size="lg"></fa>
               </button>
             </td>
           </tr>
@@ -91,7 +113,7 @@
     </button>
   </div>
   <div class="modal-body fadeIn">
-    <app-filebrowser [study]="study" [struct]="modeName(dataset.mode)" [type]="selectedType" (metadata)="sendMetaData($event)" (fileLoadFail)="onFileLoadFail($event)" (fileLoading)="onFileLoading($event,content)"
+    <app-filebrowser [study]="study" [struct]="modeName(dataset.mode)" [type]="selectedType"  (metadata)="sendMetaData($event)" (fileLoadFail)="onFileLoadFail($event)" (fileLoading)="onFileLoading($event,content)"
       (fileLoaded)="onFileLoaded($event)"></app-filebrowser>
   </div>
 </ng-template>

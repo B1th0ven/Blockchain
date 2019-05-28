@@ -58,12 +58,14 @@ public class ControlReduceBy implements VoidFunction<Tuple2<String, String[]>> {
 					&& StringUtils.isNotBlank(classification) && classification.equalsIgnoreCase("exposure"))) {
 				if (decc.isEmpty()) {
 					if (!secc.isEmpty() && !secc.equalsIgnoreCase("active")) {
-						List<AffectedColumn> affectedColumns = new ArrayList<>();
-						affectedColumns.add(new AffectedColumn("exposure end coherent with status", 1,
-								new ArrayList<>(Arrays.asList(row))));
-						exposure_coherent_status
-								.add(new ControlResult("Exposure end coherent with status ", affectedColumns));
-						errorsCount.add(1);
+						if (StringUtils.isNotBlank(row_arr[names.indexOf(Headers.POLICY_ID)].trim())) {
+							List<AffectedColumn> affectedColumns = new ArrayList<>();
+							affectedColumns.add(new AffectedColumn("exposure end coherent with status", 1,
+									new ArrayList<>(Arrays.asList(row))));
+							exposure_coherent_status
+									.add(new ControlResult("Exposure end coherent with status ", affectedColumns));
+							errorsCount.add(1);
+						}
 					}
 				}
 				if (!decc.isEmpty() && decc.matches("^[0-9]{2}/[0-9]{2}/[0-9]{4}$") && op_end != null
@@ -73,13 +75,14 @@ public class ControlReduceBy implements VoidFunction<Tuple2<String, String[]>> {
 							DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ENGLISH));
 
 					if ((secc.isEmpty() || secc.equalsIgnoreCase("active")) && !end.isEqual(opend)) {
-
-						List<AffectedColumn> affectedColumns = new ArrayList<>();
-						affectedColumns.add(new AffectedColumn("exposure end coherent with status", 1,
-								new ArrayList<>(Arrays.asList(row))));
-						exposure_coherent_status
-								.add(new ControlResult("Exposure end coherent with status ", affectedColumns));
-						errorsCount.add(1);
+						if (StringUtils.isNotBlank(row_arr[names.indexOf(Headers.POLICY_ID)].trim())) {
+							List<AffectedColumn> affectedColumns = new ArrayList<>();
+							affectedColumns.add(new AffectedColumn("exposure end coherent with status", 1,
+									new ArrayList<>(Arrays.asList(row))));
+							exposure_coherent_status
+									.add(new ControlResult("Exposure end coherent with status ", affectedColumns));
+							errorsCount.add(1);
+						}
 					}
 
 					if (sbcc.equalsIgnoreCase("active")) {

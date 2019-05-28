@@ -10,19 +10,20 @@ import {
 import { NgxPermissionsService } from '../../../../node_modules/ngx-permissions';
 import { StudyDatasetCreateComponent } from '../study-dataset-create/study-dataset-create.component';
 
+
 @Component({
   selector: 'app-study-dataset',
   templateUrl: './study-dataset.component.html',
   styleUrls: ['./study-dataset.component.scss'],
 })
 export class StudyDatasetComponent implements OnInit {
-
   @Input() study:Study
   @Input() dataset:Dataset
   @Input() datasets:Array<Dataset>
   @Input() tabNbr:number=0
 
   @Output() save:EventEmitter<any>= new EventEmitter<any>()
+  @Output() savesnapshot:EventEmitter<any>= new EventEmitter<any>()
 
   @Output() continueControl:EventEmitter<any>= new EventEmitter<any>()
   @Output() changeDatasetName:EventEmitter<any>= new EventEmitter<any>()
@@ -41,7 +42,7 @@ export class StudyDatasetComponent implements OnInit {
     if (!this.dataset)
       this.dataset = new Dataset()
     else
-      this.checkRunAssociatedToDataset()
+      {this.checkRunAssociatedToDataset()}
   }
 
   checkRunAssociatedToDataset() {
@@ -68,7 +69,7 @@ export class StudyDatasetComponent implements OnInit {
     console.log(" PRIVACY DATE DELETION" + this.dataset.files[0].privacyDataDeletion);
     console.log(this.dataset.files);
     
-    if (this.ds.canDoControl(this.dataset.files))
+    if (this.ds.canDoControl(this.dataset.files)|| this.ds.canDoControl(this.dataset.temporaryFile))
     {
       this.activeTab = 2
       if ( redo || !this.controlsTab.initialized )
@@ -85,7 +86,6 @@ export class StudyDatasetComponent implements OnInit {
   {
     this.changeDatasetName.emit(event)
   }
-
   openDeletePopUp(content) {
     this.modalService.open(content);
   }

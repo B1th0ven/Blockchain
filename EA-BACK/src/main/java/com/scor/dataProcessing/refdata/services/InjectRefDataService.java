@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -20,25 +21,15 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import com.scor.persistance.entities.*;
+import com.scor.persistance.repositories.*;
+import com.scor.persistance.specifications.JoinTreatyId;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.io.Resources;
-import com.scor.persistance.entities.RefCedentNameEntity;
-import com.scor.persistance.entities.RefCountryEntity;
-import com.scor.persistance.entities.RefDataEntity;
-import com.scor.persistance.entities.RefParentGroupEntity;
-import com.scor.persistance.entities.RefTreatyEntity;
-import com.scor.persistance.entities.RefUltimateGroupEntity;
-import com.scor.persistance.entities.RefUserEntity;
-import com.scor.persistance.repositories.ClientGroupRepository;
-import com.scor.persistance.repositories.ClientRepository;
-import com.scor.persistance.repositories.RefDataRepository;
-import com.scor.persistance.repositories.TreatyRepository;
-import com.scor.persistance.repositories.UltimateGroupRepository;
-import com.scor.persistance.repositories.UserRepository;
 import com.scor.persistance.services.ClientGroupService;
 import com.scor.persistance.services.CountryService;
 
@@ -309,5 +300,74 @@ public class InjectRefDataService implements Serializable {
 			e.printStackTrace();
 		}
 	}
+
+
+
+	@Autowired
+	JoinTreatyRefDataRepository joinTreatyRefDataRepository;
+
+
+    public void repairJoin() {
+
+		String path = Resources.getResource("omegaExtraction/OmegaExtraction05092018.csv").getPath();
+		File file = new File(path);
+		try{
+			InputStream stream = new FileInputStream(file);
+			BufferedReader br = new BufferedReader(new InputStreamReader(stream));
+			br.lines().skip(1).forEach(
+					line -> {
+						String[] lineArray = line.split(";",-1);
+						String Treaty = lineArray[0];
+						String naic = lineArray[4];
+						String portfolioOrigin = lineArray[13];
+						String currency = lineArray[15];
+						String SubsidiaryCode = lineArray[16] + "." + lineArray[17];
+						String SubsidiaryName = lineArray[18];
+						List<RefTreatyEntity> treatyEntities= treatyRepository.findByRtNameContaining(Treaty);
+						for (RefTreatyEntity treatyEntity : treatyEntities){
+							if (StringUtils.isNotBlank(naic)) {
+								RefDataEntity refnaic = refDataRepository.findByTypeAndCodeAndName("naic", naic, naic);
+								if (refnaic != null){
+									JoinTreatyId joinTreatyId = new JoinTreatyId(treatyEntity.getRtId(),refnaic.getId());
+									JoinTreatyRefDataEntity joinTreatyRefDataEntity = new JoinTreatyRefDataEntity(joinTreatyId) ;
+
+
+									joinTreatyRefDataRepository.save(joinTreatyRefDataEntity);
+								}
+							}
+							if (StringUtils.isNotBlank(currency)) {
+								RefDataEntity refCurrency = refDataRepository.findByTypeAndCodeAndName("currency", currency, currency);
+								if (refCurrency != null){
+									JoinTreatyId joinTreatyId = new JoinTreatyId(treatyEntity.getRtId(),refCurrency.getId());
+									JoinTreatyRefDataEntity joinTreatyRefDataEntity = new JoinTreatyRefDataEntity(joinTreatyId) ;
+									joinTreatyRefDataRepository.save(joinTreatyRefDataEntity);
+								}
+							}
+							if (StringUtils.isNotBlank(portfolioOrigin)) {
+								RefDataEntity refPortfolio = refDataRepository.findByTypeAndCodeAndName("portfolio_origin", portfolioOrigin, portfolioOrigin);
+								if (refPortfolio != null){
+									JoinTreatyId joinTreatyId = new JoinTreatyId(treatyEntity.getRtId(),refPortfolio.getId());
+									JoinTreatyRefDataEntity joinTreatyRefDataEntity = new JoinTreatyRefDataEntity(joinTreatyId) ;
+									joinTreatyRefDataRepository.save(joinTreatyRefDataEntity);
+								}
+							}
+							if (StringUtils.isNotBlank(SubsidiaryName) && StringUtils.isNotBlank(SubsidiaryCode)) {
+								RefDataEntity refSubsidiary = refDataRepository.findByTypeAndCodeAndName("subsidiary", SubsidiaryCode,SubsidiaryName);
+								if (refSubsidiary != null){
+									JoinTreatyId joinTreatyId = new JoinTreatyId(treatyEntity.getRtId(),refSubsidiary.getId());
+									JoinTreatyRefDataEntity joinTreatyRefDataEntity = new JoinTreatyRefDataEntity(joinTreatyId) ;
+									joinTreatyRefDataRepository.save(joinTreatyRefDataEntity);
+								}
+							}
+						}
+
+					}
+			);
+		}catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+
 
 }

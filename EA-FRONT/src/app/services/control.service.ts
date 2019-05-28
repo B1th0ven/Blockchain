@@ -8,6 +8,7 @@ import { controlNameBinding } from '@angular/forms/src/directives/reactive_direc
 import { DatasetService } from './dataset.service';
 import { date } from '../shared/models/date';
 import { Study } from '../shared/models/study';
+import { Dataset } from '../shared/models/dataset';
 
 
 @Injectable()
@@ -19,6 +20,16 @@ export class ControlService {
   ){}
 
   //NEW CODE ++++
+  snapControls(snapshot,dsid,user){
+    let body = {
+      snapshotParameter: snapshot,
+      datasetId: dsid,
+      userId: user.ruLogin.toString()
+    }
+  }
+
+
+
   funcControls(policyPath,productPath,type,startDate,endDate,stdid,user)
   {
     let body={
@@ -91,7 +102,12 @@ export class ControlService {
 
     return this.controls
   }
+  doSnapControls(ds: Dataset, header,maxyears,minyears)
+  {
+    let body = Dataset.mapToApiFile(ds,header,maxyears,minyears)
 
+    return this.http.post(environment.api_endpint+"SnapShotIntegrityControlss ",body).map(res => res.json()).catch((response: any) => Observable.throw(response.json()))
+  }
   doTechControls(policyPath,productPath,type,study, user)
   {
     let body={

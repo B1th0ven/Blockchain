@@ -6,6 +6,7 @@ import java.util.*;
 
 import com.scor.dataProcessing.dataChecker.DCFactory;
 import com.scor.dataProcessing.dataChecker.functionalChecker.ExpTableFunctionalChecker;
+import com.scor.dataProcessing.dataChecker.functionalChecker.Operations.OmegaData;
 import com.scor.dataProcessing.dataChecker.functionalChecker.StudyFunctionalChecker;
 import com.scor.dataProcessing.dataChecker.integrityChecker.IntegrityCheckerRegister;
 import com.scor.dataProcessing.dataChecker.schemaChecker.SchemaCheckerRegister;
@@ -47,6 +48,7 @@ public class ControlsRestService implements Serializable {
 	SparkService sparkService;
 
 
+
 	@RequestMapping(value = "/CompColsCheck", method = RequestMethod.POST)
 	public List<List<String>> check(HttpEntity<String> req)
 			throws JsonParseException, JsonMappingException, IOException {
@@ -55,11 +57,61 @@ public class ControlsRestService implements Serializable {
 		String type = (String) req_map.get("type");
 		String userId = (String) req_map.get("userId");
 		String studyId = (String) req_map.get("studyId");
-		String checker = "split".equalsIgnoreCase(type) || "combine".equalsIgnoreCase(type)
-				? SchemaCheckerRegister.POLICY
-				: SchemaCheckerRegister.PRODUCT;
+		String checker = null ;
+
+		switch (type.toLowerCase()) {
+
+			case "split"  :
+				checker = SchemaCheckerRegister.POLICY ;
+				break;
+			case "combine"  :
+			checker = SchemaCheckerRegister.POLICY ;
+			 break;
+			case "snapshot"  :
+				checker =	SchemaCheckerRegister.SNAPSHOT ;
+				break;
+
+
+			case "product"  :
+				checker =	SchemaCheckerRegister.PRODUCT ;
+			default:
+				break ;
+		}
+
+
 		return DCFactory.getSchemaChecker().run(path, type, checker,userId,studyId);
 	}
+	@RequestMapping(value = "/CompColsCheckSnapShot", method = RequestMethod.POST)
+	public List<List<String>> checkSnap(HttpEntity<String> req)
+			throws JsonParseException, JsonMappingException, IOException {
+		HashMap<String, Object> req_map = new ObjectMapper().readValue(req.getBody(), HashMap.class);
+		String path = (String) req_map.get("path");
+		String type = "snapshot";
+		String userId = (String) req_map.get("userId");
+		String studyId = (String) req_map.get("studyId");
+		String checker = null ;
+
+		switch (type) {
+
+			case "split"  :
+				checker = SchemaCheckerRegister.POLICY ;
+				break;
+			case "combine"  :
+				checker = SchemaCheckerRegister.POLICY ;
+				break;
+			case "snapshot"  :
+				checker =	SchemaCheckerRegister.SNAPSHOT ;
+				break;
+			default:
+
+				checker =	SchemaCheckerRegister.PRODUCT ;
+		}
+
+		return DCFactory.getSchemaChecker().run(path, type, checker,userId,studyId);
+	}
+
+
+
 
 
 	@RequestMapping(value = "/TechControls", method = RequestMethod.POST)
@@ -78,6 +130,51 @@ public class ControlsRestService implements Serializable {
 				IntegrityCheckerRegister.PRODUCT, userId, studyId);
 		return Arrays.asList(expoRes, prodRes);
 	}
+
+
+
+
+
+	@RequestMapping(value = "/TechPolicyControls", method = RequestMethod.POST)
+	public List<ControlResults> policyTechCtrl(HttpEntity<String> req)
+			throws JsonParseException, JsonMappingException, IOException {
+		HashMap<String, Object> req_map = new ObjectMapper().readValue(req.getBody(), HashMap.class);
+		String path = (String) req_map.get("path_policy");
+		String path_product = (String) req_map.get("path_product");
+		String type = (String) req_map.get("type");
+		String userId = (String) req_map.get("userId");
+		String studyId = (String) req_map.get("studyId");
+		Map<String, List<String>> refData = refDataService.getAll();
+		ControlResults expoRes = DCFactory.getIntegrityChecker().run(refData, path, type,
+				IntegrityCheckerRegister.POLICY, userId, studyId);
+
+		return Arrays.asList(expoRes);
+	}
+
+
+@RequestMapping(value = "/TechProductControls", method = RequestMethod.POST)
+	public List<ControlResults> productTechCtrl(HttpEntity<String> req)
+			throws JsonParseException, JsonMappingException, IOException {
+		HashMap<String, Object> req_map = new ObjectMapper().readValue(req.getBody(), HashMap.class);
+		String path = (String) req_map.get("path_policy");
+		String path_product = (String) req_map.get("path_product");
+		String type = (String) req_map.get("type");
+		String userId = (String) req_map.get("userId");
+		String studyId = (String) req_map.get("studyId");
+		Map<String, List<String>> refData = refDataService.getAll();
+
+		ControlResults prodRes = DCFactory.getIntegrityChecker().run(refData, path_product, null,
+				IntegrityCheckerRegister.PRODUCT, userId, studyId);
+		return Arrays.asList( prodRes);
+	}
+
+
+
+
+
+
+
+
 
 	@RequestMapping(value = "/FuncControls", method = RequestMethod.POST)
 	public ControlResults funcCtrl(HttpEntity<String> req)

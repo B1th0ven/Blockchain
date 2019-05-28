@@ -18,6 +18,40 @@ export class DatasetControlDataService {
     formatControl.canceled = false;
     return formatControl;
   }
+  InitSnapshotControl(){
+    var SnapshotControl = [
+      new Control({
+        identifier:'Reporting frequency consistency in snapshots',
+        name:'Reporting frequency consistency in snapshots',
+        files: ['snapshot'],
+        category: 'Blocking',
+        description:'The period of reporting must be the same for every snapshot: only one time variable must be provided (year, quarter or month)',
+        order:49
+      }),
+      new Control({
+        identifier:'No inception / renewal after ealiest reporting period',
+        name:'No inception / renewal after earliest reporting period',
+        files: ['snapshot'],
+        category: 'Blocking',
+        description:'Portfolio inception / renewal date must be before the end of the earliest reporting period',
+        order: 50
+      }),
+      new Control({
+        identifier:'No unexplained disappearance in snapshots',
+        name:'No unexplained disappearance in snapshots',
+        files: ['snapshot'],
+        category: 'Warning',
+        description:'When there is no decrement on a policy, it should be found in the following snapshot',
+        order: 48
+      })
+];
+SnapshotControl.forEach(c => {
+  c.running = true;
+  c.canceled = false;
+});
+
+  return SnapshotControl
+  }
   InitProductFormatControl(){
     var productFormatControl = new Control({
       name: 'Format Control',
@@ -583,6 +617,61 @@ export class DatasetControlDataService {
         description: 'The case where ix+qx is analyzed together cannot be mixed with the standard ix or qx analysis.',
         files: ['policy'],
         order: 43
+      }),
+      new Control({
+        controlColumns: [ 'Benefit_Max_Age','Payment_Deferred_Period_Freq','Claim_Payment_Deferred_Period','Date_of_Event_Incurred','Date_of_Event_Paid'],
+        identifier: 'Date of Event Paid => Date of Event Incurred + Deferred Period',
+        name: 'Date of Event Paid => Date of Event Incurred + Deferred Period',
+        category: 'Warning',
+        description: 'The payment of the claim should occur just after the end of the Claim Payment Deferred Period',
+        files: ['policy'],
+        order: 44
+      }),
+      new Control({
+        controlColumns: ['Product_ID', 'Benefit_Max_Age'],
+        identifier: 'Waiting Period',
+        name: 'Waiting Period',
+        category: 'Warning',
+        description: 'Claim should occur after the end of the waiting period.',
+        files: ['policy'],
+        order: 45
+      }),
+      new Control({
+        controlColumns: ['Claim_Payment_Deferred_Period', 'Payment_Deferred_Period_Freq', 'Date_of_claim_commencement','Status_Begin_Current_Condition','Date_of_End_Current_Condition','Claim_Payment_Term_Years'],
+        identifier: 'Event Paid <= Claim Payment End',
+        name: 'Event Paid <= Claim Payment End',
+        category: 'Warning',
+        description: 'Date of end current condition should be prior the sum of Date of Claim Commencement, Payment Deferment Period and Payment Period',
+        files: ['policy'],
+        order: 46
+      }),
+      new Control({
+        controlColumns: ['Benefit_End_Date', 'Claim_Payment_End_Date','Type_of_Event','Date_of_End_Current_Condition'],
+        identifier: 'Status at benefit end / claim payment end',
+        name: 'Status at benefit end / claim payment end',
+        category: 'Warning',
+        description: 'When the date of end current condition matches benefit end/claim payment end, then the event type should be empty',
+        files: ['policy'],
+        order: 47
+      }),
+      new Control({
+        controlColumns: ['Product_ID', 'Benefit_Max_Age'],
+        identifier: 'Variables consistency',
+        name: 'Variables consistency',
+        category: 'Warning',
+        description: 'There are columns that describe the policy, insured or benefit. Those information should be the same for a given policy, insured or event.',
+        files: ['policy', 'product'],
+        order: 51
+      }),
+      new Control({
+        controlColumns: ['Product_ID', 'Benefit_Max_Age'],
+        identifier: 'Acceleration Risk Amount and Risk Amount',
+        name: 'Acceleration Risk Amount and Risk Amount',
+        category: 'Blocking',
+        description: 'When there is a Claimant_Dead, acceleration risk amount must be equal to risk amount',
+        files: ['policy'],
+        order: 52
+
       })
     ];
     FuncControls.forEach(c => {

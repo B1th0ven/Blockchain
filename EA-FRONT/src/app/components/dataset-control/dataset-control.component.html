@@ -58,9 +58,10 @@
               <th>Message</th>
             </tr>
           </thead>
-          <tbody app-dataset-control-management  [productHeader]="productHeader" [controls]="controls" [policyHeader]="policyHeader" [study]="study" [dataset]="dataset" [control]="formatControl" [tabNbr]="tabNbr" [index]="1" ></tbody>
-          <tbody app-dataset-control-management  [productHeader]="productHeader" [controls]="productControls" [policyHeader]="policyHeader" [study]="study" [dataset]="dataset" [control]="productFormatControl" [tabNbr]="tabNbr" [index]="2" ></tbody>
-          <tbody app-dataset-control-management [productHeader]="productHeader" [policyHeader]="policyHeader" [dataset]="dataset" *ngFor="let c of funcControls; let i = index" [study]="study" [control]="c" [tabNbr]="tabNbr" [index]="i+3" >
+          <tbody app-dataset-control-management [productHeader]="productHeader" [policyHeader]="policyHeader" [dataset]="dataset" *ngFor="let c of snapshotControl; let i = index" [study]="study" [control]="c" [tabNbr]="tabNbr" [index]="i+1" ></tbody>
+          <tbody app-dataset-control-management  [productHeader]="productHeader" [controls]="controls" [policyHeader]="policyHeader" [study]="study" [dataset]="dataset" [control]="formatControl" [tabNbr]="tabNbr" [index]="index" ></tbody>
+          <tbody app-dataset-control-management  [productHeader]="productHeader" [controls]="productControls" [policyHeader]="policyHeader" [study]="study" [dataset]="dataset" [control]="productFormatControl" [tabNbr]="tabNbr" [index]="index + 1" ></tbody>
+          <tbody app-dataset-control-management [productHeader]="productHeader" [policyHeader]="policyHeader" [dataset]="dataset" *ngFor="let c of funcControls; let i = index" [study]="study" [control]="c" [tabNbr]="tabNbr" [index]="i+index + 2" >
           </tbody>      
         </table>
       </div>
@@ -76,7 +77,7 @@
     </div>
     <div class="col-md-12 text-right">
       <button class="btn btn-sm btn-primary mb-2" *ngIf="!dataset.hasReport()" [ngClass]="{'custom-disable':fileSaveStatus.loading}"
-        [disabled]="!ls.valid(formatControl, productFormatControl, funcControls,isNotExecuted)" style="min-width:120px" (click)="saveClick()">Save</button>
+        [disabled]="!ls.valid(formatControl, productFormatControl, funcControls,notExecuted)" style="min-width:120px" (click)="saveClick()">Save</button>
 
     </div>
     <div class="col-md-12 text-right">

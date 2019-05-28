@@ -151,13 +151,13 @@ export class RunDecTabDefComponent implements OnInit {
     )
   }
 
-  getTables(run : Run) {
+  getTables(run : Run,type) {
     let tablesId : Array<number> = []
     run.decrements.forEach(dec => {
       dec.ExpectedTable.forEach(exp => {
-        if(exp.id_adjustment) tablesId.push(exp.id_adjustment)
-        if(exp.id_base) tablesId.push(exp.id_base)
-        if(exp.id_trend) tablesId.push(exp.id_trend)
+        if(type == 'adj'){if(exp.id_adjustment) tablesId.push(exp.id_adjustment)}
+        if(type == 'base'){if(exp.id_base) tablesId.push(exp.id_base)}
+        if(type == 'trend'){if(exp.id_trend) tablesId.push(exp.id_trend)}
       })
     })
     console.log("tables ====>",tablesId)
@@ -168,7 +168,7 @@ export class RunDecTabDefComponent implements OnInit {
   onExpChange(e,type){
     console.log(e,this.selectedBase)
     console.log(this.run);
-    let tablesArray = this.getTables(this.run)
+    let tablesArray = this.getTables(this.run,type)
     
     if( e && e != ""){
     switch(type) { 

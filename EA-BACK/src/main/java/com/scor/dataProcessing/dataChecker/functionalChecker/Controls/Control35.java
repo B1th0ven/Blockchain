@@ -86,8 +86,8 @@ public class Control35 implements IRule {
         if (names.contains("benefit_term_years")) {
             indexOfHeaders.put(names.indexOf("benefit_term_years"), "benefit_term_type");
         }
-        if (names.contains("benefit_end_date")) {
-            indexOfHeaders.put(names.indexOf("benefit_end_date"), "benefit_term_type");
+        if (names.contains("benefit_max_age")) {
+            indexOfHeaders.put(names.indexOf("benefit_max_age"), "benefit_term_type");
         }
         if (names.contains("multiplicative_rated_status")) {
             indexOfHeaders.put(names.indexOf("multiplicative_rated_status"), "rated_status");

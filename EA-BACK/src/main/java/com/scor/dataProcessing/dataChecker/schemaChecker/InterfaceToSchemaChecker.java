@@ -26,6 +26,10 @@ public interface InterfaceToSchemaChecker extends Serializable {
 		if ("product".equalsIgnoreCase(checker)) {
 			return ProductSchemaCheker.getInstance().run(path);
 		}
+		if ("snapshot".equalsIgnoreCase(checker)) {
+			return SnapshotSchemaChecker.getInstance().run(path);
+		}
+
 		if ("expTable".equalsIgnoreCase(checker)) {
 			try {
 				return ExpTableSchemaCheker.getInstance().run(path, type);
@@ -35,6 +39,10 @@ public interface InterfaceToSchemaChecker extends Serializable {
 			}
 		}
 		return null;
+	}
+
+	default String test(String path) {
+		return path;
 	}
 
 }

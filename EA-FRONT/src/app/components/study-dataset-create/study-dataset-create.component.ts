@@ -12,7 +12,8 @@ import {
 } from '../../services/dataset.service';
 import {
   ActivatedRoute,
-  Router
+  Router,
+  ActivatedRouteSnapshot
 } from '@angular/router';
 import {
   FileType
@@ -34,7 +35,6 @@ import { NgxPermissionsService } from '../../../../node_modules/ngx-permissions'
 import { UsersService } from '../../services/users.service';
 
 
-
 @Component({
   selector: 'app-study-dataset-create',
   host: {
@@ -44,26 +44,27 @@ import { UsersService } from '../../services/users.service';
   styleUrls: ['./study-dataset-create.component.scss']
 })
 export class StudyDatasetCreateComponent implements OnInit {
-
   @Input() study: Study
+  
   @Input() dataset: Dataset
   @Input() datasets: Array < Dataset >
   @Input() isDatasetAssociatedToRun : boolean
   @Input() doneControls: boolean;
   @Output() save: EventEmitter < any > = new EventEmitter < any > ()
   @Output() excecute: EventEmitter < any > = new EventEmitter < any > ()
-
+  @Output() snapshotsave: EventEmitter <any> = new EventEmitter < any >()
   @ViewChild("d1") d1 :any
   @ViewChild("d2") d2 :any
   @ViewChild('d1Container') d1Container: ElementRef;
   @ViewChild('d2Container') d2Container: ElementRef;
-
+  
   metadata: any;
   screen = SCREEN.DATASET;
-
+  saved = false ;  
   busy: boolean = false
   err
-
+  
+  
   today: date = new date(new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate())
 
   files: [FileType]
@@ -75,6 +76,8 @@ export class StudyDatasetCreateComponent implements OnInit {
     console.log("datasetcreator:p",this.dataset)
     this.dataset.studyId = this.study.id
     this.validated = this.study.isValidated()
+    
+    
   }
 
   canSave() {
@@ -95,14 +98,16 @@ export class StudyDatasetCreateComponent implements OnInit {
 
   saveDataset() {
     this.busy = true;
+    
     if(!this.dataset.creator)
     this.dataset.creator = this.us.getStoredUser()
     this.ds.save(this.dataset).subscribe(
       data => {
-
+        console.log("DATASET VIEW",this.dataset)
         this.dataset.mapFromApi(data)
         this.save.emit(this.dataset)
         this.busy = false;
+        this.saved = true 
         this.dataset.changed = false;
 
         this.tsr.pop('success', "Done", "Dataset saved!")
@@ -113,6 +118,12 @@ export class StudyDatasetCreateComponent implements OnInit {
         this.busy = false;
       }
     )
+  }
+  checkSnapDependancy(){
+    if(this.dataset.mode == 2){
+      if(!this.dataset.firstSnapshot  || !this.dataset.portfolioInception ) return false
+      else return true
+    } else return false
   }
   loadMetaData(event){
     this.metadata = event;
@@ -163,10 +174,12 @@ export class StudyDatasetCreateComponent implements OnInit {
     this.dataset.changed=true;
     this.dataset.files = null;
     this.dataset.createDatasetFileHolders();
+    
   }
 
   hostClick(event) {
-      if (this.d1.isOpen()) {
+    if(this.d1 && this.d2)
+    {  if (this.d1.isOpen()) {
         if (this.d1Container && this.d1Container.nativeElement && !this.d1Container.nativeElement.contains(event.target)) {
           this.d1.close();
         }
@@ -175,7 +188,7 @@ export class StudyDatasetCreateComponent implements OnInit {
         if (this.d2Container && this.d2Container.nativeElement && !this.d2Container.nativeElement.contains(event.target)) {
           this.d2.close();
         }
-      }
+      }}
   }
   addSlash(key) {
     this.dataset[key].month = 0

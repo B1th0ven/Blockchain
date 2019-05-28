@@ -31,6 +31,12 @@ public class DataSetEntity implements Serializable {
     private RefUserEntity dsCreatedBy;
     private Date dsCreatedDate;
 
+
+    private String firstSnapshot ;
+    private String portfolioInceptionDate;
+    private String annualSnapshotExtractionTiming;
+    private Boolean snapshotMissingValues;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "DS_ID")
@@ -213,6 +219,46 @@ public class DataSetEntity implements Serializable {
 	public void setDsDataAvailableTableau(Boolean dsDataAvailableTableau) {
 		this.dsDataAvailableTableau = dsDataAvailableTableau;
 	}
-    
-    
+
+
+    @Basic
+    @Column(name = "DS_FIRST_SNAPSHOT")
+    public String getFirstSnapshot() {
+        return firstSnapshot;
+    }
+
+    public void setFirstSnapshot(String firstSnapshot) {
+        this.firstSnapshot = firstSnapshot;
+    }
+
+    @Basic
+    @Column(name = "DS_PORTFOLIO_INCEPTION_DATE")
+    public String getPortfolioInceptionDate() {
+        return portfolioInceptionDate;
+    }
+
+    public void setPortfolioInceptionDate(String portfolioInceptionDate) {
+        this.portfolioInceptionDate = portfolioInceptionDate;
+    }
+
+    @Basic
+    @Column(name = "DS_ANNUAL_SNAPSHOT_EXTRACTION_TIME")
+    public String getAnnualSnapshotExtractionTiming() {
+        return annualSnapshotExtractionTiming;
+    }
+
+    public void setAnnualSnapshotExtractionTiming(String annualSnapshotExtractionTiming) {
+        this.annualSnapshotExtractionTiming = annualSnapshotExtractionTiming;
+    }
+
+
+    @Basic
+    @Column(name = "DS_SNAPSHOT_MISSING_VALUES")
+    public Boolean getSnapshotMissingValues() {
+        return snapshotMissingValues;
+    }
+
+    public void setSnapshotMissingValues(Boolean snapshotMissingValues) {
+        this.snapshotMissingValues = snapshotMissingValues;
+    }
 }

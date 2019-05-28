@@ -1,11 +1,8 @@
 package com.scor.dataProcessing.dataChecker.functionalChecker.Controls;
 
-import com.scor.dataProcessing.accumulators.ControlResultAccumulator;
 import com.scor.dataProcessing.accumulators.ControlResultAccumulatorV2;
 import com.scor.dataProcessing.accumulators.MapAccumulator;
-import com.scor.dataProcessing.models.ControlResult;
 
-import com.scor.dataProcessing.models.ControlUnit;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.util.LongAccumulator;
 
@@ -52,7 +49,7 @@ public class RuleFactory {
     public List<IRule> getRules() {
         List<IRule> rules = new ArrayList<>();
         rules.add(new DateRules(acc,errorsCount));
-        rules.add(new Control33(acc,errorsCount));
+        rules.add(new Control33(acc,errorsCount,type));
         rules.add(new Control6(acc,errorsCount,type));
         rules.add(new FloatComparaison(acc,errorsCount));
         rules.add(new Control10(acc,errorsCount));
@@ -75,6 +72,11 @@ public class RuleFactory {
         rules.add(new Control40(acc,errorsCount));
         rules.add(new Control42(acc,errorsCount));
         rules.add(new Control43(acc,errorsCount));
+        rules.add(new Control44(acc,errorsCount));
+        rules.add(new Control45(acc,errorsCount));
+        rules.add(new Control46(acc,errorsCount));
+        rules.add(new Control47(acc,errorsCount));
+        rules.add(new Control52(acc,errorsCount));
         rules.add(new ValuePersist(valuesPersistAccumulator,errorsCount));
         return rules;
     }

@@ -29,6 +29,9 @@ public class Connection implements Serializable{
 			//Setup Spark configuration
 			SparkConf conf = new SparkConf()
 					.setAppName(appName)
+//					.set("spark.sql.shuffle.partitions", "1")
+//					.set("spark.default.parallelism", "6")
+					.set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
 					.setMaster(sparkMaster).set("spark.scheduler.mode", "FAIR");
 			
 			//Make sure you download the winutils binaries into this directory

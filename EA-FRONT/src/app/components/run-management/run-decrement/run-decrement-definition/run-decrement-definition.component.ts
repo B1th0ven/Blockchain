@@ -405,13 +405,26 @@ export class RunDecrementDefinitionComponent implements OnInit {
 
   isSlicingDemensionChecked(slice,pduration) {
     // if(slice.value == "calendar") return true
-    if(slice.value == "duration" && ((this.run.isDateOfCommencement && this.decrement.ExpCalibrationUrl) || pduration || this.durationYearInExpected)) return true
+    if(slice.value == "duration" && ((this.run.isDateOfCommencement && this.decrement.ExpCalibrationUrl) || pduration || this.durationYearInExpected)) {
+      if(!this.decrement.slicingDimension.find(element => element == slice.value ) ) { this.decrement.slicingDimension.push(slice.value) }      
+      return true
+    }
     /*if(slice.value == "duration" && this.run.is_date_of_commencement){
       // this.decrement.slicingDimension.splice(this.decrement.slicingDimension.indexOf("duration"))
       return false
     } */
-    if(slice.value == "duration" && this.run.automatic_risk_amount) return true
-    if(slice.value == "age" && this.InsuranceAgeAttainedInExpected) return false
+    if(slice.value == "duration" && this.run.automatic_risk_amount) {
+      if(!this.decrement.slicingDimension.find(element => element == slice.value ) ) { this.decrement.slicingDimension.push(slice.value) }      
+      return true
+    }
+    if(slice.value == "age" && this.InsuranceAgeAttainedInExpected) {
+      if(this.decrement.slicingDimension.find(element => element == slice.value ) ) { this.decrement.slicingDimension.splice(this.decrement.slicingDimension.indexOf('age'),1)}
+      return false
+    }
+    if((slice.value =='age' && this.attainedAgeInExpected)|| (slice.value =='duration' && this.InsuranceAgeAttainedInExpected)) {
+      if(!this.decrement.slicingDimension.find(element => element == slice.value ) ) { this.decrement.slicingDimension.push(slice.value) }
+      return true
+    }
     return this.decrement.slicingDimension.indexOf(slice.value)>=0 && this.checkedSlicing(slice.isDisabled) || (slice.value == "duration" && pduration)
   }
 

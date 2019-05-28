@@ -24,7 +24,6 @@ declare let $: any;
  import * as jspdf from 'jspdf'
  import * as html2canvas from 'html2canvas'
 import { doesNotThrow } from 'assert';
-
 @Component({
   selector: 'app-dataset-control',
   templateUrl: './dataset-control.component.html',
@@ -44,7 +43,6 @@ export class DatasetControlComponent implements OnInit {
   ) {}
 
   @Input() study: Study;
-
   @Input() dataset: Dataset;
   initialized = false;
   @Input() tabNbr: number = 0;
@@ -57,7 +55,7 @@ export class DatasetControlComponent implements OnInit {
   @Output() continue: EventEmitter<any> = new EventEmitter<any>();
   @Output() done: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-
+  index = 1 
   productHeader: Array<String>;
   policyHeader: Array<String>;
 
@@ -66,6 +64,8 @@ export class DatasetControlComponent implements OnInit {
   controls: any;
   productControls: any;
   funcControls: Array<Control>;
+  snapshotControl: Array<Control>;
+
   //REPORT
   funcReport: any;
   techReport: any;
@@ -81,15 +81,24 @@ export class DatasetControlComponent implements OnInit {
     
   }
   startControls() {
+    
+    if(this.dataset.mode == 2 ){
+      this.ds.saveSnapshotFiles(this.dataset).subscribe()
+      this.index = 5
+    }
     this.controlsDone = false;
     this.initialized = true;
+    this.snapshotControl = (this.dataset.mode == 2 ) ? this.dds.InitSnapshotControl() : null;
     this.formatControl = this.dds.InitFormatControl();
     console.log(this.formatControl.order);
     this.controls = this.dds.InitControls();
     this.productControls = this.dds.InitProductControls();
     this.productFormatControl = this.dds.InitProductFormatControl();
     this.funcControls = this.dds.InitFuncControls();
-    this.files = this.dataset.files;
+    if(this.dataset.mode == 2){
+      this.files = this.dataset.temporaryFile
+    }else {
+    this.files = this.dataset.files;}
     if (this.dataset.hasReport()) {
       this.hasReport = true;
       this.viewExistingReport();
@@ -97,6 +106,7 @@ export class DatasetControlComponent implements OnInit {
       this.runNewReport();
       this.canceled = false;
     }
+    console.log(this.funcControls.find(e => e.order == 51))
   }
   fileSaveStatus = {
     loading: false,
@@ -146,6 +156,7 @@ export class DatasetControlComponent implements OnInit {
   } 
   continueClick() {
     this.saveReport(true);
+
   }
 
   saveClick() {
@@ -163,7 +174,7 @@ export class DatasetControlComponent implements OnInit {
     this.dataset.funcReport = this.funcReport;
     this.dataset.techReport = this.techReport;
     this.dataset.notExecReport = this.notExecutedJSON;
-
+    this.ds.saveSnapshotFiles(this.dataset).subscribe()
     this.ds.saveFiles(this.dataset).subscribe(
       res => {
         this.fileSaveStatus.loading = false;
@@ -218,6 +229,7 @@ export class DatasetControlComponent implements OnInit {
       notExecuted.push(notExecCtrName.control);
       this.updateFailed([control]);
     });
+    this.notExecuted = notExecuted
   }
   updateFormatInner = (resControls, typeFormatControl, controls) => {
     controls.forEach(c => {
@@ -275,6 +287,9 @@ export class DatasetControlComponent implements OnInit {
     resControls.forEach(controlType => {
       if (
         controlType.control == 'Missing Values Check' ||
+        controlType.control == 'Waiting Period' ||
+        controlType.control == 'Status at benefit end / claim payment end' ||
+        controlType.control == 'Acceleration Risk Amount and Risk Amount' ||
         controlType.control == 'Missing Values Check_2' ||
         controlType.control ==
           'Product file information should match study metadata' ||
@@ -291,7 +306,10 @@ export class DatasetControlComponent implements OnInit {
           controls,
           'Missing Values Check Blocking'
         );
-      } else {
+      }else if(controlType.control == 'Variables consistency'){
+        this.updateVariable(controlType,controls)
+      }
+       else {
         let affectedColumns: Array<any> = controlType.affectedColumns || [];
         affectedColumns.forEach(controlByName => {
           let control: Control = controls.find(
@@ -350,7 +368,23 @@ export class DatasetControlComponent implements OnInit {
   canDoControl(files) {
     return this.ds.canDoControl(files);
   }
-
+  updateVariable(res, controls){
+    let control = controls.find(el => el.order == 51)
+    let errors = 0;
+    control.status = 'done';
+    control.done = true;
+    control.running = false;
+    res.affectedColumns.forEach(affectedColumn => {
+      errors = errors + affectedColumn.errorsNumber;
+    });
+    control.errors = errors;
+    control.valid = control.errors > 0 ? 'no' : 'yes';
+    control.message =
+      control.errors > 0
+        ? new BignumberPipe().transform(String(control.errors)) + ' error(s)'
+        : 'Done';
+    control.examples = res.affectedColumns
+  }
   updateFailed = (controls, serverError?: boolean) => {
     controls.forEach(control => {
       control.total = null;
@@ -397,7 +431,7 @@ export class DatasetControlComponent implements OnInit {
   runNewJob(dataset, files) {
     this.cs.startNewJob(files, dataset);
   }
-
+  
   viewExistingReport = () => {
     this.notExecutedJSON = this.dataset.notExecReport;
 
@@ -431,13 +465,7 @@ export class DatasetControlComponent implements OnInit {
     this.funcControls = this.ls.sortControls(this.funcControls);
     return;
   };
-
-  runNewReport = () => {
-    let productfile = this.dataset.files.find(f => f.type == 'product');
-    let policyfile = this.dataset.files.find(f => f.type == 'policy');
-    let productpath = productfile['path'];
-    let policypath = policyfile['path'];
-    let mode = this.dataset.mode == 0 ? 'split' : 'combine';
+  executecontrols(policypath,productpath,mode){
     this.cs.doTechControls(policypath, productpath, mode,this.study,this.user).subscribe({
       next: resArray => {
         // console.log(resArray);
@@ -527,5 +555,173 @@ export class DatasetControlComponent implements OnInit {
                 )
           })
     });
+  }
+
+  
+  runNewReport = () => {
+    let productfile = this.dataset.files.find(f => f.type == 'product');
+    let policyfile
+    let productpath = this.dataset.files.find(f => f.type == 'product').path;
+    let mode
+    let policypath
+    switch(this.dataset.mode){
+      case 0:
+        mode = 'split';
+        break;
+      case 1:
+        mode = 'combine';
+        break;
+      case 2:
+        mode = 'snapshot';
+        break;
+      default:
+        break;
+    }
+    if(this.dataset.mode == 2 ){
+      let maxyears = []
+      let minyears = []
+      this.dataset.temporaryFile.forEach(file => {
+        if(file.type != 'product'){
+        maxyears.push(file.maxyear[0])
+        minyears.push(file.minyear[0])}
+      });
+    this.cs.doSnapControls(this.dataset,this.dataset.header,maxyears,minyears).subscribe({
+      next: resArray => {
+        this.snapshotControl.forEach(el => {el.status = 'done';
+        el.done = true;
+        el.valid = resArray[el.identifier] == false ? 'no' : 'yes';
+        el.running = false;
+        el.message = el.valid == 'yes' ? 'done': 'failed' })
+        policypath = resArray["path"]
+        let policy = this.dataset.files.find(el => el.type =='policy')
+        policy.path = resArray["path"]
+        policy.name = Date.now().toString()
+
+      },
+      error: res => {
+        this.snapshotControl.forEach(el => {el.status = 'done';
+        el.valid = 'no'
+        el.done = false;
+        el.running = false;
+        el.message = 'Server Error';
+         }
+        )
+      },
+      complete:() =>{
+        this.executecontrols(policypath,productpath,mode)
+      }
+
+  
+  })}
+  else {
+    policyfile = this.dataset.files.find(f => f.type == 'policy');
+    productpath = productfile['path'];
+    policypath = policyfile['path'];
+    switch(this.dataset.mode){
+      case 0:
+        mode = 'split';
+        break;
+      case 1:
+        mode = 'combine';
+        break;
+      case 2:
+        mode = 'snapshot';
+        break;
+      default:
+        break;
+    }
+    this.executecontrols(policypath,productpath,mode)
+
+  }
+    // this.executecontrols(productfile,policypath,productpath,mode)
+    // this.cs.doTechControls(policypath, productpath, mode,this.study,this.user).subscribe({
+    //   next: resArray => {
+    //     // console.log(resArray);
+    //     if (this.productFormatControl.canceled == false) {
+    //       let res = resArray[0];
+    //       let productRes = resArray[1];
+    //       this.techReport = resArray;
+    //       this.productHeader = productRes.header
+    //         ? productRes.header.split(';')
+    //         : null;
+    //       this.policyHeader = res.header ? res.header.split(';') : null;
+    //       this.updateFormat(
+    //         res.controlResultsList,
+    //         this.formatControl,
+    //         this.controls
+    //       );
+    //       this.updateFormat(
+    //         productRes.controlResultsList,
+    //         this.productFormatControl,
+    //         this.productControls
+    //       );
+    //     }
+    //   },
+    //   error: err => {
+    //     if (this.productFormatControl.canceled == false) {
+    //     this.updateFailed(this.controls, true);
+    //     this.updateFailed(this.formatControl, true);
+    //     this.updateFailed(this.productFormatControl, true);
+    //     this.updateFailed(this.funcControls, true);
+    //   }},
+    //   complete: () =>
+    //     this.cs
+    //       .notExecutedControls(
+    //         policypath,
+    //         productpath,
+    //         mode,
+    //         this.study.startObsDate,
+    //         this.study.endObsDate,
+    //         this.study,
+    //         this.user
+    //       )
+    //       .subscribe({
+    //         next: res => {
+    //           if (this.productFormatControl.canceled == false) {
+    //             this.notExecutedJSON = res;
+    //             this.updateNotExecutedControl(
+    //               res,
+    //               this.funcControls,
+    //               this.notExecuted
+    //             );
+    //           }
+    //         },
+    //         error: err => {
+    //           if (this.productFormatControl.canceled == false) {
+    //           this.updateFailed(this.controls, true);
+    //           this.updateFailed(this.formatControl, true);
+    //           this.updateFailed(this.productFormatControl, true);
+    //           this.updateFailed(this.funcControls, true);
+    //         }},
+    //         complete: () =>
+    //           this.cs
+    //             .funcControls(
+    //               policypath,
+    //               productpath,
+    //               mode,
+    //               this.study.startObsDate,
+    //               this.study.endObsDate,
+    //               this.study.id,
+    //               this.user
+    //             )
+    //             .subscribe(
+    //               res => {
+    //                 if (this.productFormatControl.canceled == false) {
+    //                   this.funcReport = res;
+    //                   this.update(res.controlResultsList, this.funcControls);
+    //                   this.funcControls = this.ls.sortControls(
+    //                     this.funcControls
+    //                   );
+    //                   this.done.emit(true);
+    //                 }
+    //               },
+    //               err => {
+    //                 if (this.productFormatControl.canceled == false) {
+    //                 this.updateFailed(this.funcControls, true);}
+    //               },
+    //               ()=>{this.controlsDone = true}
+    //             )
+    //       })
+    // });
   };
 }

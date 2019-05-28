@@ -41,6 +41,28 @@
 
     <div class="form-group row">
       <div class="col-sm-5  text-right">
+        <label placement="top" container="body" container="body" [ngbTooltip]="hs.getDetail(screen,'Data Structure type')" class="pointer  col-form-label col-form-label-sm  text-right">Data Structure Type*</label>
+      </div>
+      <div class="col-sm-7">
+
+        <div class="input-group input-group-sm">
+          <select [(ngModel)]="dataset.mode" [disabled]="dataset.hasReport() || !canEdit() || validated || isDatasetAssociatedToRun" (change)="onModeChanged()"
+            name="mode" class="form-control-sm" [disabled]="dataset.hasReport()" [ngClass]="{'form-control-plaintext':dataset.hasReport(),'form-control':!dataset.hasReport()}">
+            <option value="1">Combined</option>
+            <option value="0">Split</option>
+            <option value="2">Snapshot</option>
+          </select>
+          <div class="input-group-append dropdown-append">
+            <button [hidden]="dataset.hasReport()" class="btn btn-primary" type="button" [disabled]="!canEdit() ||validated || isDatasetAssociatedToRun">
+              <fa name="chevron-down"></fa>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row" *ngIf="dataset.mode != 2">
+      <div class="col-sm-5  text-right">
         <label placement="top" container="body" container="body" [ngbTooltip]="hs.getDetail(screen,'Exposure extraction date')" class="pointer col-form-label col-form-label-sm">Exposure Extraction Date</label>
       </div>
       <div class="col-sm-7">
@@ -48,9 +70,9 @@
           <input appAutoSlash class="form-control form-control-sm" placeholder="dd/mm/yyyy" name="dp" [(ngModel)]="dataset.exposureExtractionDate"
             ngbDatepicker #d2="ngbDatepicker" (ngModelChange)="onDateChanged('exposureExtractionDate','eventExtractionDate')"
             [ngClass]="{'is-invalid':!validDate(dataset.exposureExtractionDate,study.endObsDate)||!validDate(today,dataset.exposureExtractionDate) || !checkValidDateFormat(dataset.exposureExtractionDate)}"
-            [disabled]="!canEdit() || validated"> <!--isDatasetAssociatedToRun can be used (check ts file)-->
+            [disabled]="!canEdit() || validated || dataset.mode ==2"> <!--isDatasetAssociatedToRun can be used (check ts file)-->
           <div class="input-group-append">
-            <button class="btn btn-primary" (click)="d2.toggle()" type="button" [disabled]="!canEdit() || validated"> <!--isDatasetAssociatedToRun can be used (check ts file)-->
+            <button class="btn btn-primary" (click)="d2.toggle()" type="button" [disabled]="!canEdit() || validated  || dataset.mode ==2"> <!--isDatasetAssociatedToRun can be used (check ts file)-->
               <fa name="calendar"></fa>
             </button>
           </div>
@@ -74,7 +96,7 @@
     </div>
 
 
-    <div class="form-group row">
+    <div class="form-group row" *ngIf="dataset.mode != 2">
       <div class="col-sm-5  text-right">
         <label placement="top" container="body" container="body" [ngbTooltip]="hs.getDetail(screen,'Event extraction date')" class="pointer  col-form-label col-form-label-sm  text-right">Event Extraction Date</label>
       </div>
@@ -83,9 +105,9 @@
           <input appAutoSlash class="form-control form-control-sm" placeholder="dd/mm/yyyy" name="dp" [(ngModel)]="dataset.eventExtractionDate"
             ngbDatepicker #d1="ngbDatepicker" (ngModelChange)="onDateChanged('eventExtractionDate','exposureExtractionDate')"
             [ngClass]="{'is-invalid':!validDate(dataset.eventExtractionDate,study.endObsDate)||!validDate(today,dataset.eventExtractionDate) || !checkValidDateFormat(dataset.eventExtractionDate)}"
-            [disabled]="!canEdit() || validated"><!--isDatasetAssociatedToRun can be used (check ts file)-->
+            [disabled]="!canEdit() || validated  || dataset.mode ==2"><!--isDatasetAssociatedToRun can be used (check ts file)-->
           <div class="input-group-append">
-            <button class="btn btn-primary" (click)="d1.toggle()" type="button" [disabled]="!canEdit() || validated"><!--isDatasetAssociatedToRun can be used (check ts file)-->
+            <button class="btn btn-primary" (click)="d1.toggle()" type="button" [disabled]="!canEdit() || validated  || dataset.mode ==2"><!--isDatasetAssociatedToRun can be used (check ts file)-->
               <fa name="calendar"></fa>
             </button>
           </div>
@@ -109,26 +131,77 @@
 
     </div>
 
-    <div class="form-group row">
-      <div class="col-sm-5  text-right">
-        <label placement="top" container="body" container="body" [ngbTooltip]="hs.getDetail(screen,'Data Structure type')" class="pointer  col-form-label col-form-label-sm  text-right">Data Structure Type*</label>
-      </div>
-      <div class="col-sm-7">
-
-        <div class="input-group input-group-sm">
-          <select [(ngModel)]="dataset.mode" [disabled]="dataset.hasReport() || !canEdit() || validated || isDatasetAssociatedToRun" (change)="onModeChanged()"
-            name="mode" class="form-control-sm" [disabled]="dataset.hasReport()" [ngClass]="{'form-control-plaintext':dataset.hasReport(),'form-control':!dataset.hasReport()}">
-            <option value="1">Combined</option>
-            <option value="0">Split</option>
-          </select>
-          <div class="input-group-append dropdown-append">
-            <button [hidden]="dataset.hasReport()" class="btn btn-primary" type="button" [disabled]="!canEdit() ||validated || isDatasetAssociatedToRun">
-              <fa name="chevron-down"></fa>
-            </button>
+    
+    <div class="form-group row" *ngIf="dataset.mode == 2">
+        <div class="col-sm-5  text-right">
+          <label placement="top" container="body" container="body" [ngbTooltip]="hs.getDetail(screen,'Data Structure type')" class="pointer  col-form-label col-form-label-sm  text-right">First Snapshot*</label>
+        </div>
+        <div class="col-sm-7">
+  
+          <div class="input-group input-group-sm">
+            <select [(ngModel)]="dataset.firstSnapshot" [disabled]="dataset.hasReport() || !canEdit() || validated || saved || isDatasetAssociatedToRun" (change)="onModeChanged()"
+              name="mode" class="form-control-sm" [disabled]="dataset.hasReport()" [ngClass]="{'form-control-plaintext':dataset.hasReport(),'form-control':!dataset.hasReport()}">
+              <option disabled></option>
+              <option value="1">New Portfolio</option>
+              <option value="0">Inforce Portfolio</option>
+            </select>
+            <div class="input-group-append dropdown-append">
+              <button [hidden]="dataset.hasReport()" class="btn btn-primary" type="button" [disabled]="!canEdit() ||validated || saved || isDatasetAssociatedToRun">
+                <fa name="chevron-down"></fa>
+              </button>
+            </div>
           </div>
         </div>
       </div>
+
+    <div class="form-group row" *ngIf="dataset.mode == 2">
+      <div class="col-sm-5  text-right">
+        <label placement="top" container="body" container="body" [ngbTooltip]="hs.getDetail(screen,'Event extraction date')" class="pointer  col-form-label col-form-label-sm  text-right">Portfolio Inception/ renewal date*</label>
+      </div>
+      <div class="col-sm-7">
+        <div class="input-group input-group-sm" #d1Container>
+          <input appAutoSlash class="form-control form-control-sm" placeholder="dd/mm/yyyy" name="dp" [(ngModel)]="dataset.portfolioInception"
+            ngbDatepicker #d3="ngbDatepicker" 
+            [disabled]="!canEdit() || validated || saved  "><!--isDatasetAssociatedToRun can be used (check ts file)-->
+          <div class="input-group-append">
+            <button class="btn btn-primary" (click)="d3.toggle()" type="button" [disabled]="!canEdit() || validated || saved  "><!--isDatasetAssociatedToRun can be used (check ts file)-->
+              <fa name="calendar"></fa>
+            </button>
+          </div>
+        </div>
+      
+      </div>
+
     </div>
+
+    <div class="form-group row" *ngIf="dataset.mode == 2">
+      <div class="col-sm-5  text-right">
+        <label placement="top" container="body" container="body" [ngbTooltip]="hs.getDetail(screen,'Event extraction date')" class="pointer  col-form-label col-form-label-sm  text-right">Annual snapshot extraction timing</label>
+      </div>
+      <div class="col-sm-7">
+        <div class="input-group input-group-sm" #d1Container>
+          <input appAutoSlash class="form-control form-control-sm" placeholder="mm/yyyy" name="dp" [(ngModel)]="dataset.annualSnapshot"
+            ngbDatepicker #d4="ngbDatepicker" 
+            [disabled]="!canEdit() || validated || saved "><!--isDatasetAssociatedToRun can be used (check ts file)-->
+          <div class="input-group-append">
+            <button class="btn btn-primary" (click)="d4.toggle()" type="button" [disabled]="!canEdit() || validated || saved "><!--isDatasetAssociatedToRun can be used (check ts file)-->
+              <fa name="calendar"></fa>
+            </button>
+          </div>
+        </div>
+      
+      </div>
+
+    </div>
+    <div class="form-group row" *ngIf="dataset.mode == 2">
+        <div class="col-sm-5 text-right"></div>
+    <div class="col-sm-7">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" [disabled]="!canEdit() ||validated || isDatasetAssociatedToRun " [(ngModel)]="dataset.missingEntries"   class="custom-control-input" id="bca-missing-{{CompNumber}}">
+        <label class="custom-control-label col-form-label-sm " for="bca-missing-{{CompNumber}}">Replace missing entries with information from previous period</label>
+      </div>
+    </div>
+  </div>
     <div class="form-group row">
       <div class="col-sm-5 text-right">
           <label placement="top" container="body" [ngbTooltip]="''" class="pointer col-form-label col-form-label-sm ">Make data set available in Tableau</label>
@@ -166,18 +239,18 @@
   <div class="col-md-12 mt-3">
     <div class="col-md-12 text-right">
       <!-- <button class="btn btn-sm btn-primary" [disabled]="!canSave() || !canEdit() || isDatasetAssociatedToRun" (click)="saveDataset()"> -->
-      <button class="btn btn-sm btn-primary" [disabled]="!canSave() || !canEdit()" (click)="saveDataset()">
+      <button class="btn btn-sm btn-primary" [disabled]="!canSave() || !canEdit() || checkSnapDependancy()" (click)="saveDataset()">
         <div *ngIf="!busy"> Save and Continue</div>
         <div *ngIf="busy">Loading...</div>
       </button>
     </div>
   </div>
-  <div class="col-md-12 mt-3" *ngIf="dataset.id&&!dataset.changed">
+  <div class="col-md-12 mt-3" *ngIf="(dataset.mode != 2 ||checkSnapDependancy()) && ( dataset.id && !dataset.changed)">
     <hr style="margin-left: -15px; margin-right: -15px;">
     <div class="text-primary font-weight-bold form-header mb-4">Dataset Files</div>
     <hr class="border-top border-primary mb-4 mt-2 opacity-half">
 
-    <app-dataset-files [study]="study" [disabled]="!canEdit()" [dataset]="dataset" [mode]="dataset.mode" [tab]="dataset.id" (metadata)="loadMetaData($event)" (click)="excecute.emit()"></app-dataset-files>
+    <app-dataset-files [study]="study" [disabled]="!canEdit()" [dataset]="dataset"  [mode]="dataset.mode" [tab]="dataset.id" (metadata)="loadMetaData($event)" (click)="excecute.emit()"></app-dataset-files>
 
   </div>
 

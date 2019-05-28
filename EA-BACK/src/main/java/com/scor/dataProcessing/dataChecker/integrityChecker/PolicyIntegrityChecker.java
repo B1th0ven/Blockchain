@@ -104,6 +104,10 @@ public class PolicyIntegrityChecker implements InterfaceToIntegrityChecker {
 				new ControlResult("Code format", new ArrayList<>()));
 		sc.sc().register(cf_acc);
 
+		ControlResultAccumulator sf_acc = new ControlResultAccumulator(
+				new ControlResult("Snapshot format", new ArrayList<>()));
+		sc.sc().register(sf_acc);
+
 		ControlResultAccumulator refDataAcc = new ControlResultAccumulator(
 				new ControlResult("RefData format", new ArrayList<>()));
 		sc.sc().register(refDataAcc);
@@ -122,20 +126,36 @@ public class PolicyIntegrityChecker implements InterfaceToIntegrityChecker {
 				if (StringUtils.isNotBlank(line) & !line.equalsIgnoreCase(header)) {
 					String[] arr = line.toLowerCase().trim().split(";", -1);
 					String classification = null;
-					if (type.equalsIgnoreCase("split"))
+					if ((type.equalsIgnoreCase("split")) || (type.equalsIgnoreCase("snapshot")))
 						classification = arr[names.indexOf("exposure_or_event")];
 					if (classification == null || classification.equalsIgnoreCase("exposure")
 							|| classification.equalsIgnoreCase("event")
 							|| classification.equalsIgnoreCase("exposure + event")) {
-						List<String> expo_mand_cols = Arrays.asList("exposure_or_event",
-								"date_of_begin_current_condition", "date_of_commencement",
-								"status_begin_current_condition", "status_end_current_condition",
-								"acceleration_risk_type", "main_risk_type", "product_id");
-						List<String> event_mand_cols = Arrays.asList("exposure_or_event", "date_of_event_incurred",
-								"type_of_event", "date_of_commencement", "acceleration_risk_type", "main_risk_type",
-								"product_id");
-						List<String> event_expo_mand_cols = Arrays.asList("status_begin_current_condition",
-								"date_of_begin_current_condition");
+						List<String> expo_mand_cols = new ArrayList<>() ;
+						List<String> event_mand_cols  = new ArrayList<>() ;
+						List<String> event_expo_mand_cols = new ArrayList<>();
+						if ((type.equalsIgnoreCase("snapshot"))) {
+					 expo_mand_cols = Arrays.asList("exposure_or_event","date_of_commencement", "acceleration_risk_type", "main_risk_type", "product_id");
+					 event_mand_cols = Arrays.asList("exposure_or_event", "date_of_event_incurred",
+									"type_of_event", "date_of_commencement", "acceleration_risk_type", "main_risk_type",
+									"product_id");
+							event_expo_mand_cols = Arrays.asList();
+
+						}
+						else {
+							 expo_mand_cols = Arrays.asList("exposure_or_event",
+									"date_of_begin_current_condition", "date_of_commencement",
+									"status_begin_current_condition", "status_end_current_condition",
+									"acceleration_risk_type", "main_risk_type", "product_id");
+							 event_mand_cols = Arrays.asList("exposure_or_event", "date_of_event_incurred",
+									"type_of_event", "date_of_commencement", "acceleration_risk_type", "main_risk_type",
+									"product_id");
+							 event_expo_mand_cols = Arrays.asList("status_begin_current_condition",
+									"date_of_begin_current_condition");
+
+						}
+
+
 
 						for (int i = 0; i < arr.length; i++) {
 							if (i < types.size()) {
@@ -164,6 +184,20 @@ public class PolicyIntegrityChecker implements InterfaceToIntegrityChecker {
 									} catch (NullPointerException | NumberFormatException e) {
 									}
 									break;
+									case "snapshotyear" :
+										FormatControlUtility.yearValidator(arr[i], names.get(i), is_mand.get(i), line,
+												sf_acc, errorsCount);
+										break;
+
+									case "snapshotmonth" :
+										FormatControlUtility.monthValidator(arr[i], names.get(i), is_mand.get(i), line,
+												sf_acc, errorsCount);
+										break;
+									case "snapshotquarter" :
+										FormatControlUtility.quarterValidator(arr[i], names.get(i), is_mand.get(i), line,
+												sf_acc, errorsCount);
+										break;
+
 								case "numeric+":
 									FormatControlUtility.numericValidator(arr[i], names.get(i), isMandatory, line,
 											decimalSeparator, nf_acc, errorsCount, possibleVals.get(i),true);
@@ -211,10 +245,13 @@ public class PolicyIntegrityChecker implements InterfaceToIntegrityChecker {
 		controlResultsList.add(nf_acc.value());
 		controlResultsList.add(cf_acc.value());
 		controlResultsList.add(refDataAcc.value());
+		controlResultsList.add(sf_acc.value());
 		controlResultsList.add(headersControl);
 
 		return new ControlResults(threshold, errorsCount.value(), controlResultsList, header
-				+ ";age_at_commencement_definition;product_start_date;product_end_date;min_face_amount;max_face_amount;min_age_at_commencement;max_age_at_commencement;duplicated_product_id;client_risk_carrier_name;study_client;client_group;study_client_group;treaty_number_omega;study_treaty_number;distribution_brand_name;distribution_brand;client_country;study_country",
+				+ ";age_at_commencement_definition;product_start_date;product_end_date;min_face_amount;max_face_amount;min_age_at_commencement;" +
+				"max_age_at_commencement;duplicated_product_id;client_risk_carrier_name;study_client;" +
+				"client_group;study_client_group;treaty_number_omega;study_treaty_number;distribution_brand_name;distribution_brand;client_country;study_country",
 				new HashMap<>());
 
 	}

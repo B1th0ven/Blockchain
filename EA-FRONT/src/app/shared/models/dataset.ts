@@ -25,6 +25,15 @@ export class Dataset {
   creator:any
   dataInjectionTableau: boolean = false
   changed = false;
+  firstSnapshot: number;
+  portfolioInception: date;
+  annualSnapshot: date;
+  missingEntries: boolean;
+  temporaryFile: Array < FileType >;
+  temporaryData: any;
+  header: Array<string>;
+
+  
 
   constructor(dataset ? ) {
     if (dataset) {
@@ -82,19 +91,27 @@ export class Dataset {
 
     if (!this.files || fileTypes.length != this.files.length)
       this.files = new Array < FileType > ()
+      this.temporaryFile = new Array <FileType> ()
 
     for (let fileType of fileTypes) {
       if (!this.files || !this.files.find(f => f.type == "product")) {
         this.files.push(new FileType({
           type: fileType
         }));
+        if(!this.temporaryFile || !this.temporaryFile.find(f => f.type == "product")){
+        this.temporaryFile.push(
+          new FileType({
+            type: fileType
+          })
+        )}
       }
     }
   }
   addPolicyFile(){
-    this.files.splice(-1,0,new FileType({
+    if(this.temporaryFile.length<6){
+    this.temporaryFile.splice(-1,0,new FileType({
       type: "policy"
-    }))
+    }))}
   }
   setJobID(id) {
     this.jobID = id
@@ -104,7 +121,29 @@ export class Dataset {
     this.jobID = null
   }
 
-
+  public static mapToApiFile(ds : Dataset, Header, maxyears, minyears){
+    return {
+        "firstSnapshot": (ds.firstSnapshot == 1)?'new portfolio': 'inforce portfolio' ,
+        "portfolioInceptionDate": date.formatDate(ds.portfolioInception),
+        "AnnualSnapshotExtractionTiming": date.formatDate(ds.annualSnapshot),
+        "missingvalues": ds.missingEntries,
+        "listPolicySnapshotPath":  ds.extractpath(ds.temporaryFile),
+        "studyId": ds.studyId.toString(),
+        "datasetid": ds.id.toString(),
+        "allCols": Header,
+        "minReportingPeriod": minyears,
+        "maxReportingPeriod": maxyears
+    }
+}
+public extractpath(files: Array<FileType>): Array<string> {
+  let res = []
+  files.forEach(element => { 
+     if(element.type == 'policy')
+      res.push(element.path)
+      
+  });
+  return res
+}
   public static mapToApi(ds: Dataset) {
     let d : Date = new Date();
     let dddd : string = date.getCurrentDate(d)
@@ -130,7 +169,11 @@ export class Dataset {
       "dsNotExecuted": (ds.notExecReport)? JSON.stringify(ds.notExecReport):"",//.join(";"): "",
       "dsCreatedBy": ds.creator,
       "dsCreatedDate":(ds.creationDate)? date.formatDate(ds.creationDate): dates,
-      "dsDataAvailableTableau": ds.dataInjectionTableau
+      "dsDataAvailableTableau": ds.dataInjectionTableau,
+      "firstSnapshot": (ds.firstSnapshot == 1)?'new portfolio': 'inforce portfolio' ,
+      "portfolioInceptionDate": date.formatDate(ds.portfolioInception),
+      "annualSnapshotExtractionTiming": date.formatDate(ds.annualSnapshot),
+      "snapshotMissingValues": ds.missingEntries
     }
   }
 
@@ -164,7 +207,28 @@ export class Dataset {
     
     return obj;
   }
-
+  public static SaveFiles(dataset: Dataset){
+    let result = []
+    if(dataset.temporaryFile){
+    dataset.temporaryFile.forEach(element => { 
+      if(element.type != 'product'){
+        result.push(
+            {
+                "dataSet":dataset.id,
+                "esfId": null,
+                "fileType": 'snapshot',
+                "fileLink": element.path,
+                "fileName": element.name,
+                "fileHeader": element["columns"].toString(),
+                "inconsistentColumns": element["inconsistent"].toString(),
+                "ReportingYear": element["maxyear"][0]
+                
+            }
+        )
+    }})};
+    
+    return result
+}
   public mapFromApi = (data) => {
 
     let datef = (format: string): date => {
@@ -196,6 +260,10 @@ export class Dataset {
 
     this.creationDate = datef(data["dsCreatedDate"])
     this.dataInjectionTableau = data["dsDataAvailableTableau"]
+    this.firstSnapshot = data["firstSnapshot"] == 'new portfolio'? 1: 0 
+    this.portfolioInception = date.dateFromString( data["portfolioInceptionDate"]) 
+    this.annualSnapshot = date.dateFromString(data["annualSnapshotExtractionTiming"]) 
+    this.missingEntries = data["snapshotMissingValues"]
     return this
   }
 

@@ -140,7 +140,7 @@ Disability_Degree;Event;TPD;Degree of disability;code;No;total/partial
 Disability_Percentage_Upper_Band;Event;TPD;Band of percentage of disability, upper limit;Numeric;No;
 Claim_Status;Event;All;Status of claim approval (claim management process);code;No;pending/approved/paid
 Claim_Currency;Event;All;Currency of claim;refData;No;Omega Currency Code
-Claim_sequence;Event;All;The number of claim (e.g. first, second, third…);Numeric+;No;integer/not null
+Claim_sequence;Event;All;The number of claim (e.g. first, second, thirdÂ…);Numeric+;No;integer/not null
 Policy_dummy_text_1;Benefit;All;Free text variable for any information not covered in data dictionary;Free text;No;
 Policy_dummy_text_2;Benefit;All;Free text variable for any information not covered in data dictionary;Free text;No;
 Policy_dummy_text_3;Benefit;All;Free text variable for any information not covered in data dictionary;Free text;No;
@@ -161,3 +161,11 @@ CI_condition_claimed;Event;CI;;code;No;Cancer/Heart Attack/Stroke/Kidney Failure
 Ex_gratia_claim;Event;All;;code;No;Yes/No
 Retro_Risk_Amount_Share;Status;All;;Numeric+;No;<=1
 Date_of_claim_commencement;Event;;Commencement date of the claimant period;Date;No;
+Claim_Payment_Deferred_Period;Benefit;DI/ LTC;Single or main deferred period of benefit. Once the claim incurred, payments will start only after this period. If the insured is no longer in claim status after this period, he will receive no payment;Numeric;No;Integer >=0
+Payment_Deferred_Period_Freq;Benefit;DI/ LTC;Frequency of deferred period;code;No;daily/weekly/monthly/quarterly/biannually/annually
+Claim_Payment_Term_Years;Benefit;DI/ LTC;Maximum duration of annuity benefit payments in number of years;Numeric;No;Integer >0
+Claim_Payment_End_Date;Benefit;DI/ LTC;Date upon which benefit annuity payments cease, e.g. in case of DI or LTC;Date;No;
+reporting_year;;All;Reporting year of snapshot data;snapshotyear;Yes;
+reporting_quarter;;All;Reporting quarter of snapshot data;snapshotquarter;Yes;
+reporting_month;;All;Reporting month of snapshot data;snapshotmonth;Yes;
+Claim_Payment_Mode;Benefit;All;This indicates whether the claim payment will be a regular payment, a single payment or indemnity.;code;no;Lumpsum/Income/Indemnity

@@ -80,7 +80,6 @@ export class DatasetManagementComponent implements OnInit, OnDestroy {
             data.forEach(element => {
               let d = new Dataset()
               this.datasets.push(d.mapFromApi(element))
-
               this.tabs.push({
                 type: "newdataset",
                 name: d.name
@@ -104,6 +103,24 @@ export class DatasetManagementComponent implements OnInit, OnDestroy {
           this.err = "Error with the server."
         }
       )
+      // this.datasets.forEach(dataset => {
+      //   if(dataset.mode == 2) {
+      //     this.ds.getSnapshotByDatasetId(dataset.id).subscribe(
+      //       {
+      //         next: res => {
+      //           res.forEach(el => dataset.temporaryFile.push({
+      //             "typename": 'Policy',
+      //             "type":'policy',
+      //             "name": el["fileName"],
+      //             "columns": el["fileHeader"],
+      //             "inconsistent":el["inconsistentColumns"],
+      //             "year":el["reportingYear"]
+      //           })) 
+      //         }
+      //       }
+      //     )
+      //   }
+      // })
   }
 
   ngOnDestroy() {

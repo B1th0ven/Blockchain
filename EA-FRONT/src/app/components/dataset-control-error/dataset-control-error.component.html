@@ -180,3 +180,71 @@
       </div>
     </div>
   </td> 
+  <td *ngIf="errorType == 4" style="padding: 0;" colspan="10">
+    <div class="collapse collapse-tr" [id]="'collapsefunc-'+i+'-'+tabNbr">
+        <div [class]="ds.getRowClassExemples('sm', control.category)">
+            <div [class]="ds.getRowClassExemples('row', control.category)">
+        <div class="table-col-big text-capitalize">
+          <b>Type</b>
+        </div>
+       
+        <div class="table-col-sm">
+          <b>Column Name</b>
+        </div>
+        <div class="table-col-sm">
+          <b>Affected ID</b>
+        </div>
+        <div class="table-col-big">
+          <b>Example</b>
+        </div>
+      </div>
+      <div [class]="ds.getRowClassExemples('row', control.category)" *ngFor="let err of control.examples">
+          
+
+        <div class="table-col-big">{{err.name.split("/")[0]}}</div>
+        <div class="table-col-sm"> {{err.name.split("/")[1]}} </div>
+        <div class="table-col-sm"> {{err.errorsNumber}} </div>
+
+        <div class="table-col-big">
+            <span *ngIf="err.name.split('/')[0]  != 'Benefit'">{{err.examples[0]}}</span><span *ngIf="err.name.split('/')[0]  == 'Benefit'">{{err.examples[0].split(";")[0]}}</span> 
+          <fa name="angle-down" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          </fa>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+            <div class="dropdown-item" style="width:700px;">
+              <div class="row">
+                <div class="col-4">
+                  <b> {{err.name.split("/")[0]}} ID </b>
+                </div>
+                <div *ngIf="err.name.split('/')[0] == 'Benefit'" class="col-4">
+                    <b>Policy ID</b>
+                  </div>
+                <div *ngIf="err.name.split('/')[0] == 'Benefit'" class="col-4">
+                  <b>Life ID</b>
+                </div>
+              </div>
+            </div>
+            <div class="dropdown-item" *ngFor="let example of err.examples">
+                    <div class="row">
+                <div class="col-4">
+                  <div *ngIf="control.identifier != 'Product file information should match study metadata'">  
+                  {{example.split(";")[0]}}
+                  </div>
+                </div>
+                <div *ngIf="err.name.split('/')[0] == 'Benefit'" class="col-4">
+                  {{example.split(";")[1]}}
+                  {{ls.getColumnValue(ls.getSecondHeader(control.identifier,err.name),policyHeader,example,study)}}
+                </div>
+                <div *ngIf="err.name.split('/')[0] == 'Benefit'" class="col-4">
+                  {{example.split(";")[2]}}
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</td> 

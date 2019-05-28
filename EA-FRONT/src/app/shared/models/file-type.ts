@@ -21,6 +21,9 @@ export class FileType {
   privacyDate : Date
   privacyDataRestriction: String
   privacyDataDeletion : date
+  inconsistent: any[]
+  minyear: string
+  maxyear: string
   source: {
 
   }
@@ -39,9 +42,30 @@ export class FileType {
 
   static numberOfInstances = 0;
 
-  public static mapToApi( files: Array<FileType>, type: string ) {
+  public static mapToApi( files: Array<FileType>, type?: string, rank?:number ) {
       if ( !files ) return null
-      let file = files.find( f => ( f.type == type ) )
+      let file
+      if(!type) { file = files[rank]}
+      else if(type) {
+      file = files.find( f => ( f.type == type ) )}
+      else { 
+        let res: any [];
+        files.forEach(file =>  
+            { 
+              let a ={"eafFileType": file.type,
+              "eafName": file.name,
+              "eafLink": file.path,
+              "eafHeader": file.columns.join( ";" ) || "",
+              "eafIgnored": file.ignored.join( ";" ) || "",
+              "eafSubmitter": ( type == "policy" ) ? file.privacySubmitter.mapToApi() : null,
+              "eafprivacyDate": ( type == "policy" && file.privacyDate ) ? file.privacyDate.getTime() : null,
+              "eafDataRestriction": ( type == "policy" ) ? file.privacyDataRestriction : null,
+              "eafDataDeletion": ( file.privacyDataDeletion ) ? date.formatDate( file.privacyDataDeletion ) : null}
+              res.push(a)
+            }
+          ) ; 
+          return res 
+        }
       if ( file && file.name && file.path ) {
           console.log( files );
           console.log( file.privacyDate ? file.privacyDate.getTime() : null );

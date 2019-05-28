@@ -55,7 +55,7 @@
         <li *ngIf="!selectedBase[0].version" [ngClass]="'warning-report'">
           Attention: The table selected is an old version !
         </li>
-        <li *ngIf="selectedBase[0].status.trim() == 'inactive' " [ngClass]="'warning-report'">
+        <li *ngIf="selectedBase[0].status && selectedBase[0].status.trim() == 'inactive' " [ngClass]="'warning-report'">
           Attention: The table selected is inactive !
         </li>
     </div>

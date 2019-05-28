@@ -3,15 +3,13 @@ package com.scor.dataProcessing.dataChecker.schemaChecker;
 import com.google.common.io.Resources;
 import com.scor.dataProcessing.dataChecker.DCFactory;
 import com.scor.dataProcessing.models.ControlResults;
-
-import org.junit.Ignore;
 import org.junit.Test;
 import com.scor.dataProcessing.dataChecker.schemaChecker.PolicySchemaChecker ;
 
 import java.util.List;
 
 import static org.junit.Assert.*;
-@Ignore
+
 public class PolicySchemaCheckerTest {
 
     @Test

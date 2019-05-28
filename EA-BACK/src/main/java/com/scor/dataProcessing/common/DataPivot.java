@@ -41,8 +41,9 @@ public class DataPivot {
 						String name = arr[0] ;
 						String type = arr[4] ;
 						boolean is_mandatory = arr[5].contains("yes") ;
+						String entity=arr[1]; 
 						List<String> possiblesValues = Arrays.asList(arr[6].trim().split("\\/",-1));
-						pivotCols.add(new PivotCol(name, type, is_mandatory, possiblesValues)) ;
+						pivotCols.add(new PivotCol(name, type, is_mandatory, possiblesValues,entity)) ;
 					}
 				});
 			} catch (IOException | URISyntaxException e) {

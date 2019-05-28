@@ -11,7 +11,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.scor.dataProcessing.bulkInsert.service.UserHabilitationService;
 import com.scor.dataProcessing.common.CountriesScopes;
 import com.scor.dataProcessing.common.MarketScopes;
 import com.scor.dataProcessing.common.RefCountryScope;
@@ -53,8 +52,7 @@ public class RoleManagerService implements Serializable{
 	@Autowired
 	private ExpectedTableService expectedTableService;
 	
-	@Autowired
-	private UserHabilitationService userHabilitationService;
+	
 
 	public StudyRoles StudyPrevligesCalCulator(int user_id, int study_id) throws Exception {
 		RefUserEntity user = userRepository.findOne(user_id);
@@ -192,7 +190,7 @@ public class RoleManagerService implements Serializable{
 						&& userScopeName.equalsIgnoreCase(refCountryScope.getLocalScope())
 						&& ("pricing".equalsIgnoreCase(userFunction) || "ea".equalsIgnoreCase(userFunction)
 								|| "marketing".equalsIgnoreCase(userFunction))
-						|| (studyCreatorScopeName.equalsIgnoreCase(userScopeName) && userScopeType.equals(studyCreatorScopeType)
+						|| (studyCreatorScopeName.equalsIgnoreCase(userScopeName) && userScopeType.equalsIgnoreCase(studyCreatorScopeType)
 								&& ("ea".equalsIgnoreCase(userFunction)
 										|| "risk management".equalsIgnoreCase(userFunction))));
 			case "reserving":
@@ -201,7 +199,7 @@ public class RoleManagerService implements Serializable{
 						&& userScopeName.equalsIgnoreCase(refCountryScope.getLocalScope())
 						&& ("reserving.".equalsIgnoreCase(userFunction) || "ea".equalsIgnoreCase(userFunction)
 								|| "marketing".equalsIgnoreCase(userFunction))
-						|| (studyCreatorScopeName.equalsIgnoreCase(userScopeName) && userScopeType.equals(studyCreatorScopeType)
+						|| (studyCreatorScopeName.equalsIgnoreCase(userScopeName) && userScopeType.equalsIgnoreCase(studyCreatorScopeType)
 								&& "ea".equalsIgnoreCase(userFunction)));
 			case "ea":
 				if (studyRequester.getStcName().equalsIgnoreCase("pricing")) {
@@ -210,7 +208,7 @@ public class RoleManagerService implements Serializable{
 							&& userScopeName.equalsIgnoreCase(refCountryScope.getLocalScope())
 							&& ("pricing".equalsIgnoreCase(userFunction) || "ea".equalsIgnoreCase(userFunction)
 									|| "marketing".equalsIgnoreCase(userFunction))
-							|| (studyCreatorScopeName.equalsIgnoreCase(userScopeName) && userScopeType.equals(studyCreatorScopeType)
+							|| (studyCreatorScopeName.equalsIgnoreCase(userScopeName) && userScopeType.equalsIgnoreCase(studyCreatorScopeType)
 									&& ("pricing".equalsIgnoreCase(userFunction)
 											|| "risk management".equalsIgnoreCase(userFunction))));
 				}
@@ -220,7 +218,7 @@ public class RoleManagerService implements Serializable{
 							&& userScopeName.equalsIgnoreCase(refCountryScope.getLocalScope())
 							&& ("reserving".equalsIgnoreCase(userFunction) || "ea".equalsIgnoreCase(userFunction)
 									|| "marketing".equalsIgnoreCase(userFunction))
-							|| (studyCreatorScopeName.equalsIgnoreCase(userScopeName) && userScopeType.equals(studyCreatorScopeType)
+							|| (studyCreatorScopeName.equalsIgnoreCase(userScopeName) && userScopeType.equalsIgnoreCase(studyCreatorScopeType)
 									&& ("pricing".equalsIgnoreCase(userFunction) || "ea".equalsIgnoreCase(userFunction)
 											|| "risk management".equalsIgnoreCase(userFunction))));
 				}
@@ -243,7 +241,7 @@ public class RoleManagerService implements Serializable{
 //		if (StringUtils.isBlank(regionalScopeCalculatedUser)) {
 //			return false;
 //		}
-		if(!"regional".equals(scopeUser.getRsType().toLowerCase())) {
+		if(!"regional".equalsIgnoreCase(scopeUser.getRsType().toLowerCase())) {
 			return false;
 		}
 		String regionalScopeCalculatedUser = scopeUser.getRsName();

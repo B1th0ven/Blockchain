@@ -63,13 +63,12 @@ public class ControlService implements Serializable {
          base_dimensions = Arrays.asList(base_entity.getRetDimensions().toLowerCase().split(";", -1));
 
         String missing_dims = "";
-        for (String dim : base_dimensions) {
-            if(!dimensions.toLowerCase().trim().contains(dim.toLowerCase().trim()))
-            {
-                missing_dims += dim+" ,";
+		for (String dim : base_dimensions) {
+			if (!Arrays.asList(dimensions.toLowerCase().trim().split(";", -1)).contains(dim.toLowerCase().trim())) {
+				missing_dims += dim + " ,";
 
-            }
-        }
+			}
+		}
 
         if(StringUtils.isNotBlank(missing_dims))
             errorReport.add("All dimensions must be present in Input Dataset and not be de-selected. Missing dimensions : "+StringUtils.substring(missing_dims, 0, missing_dims.length() - 1)+"/Blocking");

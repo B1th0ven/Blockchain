@@ -20,27 +20,32 @@ import java.util.List;
 public class Control33 implements IRule {
     ControlResultAccumulatorV2 controlResult;
     LongAccumulator errorsCount;
+    String type ; 
 
-    public Control33(ControlResultAccumulatorV2 acc, LongAccumulator errorsNo){
+    public Control33(ControlResultAccumulatorV2 acc, LongAccumulator errorsNo, String type){
         this.controlResult = acc;
         this.errorsCount = errorsNo;
+        this.type=type ; 
     }
 
     @Override
-    public void validate(String[] row, Product product, List<String> headers) {
-        // Blockin Control (Date of Event = Date of END Current Condition)
-        if (headers.indexOf(DATE_OF_EVENT_INCURRED) != -1
-                && StringUtils.isNotBlank(row[headers.indexOf(DATE_OF_EVENT_INCURRED)])
-                && (headers.indexOf(DATE_OF_END_CURRENT_CONDITION) == -1
-                || !row[headers.indexOf(DATE_OF_EVENT_INCURRED)]
-                .equals(row[headers.indexOf(DATE_OF_END_CURRENT_CONDITION)]))) {
+	public void validate(String[] row, Product product, List<String> headers) {
+		// Blockin Control (Date of Event = Date of END Current Condition)
+		if (type.equalsIgnoreCase("combine")
+				|| (type.equalsIgnoreCase("split") && headers.contains("exposure_or_event") && "event+exposure"
+						.equalsIgnoreCase(row[headers.indexOf("exposure_or_event")].replaceAll(" ", "")))) {
+			if (headers.indexOf(DATE_OF_EVENT_INCURRED) != -1
+					&& StringUtils.isNotBlank(row[headers.indexOf(DATE_OF_EVENT_INCURRED)])
+					&& (headers.indexOf(DATE_OF_END_CURRENT_CONDITION) == -1
+							|| !row[headers.indexOf(DATE_OF_EVENT_INCURRED)]
+									.equals(row[headers.indexOf(DATE_OF_END_CURRENT_CONDITION)]))) {
 
-            List<AffectedColumn> affectedColumns = new ArrayList<>();
-            affectedColumns.add(new AffectedColumn("Date of Event = Date of End Current Condition", 1,
-                    new ArrayList<>(Arrays.asList(String.join(";", row)))));
-            controlResult.add(
-                    new ControlResult("Date of Event = Date of End Current Condition", affectedColumns));
-            errorsCount.add(1);
-        }
-    }
+				List<AffectedColumn> affectedColumns = new ArrayList<>();
+				affectedColumns.add(new AffectedColumn("Date of Event = Date of End Current Condition", 1,
+						new ArrayList<>(Arrays.asList(String.join(";", row)))));
+				controlResult.add(new ControlResult("Date of Event = Date of End Current Condition", affectedColumns));
+				errorsCount.add(1);
+			}
+		}
+	}
 }

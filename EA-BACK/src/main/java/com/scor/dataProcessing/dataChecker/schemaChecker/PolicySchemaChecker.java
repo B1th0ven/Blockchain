@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.scor.dataProcessing.Helpers.Headers;
 import org.apache.spark.api.java.JavaRDD;
 
 
@@ -40,6 +41,20 @@ public class PolicySchemaChecker implements InterfaceToSchemaChecker {
 			} else {
 				missingColumns.remove("exposure_or_event");
 			}
+		}
+		missingColumns.remove(Headers.REPORTING_MONTH);
+		missingColumns.remove(Headers.REPORTING_YEAR);
+		missingColumns.remove(Headers.REPORTING_QUARTER);
+		if (cols.contains(Headers.REPORTING_MONTH)) {
+			ignoredColumns.add(Headers.REPORTING_MONTH);
+		}
+		if (cols.contains(Headers.REPORTING_YEAR)) {
+
+			ignoredColumns.add(Headers.REPORTING_YEAR);
+		}
+		if (cols.contains(Headers.REPORTING_QUARTER)) {
+
+			ignoredColumns.add(Headers.REPORTING_QUARTER);
 		}
 		return Arrays.asList(new ArrayList<String>(columns), missingColumns, ignoredColumns, duplicatedColumns);
 	}

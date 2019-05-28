@@ -61,8 +61,6 @@ export class DatasetControlLogicService {
           notExecCtrName.control.toLocaleLowerCase()
       );
       control.notExecuted = notExecCtrName;
-      console.log('not Executed down bellow');
-      console.log(notExecuted);
       notExecuted.push(notExecCtrName.control);
       control = this.updateFailed([control]);
     });
@@ -126,7 +124,6 @@ export class DatasetControlLogicService {
         ? new BignumberPipe().transform(String(control.errors)) + ' error(s)'
         : 'Done';
     return control;
-    // console.log(control);
   };
   update = (resControls: Array<any>, controls) => {
     resControls.forEach(controlType => {
@@ -202,11 +199,16 @@ export class DatasetControlLogicService {
   getColumns = controls => {
     // console.log("------------------ssss",controls)
     let ret = [];
+    
     controls.forEach(c => {
-      c.affectedColumns.forEach(col => {
+      //if(c.affaectedColumns)
+      //{
+     
+        c.affectedColumns.forEach(col => {
         col['type'] = c.type;
         ret.push(col);
       });
+    //}
     });
     return ret;
   };
@@ -515,12 +517,10 @@ export class DatasetControlLogicService {
     if (productFormatControl.valid != 'yes') return false;
     for (let control of funcControls) {
       if (
-        !this.isNotExecuted(control, notExecuted) &&
-        control.category &&
-        control.category.toLowerCase() == 'Blocking'.toLowerCase() &&
-        control.valid != 'yes'
-      )
-        return false;
+        this.isNotExecuted(control, notExecuted) == false &&
+        control.category.toLowerCase() == 'Blocking'.toLowerCase()  &&
+        control.valid == 'no'
+      ) return false; 
     }
     return true;
   }
@@ -590,6 +590,7 @@ export class DatasetControlLogicService {
     }
   }
   getColumnValue(col: string, header: String[], line, study) {
+    line = line+''
     if (
       col &&
       'Start_of_Observation_Period'.toLocaleLowerCase() ==

@@ -82,14 +82,82 @@ public class FormatControlUtility {
 				invalideFieldCounter(name, df_acc, errorsCount, line);
 		} else {
 			try {
+				if (date.matches("^[0-9]{2}/[0-9]{2}/[0-9]{4}$")){
+					LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ENGLISH));
+				}
+				else {
+					invalideFieldCounter(name, df_acc, errorsCount, line);
+				}
 
-				LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ENGLISH));
 			} catch (DateTimeException e) {
 				invalideFieldCounter(name, df_acc, errorsCount, line);
 				e.printStackTrace();
 			}
 		}
 	}
+
+	public static void monthValidator(String date, String name, Boolean isMandatory, String line,
+									 ControlResultAccumulator sf_acc, LongAccumulator errorsCount) {
+		if (StringUtils.isBlank(date)) {
+			if (isMandatory)
+				invalideFieldCounter(name, sf_acc, errorsCount, line);
+		} else {
+			try {
+				if ((!date.matches("^[0-9]{4}M[1-12]$")) && (!date.matches("^[0-9]{4}m[1-12]$")) ){
+
+					invalideFieldCounter(name, sf_acc, errorsCount, line);
+				}
+
+			} catch (DateTimeException e) {
+				invalideFieldCounter(name, sf_acc, errorsCount, line);
+				e.printStackTrace();
+			}
+		}
+	}
+
+
+	public static void quarterValidator(String quarter, String name, Boolean isMandatory, String line,
+									  ControlResultAccumulator sf_acc, LongAccumulator errorsCount) {
+		if (StringUtils.isBlank(quarter)) {
+			if (isMandatory)
+				invalideFieldCounter(name, sf_acc, errorsCount, line);
+		} else {
+			try {
+				if ((!quarter.matches("^[0-9]{4}Q[1-4]{1}$")) && (!quarter.matches("^[0-9]{4}q[1-4]{1}$"))){
+
+					invalideFieldCounter(name, sf_acc, errorsCount, line);
+				}
+
+			} catch (DateTimeException e) {
+				invalideFieldCounter(name, sf_acc, errorsCount, line);
+				e.printStackTrace();
+			}
+		}
+	}
+
+
+
+
+	public static void yearValidator(String year, String name, Boolean isMandatory, String line,
+									ControlResultAccumulator sf_acc, LongAccumulator errorsCount) {
+
+		if (StringUtils.isBlank(year)) {
+			if (isMandatory)
+				invalideFieldCounter(name, sf_acc, errorsCount, line);
+		} else {
+			try {
+				Integer ageValue = Integer.parseInt(year);
+				if (ageValue < 1900 ) {
+					invalideFieldCounter(name, sf_acc, errorsCount, line);
+				}
+			} catch (NumberFormatException e) {
+				invalideFieldCounter(name, sf_acc, errorsCount, line);
+			}
+		}
+
+	}
+
+
 
 	public static void ageValidator(String age, String name, Boolean isMandatory, String line,
 									ControlResultAccumulator nf_acc, LongAccumulator errorsCount) {

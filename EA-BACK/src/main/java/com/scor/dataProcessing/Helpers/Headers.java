@@ -31,4 +31,29 @@ public final  class Headers implements Serializable {
 
 
 
+// SNAPSHOT RELATED
+    public static final String REPORTING_YEAR ="reporting_year" ;
+    public static final String REPORTING_MONTH ="reporting_month" ;
+    public static final String REPORTING_QUARTER="reporting_quarter" ;
+    public static  final  String BENEFIT_TERM_YEARS = "benefit_term_year" ;
+
+
+    public static final String RISK_AMOUNT_INSURER = "risk_amount_insurer";
+    public static final String ACCELERATION_RISK_AMOUNT_INSURER = "acceleration_risk_amount_insurer" ;
+    public static final String RISK_AMOUNT_REINSURER = "risk_amount_reinsurer";
+    public static final String ACCELERATION_RISK_AMOUNT_REINSUR = "acceleration_risk_amount_reinsur" ;
+    public static final String CLAIM_PAYMENT_END_DATE = "claim_payment_end_date";
+    public static final String WAITING_PERIOD_1 = "waiting_period_1";
+    public static final String WAITING_PERIOD_2 = "waiting_period_2";
+    public static final String WAITING_PERIOD_3 = "waiting_period_3";
+    public static final String WAITING_PERIOD_1_FREQ = "waiting_period_1_freq";
+    public static final String WAITING_PERIOD_2_FREQ = "waiting_period_2_freq";
+    public static final String WAITING_PERIOD_3_FREQ = "waiting_period_3_freq";
+    public static final String DATE_OF_EVENT_PAID = "date_of_event_paid";
+    public static final String CLAIM_PAYMENT_DEFERRED_PERIOD = "claim_payment_deferred_period" ;
+    public static final String PAYMENT_DEFERRED_PERIOD_FREQ = "payment_deferred_period_freq";
+    public static final String DATE_OF_CLAIM_COMMENCEMENT = "date_of_claim_commencement";
+    public static final String CLAIM_PAYMENT_TERM_YEARS = "claim_payment_term_years";
+    public static final String CLAIM_PAYMENT_MODE = "claim_payment_mode";
+
 }

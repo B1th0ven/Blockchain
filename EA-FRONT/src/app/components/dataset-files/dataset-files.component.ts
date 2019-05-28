@@ -42,13 +42,13 @@ export class DatasetFilesComponent implements OnInit {
 
 
   fileTypes = ["product", "policy"];
-
+  selectedRank : number;
   busy: boolean = false
   error
   step = 1
   policyPivot : string[] 
   productPivot : string[] 
-
+  files: any[]
   //Dataset Properties
   @Input() dataset: Dataset
   @Input() tab: Number
@@ -58,7 +58,7 @@ export class DatasetFilesComponent implements OnInit {
   //Dataset files
   @Output() metadata: EventEmitter < any > = new EventEmitter();  
   selectedType
-
+  fileDisplay
   constructor(
     private ds: DatasetService,
     private route: ActivatedRoute,
@@ -67,6 +67,40 @@ export class DatasetFilesComponent implements OnInit {
     private fs: FileService) {}
 
   ngOnInit() {
+    if( this.dataset.mode == 2) {
+      // this.ds.getSnapshotByDatasetId(this.dataset.id).subscribe(
+      //   {
+      //     next: res => {
+      //       res.forEach(element => {
+      //         this.dataset.temporaryFile = []
+      //         res = []
+      //         element["fileHeader"].split(",").forEach(header => {
+      //           res.push(header)
+      //         }),
+      //         this.dataset.temporaryFile.push(
+      //           {
+      //             name: element["fileName"],
+      //             status: element["status"],
+      //             type: element["type"],
+      //             typename:element["typename"],
+                  
+      //             columns: res,
+      //             path: element["fileLink"],
+      //             inconsistent: element["inconsistentColumns"],
+      //             reportingYear: element["reportingYear"]
+      //           }
+      //         )
+      //       });
+      //     },error: err => {
+      //       console.log(err)
+      //     }
+      //   }
+      // )
+      this.fileDisplay = this.dataset.temporaryFile
+    }
+    else{
+      this.fileDisplay = this.dataset.files
+    }
     if (!this.dataset.files)
       this.dataset.createDatasetFileHolders();
 
@@ -85,7 +119,21 @@ export class DatasetFilesComponent implements OnInit {
 
     */
   }
+  
+  removeFile(index){
+    if(this.dataset.temporaryFile[index].type != 'product')
+    {
+    this.dataset.temporaryFile.splice(index , 1)
+  }
+    if(this.dataset.temporaryFile.length> 2) {
+      var listColums = []
+      listColums = this.allPolicyHeader(this.dataset.temporaryFile)
+      this.updateInconsistante(this.dataset.temporaryFile,listColums)
+    }else {
+      this.dataset.files[0]["inconsistent"] = []
+    }
 
+  }
   ngOnChanges(changes: {
     [propName: string]: SimpleChange
   }) {
@@ -117,10 +165,14 @@ export class DatasetFilesComponent implements OnInit {
   onSelectType(type) {
     this.selectedType = type;
   }
-
+  onSelectrank(rank){
+    this.selectedRank = rank
+  }
+  
   onFileLoading(event, content: NgbModalRef) {
-    var loadingFile = this.dataset.files.find(f => f.type == event.type)
+    if (this.selectedType == 'product'){
 
+    var loadingFile = this.dataset.files.find(el => el.type == 'product')
     loadingFile.name = event.file.name
     loadingFile.path = event.file.path
     loadingFile.sheet = ""
@@ -136,6 +188,8 @@ export class DatasetFilesComponent implements OnInit {
           missing: res[1],
           ignored: res[2],
           duplicated: res[3],
+          maxyear: res[5],
+          minyear: res[4],
           type: event.type
         })
       })
@@ -147,12 +201,44 @@ export class DatasetFilesComponent implements OnInit {
         })
       })
 
-    this.modalRef.close()
+    this.modalRef.close()}else {
+      if(this.dataset.mode == 2){var loadingFile = this.dataset.temporaryFile[this.selectedRank]}else {
+      var loadingFile = this.dataset.files[this.selectedRank]}
+      loadingFile.type = 'policy'
+      loadingFile.name = event.file.name
+      loadingFile.path = event.file.path
+      loadingFile.sheet = ""
+      loadingFile.status = "load"
+      loadingFile.privacySubmitter = event.privacySubmitter
+      loadingFile.privacyDate = event.privacyDate
+  
+      this.fs.validateFile(event.path, event.struct,0)
+        .then(res => {
+            
+          this.onFileLoaded({
+            columns: res[0],
+            missing: res[1],
+            ignored: res[2],
+            duplicated: res[3],
+            maxyear: res[5],
+            minyear: res[4],
+            type: event.type
+          })
+        })
+        .catch(error => {
+  
+          this.onFileLoadFail({
+            error: error,
+            type: event.type
+          })
+        })
+
+    }
   }
 
   onFileLoadFail(event) {
-
-    var loadingFile = this.dataset.files.find(f => f.type == event.type)
+    if(this.dataset.mode == 2){var loadingFile = this.dataset.temporaryFile[this.selectedRank]}else {
+      var loadingFile = this.dataset.files[this.selectedRank]}
     if( !loadingFile ) return
     loadingFile.sheet = null
     loadingFile.status = "bad"
@@ -165,21 +251,80 @@ export class DatasetFilesComponent implements OnInit {
     this.metadata.emit(event);
 
   }
+  allPolicyHeader(files): Array<string>{
+    var listColums = []
+    files.filter(
+      el => el.type == 'policy' && el.columns 
+      ).forEach(
+        el => el.columns.forEach(
+          element => {if(!(listColums.find(sr => sr == element)))
+            listColums.push(element)
+            } 
+          )
+        )
+        this.dataset.header = listColums
+        return listColums
+  }
   onFileLoaded(file) {
-
-    var loadingFile = this.dataset.files.find(f => f.type == file.type)
+    if(this.dataset.mode == 2){var loadingFile = this.fileDisplay[this.selectedRank]
+    var loadingFile1 = this.dataset.temporaryFile[this.selectedRank]
+    }else {
+      var loadingFile = this.fileDisplay[this.selectedRank]
+      var loadingFile1 = this.dataset.files[this.selectedRank]}
 
     loadingFile["missing"] = file.missing
     loadingFile["columns"] = file.columns
     loadingFile["ignored"] = file.ignored
     loadingFile["duplicated"] = file.duplicated
+    loadingFile["maxyear"] = file.maxyear
+    loadingFile["minyear"] = file.minyear
+    loadingFile["inconsistent"] = []
+    loadingFile1["missing"] = file.missing
+    loadingFile1["columns"] = file.columns
+    loadingFile1["ignored"] = file.ignored
+    loadingFile1["duplicated"] = file.duplicated
+    loadingFile["maxyear"] = file.maxyear
+    loadingFile["minyear"] = file.minyear
+    loadingFile1["inconsistent"] = []
+    if(this.fileDisplay.length> 2){
+      var listColums = []
+      listColums = this.allPolicyHeader(this.fileDisplay)
+      listColums = this.allPolicyHeader(this.dataset.temporaryFile)
+      this.updateInconsistante(this.fileDisplay,listColums)
+      this.updateInconsistante(this.dataset.temporaryFile,listColums)
+      
+          
+      // listColums.forEach(ele => ele.array.forEach(element => {
+      //   if(! loadingFile["columns"].find(elem => elem == element ) ){
+      //     loadingFile["Inconsistent"].push(element)
+      //   }
+      // }))
+
+    }
 
     if (loadingFile["missing"].length > 0 || loadingFile["duplicated"].length > 0|| loadingFile["ignored"].length > 0) loadingFile.status = "bad"
     else loadingFile.status = "ok"
 
     this.modalRef.close()
   }
+  updateInconsistante(files, list){
+    
+    if(list){
+    files.forEach(element => { if(element.status != 'na' && element.type == 'policy'){
+      element["inconsistent"] = []
+      list.forEach(header => { 
 
+        if(!(element["columns"].find(el => el == header)) ){
+          element["inconsistent"].push(header)
+          
+        }
+        
+      });
+    }
+    });
+  }
+    }
+      
   fileIndex(files: any[], type) {
     return files.findIndex(f => f.type == type)
   }
@@ -220,7 +365,15 @@ export class DatasetFilesComponent implements OnInit {
 
   modeName = (mode) => {
     if (this.selectedType == "product") return "product"
-    return (mode == 0) ? "split" : "combine"
+    switch(mode){
+      case 0:
+        return "split"
+      case 1:
+       return "combine"
+      case 2:
+       return "snapshot"
+      
+    }
   }
 
   closeResult: string;

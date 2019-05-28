@@ -210,9 +210,9 @@ public class NotExecutedRuleChecker implements InterfaceToNotExecutedRuleChecker
 
 //			notEcecuted.add("when death / withdrawal (lump sum), risk amount = event amount");
 		} // sprint 3
-		if (!cols.contains("date_of_end_current_condition") || (!cols.contains("retro_legal_entity")
-				&& (!cols.contains("life_id") || !cols.contains("policy_id")) && !cols.contains("benefit_id"))
-				|| (op_end == null || op_end.isEmpty())) {
+		   if (!cols.contains("date_of_end_current_condition") || (!cols.contains("retro_legal_entity")
+	                && (!cols.contains("life_id") || !cols.contains("policy_id")) && !cols.contains("benefit_id"))
+	                || (op_end == null || op_end.isEmpty())) {
 			List<String> missingcols = checkNotExecutedControl(cols, "life_id", "policy_id", "benefit_id",
 					"date_of_end_current_condition");
 			if (op_end == null || op_end.isEmpty()) {
@@ -418,8 +418,69 @@ public class NotExecutedRuleChecker implements InterfaceToNotExecutedRuleChecker
 			notExecutedList.add(notExecuted);
 		}
 
+		//Control44
+		if(!cols.containsAll(Arrays.asList(Headers.DATE_OF_EVENT_PAID,Headers.DATE_OF_EVENT_INCURRED,Headers.CLAIM_PAYMENT_DEFERRED_PERIOD,Headers.PAYMENT_DEFERRED_PERIOD_FREQ))
+
+		){
+			List<String> missingcols = checkNotExecutedControl(cols,Headers.DATE_OF_EVENT_PAID,Headers.DATE_OF_EVENT_INCURRED,Headers.CLAIM_PAYMENT_DEFERRED_PERIOD,Headers.PAYMENT_DEFERRED_PERIOD_FREQ );
+			NotExecutedDto notExecuted = new NotExecutedDto();
+			notExecuted.setControl("Date of Event Paid => Date of Event Incurred + Deferred Period");
+			notExecuted.setField(missingcols);
+			notExecutedList.add(notExecuted);
+		}
+
+		//Control45
+		if(!(cols.containsAll(Arrays.asList(Headers.DATE_OF_EVENT_INCURRED,Headers.DATE_OF_COMMENCEMENT))
+				&&(cols.containsAll(Arrays.asList(Headers.WAITING_PERIOD_1,Headers.WAITING_PERIOD_1_FREQ))
+				|| cols.containsAll(Arrays.asList(Headers.WAITING_PERIOD_2,Headers.WAITING_PERIOD_2_FREQ))
+				|| cols.containsAll(Arrays.asList(Headers.WAITING_PERIOD_3,Headers.WAITING_PERIOD_3_FREQ))) )
+		){
+			List<String> missingcols = checkNotExecutedControl(cols, Headers.DATE_OF_EVENT_INCURRED,Headers.DATE_OF_COMMENCEMENT,Headers.WAITING_PERIOD_1
+					,Headers.WAITING_PERIOD_1_FREQ,Headers.WAITING_PERIOD_2,Headers.WAITING_PERIOD_2_FREQ,Headers.WAITING_PERIOD_3,Headers.WAITING_PERIOD_3_FREQ);
+			NotExecutedDto notExecuted = new NotExecutedDto();
+			notExecuted.setControl("Waiting Period");
+			notExecuted.setField(missingcols);
+			notExecutedList.add(notExecuted);
+		}
+
+		//Control46
+		if(!cols.containsAll(Arrays.asList(Headers.STATUS_BEGIN_CURRENT_CONDITION,Headers.DATE_OF_END_CURRENT_CONDITION,Headers.DATE_OF_CLAIM_COMMENCEMENT,Headers.CLAIM_PAYMENT_DEFERRED_PERIOD,Headers.PAYMENT_DEFERRED_PERIOD_FREQ,Headers.CLAIM_PAYMENT_TERM_YEARS))
+
+		){
+			List<String> missingcols = checkNotExecutedControl(cols,Headers.STATUS_BEGIN_CURRENT_CONDITION,Headers.DATE_OF_END_CURRENT_CONDITION,Headers.DATE_OF_CLAIM_COMMENCEMENT,Headers.CLAIM_PAYMENT_DEFERRED_PERIOD,Headers.PAYMENT_DEFERRED_PERIOD_FREQ,Headers.CLAIM_PAYMENT_TERM_YEARS );
+			NotExecutedDto notExecuted = new NotExecutedDto();
+			notExecuted.setControl("Event Paid <= Claim Payment End");
+			notExecuted.setField(missingcols);
+			notExecutedList.add(notExecuted);
+		}
+
+		//Control47
+		if(!(cols.containsAll(Arrays.asList(Headers.DATE_OF_END_CURRENT_CONDITION,Headers.EXPOSURE_OR_EVENT,Headers.TYPE_OF_EVENT,Headers.BENEFIT_END_DATE))
+				|| cols.containsAll(Arrays.asList(Headers.DATE_OF_END_CURRENT_CONDITION,Headers.EXPOSURE_OR_EVENT,Headers.TYPE_OF_EVENT,Headers.CLAIM_PAYMENT_END_DATE)))
+		){
+			List<String> missingcols = checkNotExecutedControl(cols, Headers.DATE_OF_END_CURRENT_CONDITION,Headers.TYPE_OF_EVENT,Headers.BENEFIT_END_DATE
+					,Headers.CLAIM_PAYMENT_END_DATE,Headers.EXPOSURE_OR_EVENT);
+			NotExecutedDto notExecuted = new NotExecutedDto();
+			notExecuted.setControl("Status at benefit end / claim payment end");
+			notExecuted.setField(missingcols);
+			notExecutedList.add(notExecuted);
+		}
+		//Control52
+		if(!(cols.containsAll(Arrays.asList(Headers.STATUS_END_CURRENT_CONDITION,Headers.RISK_AMOUNT_INSURER,Headers.ACCELERATION_RISK_AMOUNT_INSURER))
+				|| cols.containsAll(Arrays.asList(Headers.STATUS_END_CURRENT_CONDITION,Headers.RISK_AMOUNT_REINSURER,Headers.ACCELERATION_RISK_AMOUNT_REINSUR)))
+		){
+			List<String> missingcols = checkNotExecutedControl(cols, Headers.STATUS_END_CURRENT_CONDITION,Headers.RISK_AMOUNT_INSURER,Headers.ACCELERATION_RISK_AMOUNT_INSURER
+					,Headers.RISK_AMOUNT_REINSURER,Headers.ACCELERATION_RISK_AMOUNT_REINSUR);
+			NotExecutedDto notExecuted = new NotExecutedDto();
+			notExecuted.setControl("Acceleration Risk Amount and Risk Amount");
+			notExecuted.setField(missingcols);
+			notExecutedList.add(notExecuted);
+		}
+
+
 		return notExecutedList;
-	};
+	}
+
 
 	private List<String> checkNotExecutedControl(List<String> cols, String... param) {
 		List<String> missingColumn = new ArrayList<>();

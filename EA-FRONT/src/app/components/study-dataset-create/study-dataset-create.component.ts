@@ -121,7 +121,7 @@ export class StudyDatasetCreateComponent implements OnInit {
   }
   checkSnapDependancy(){
     if(this.dataset.mode == 2){
-      if(!this.dataset.firstSnapshot  || !this.dataset.portfolioInception ) return false
+      if(!this.dataset.firstSnapshot ) return false
       else return true
     } else return false
   }

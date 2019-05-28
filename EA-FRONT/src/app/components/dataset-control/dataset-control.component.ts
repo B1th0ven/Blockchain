@@ -589,7 +589,11 @@ export class DatasetControlComponent implements OnInit {
       next: resArray => {
         this.snapshotControl.forEach(el => {el.status = 'done';
         el.done = true;
-        el.valid = resArray[el.identifier] == false ? 'no' : 'yes';
+        el.valid = resArray[el.identifier] == 'true' ? 'yes' : 'no';
+        el.affectedColumns = [resArray[el.identifier]]
+        if(resArray[el.identifier] != 'true'){
+          el.errors = 1
+        }
         el.running = false;
         el.message = el.valid == 'yes' ? 'done': 'failed' })
         policypath = resArray["path"]
@@ -608,7 +612,31 @@ export class DatasetControlComponent implements OnInit {
         )
       },
       complete:() =>{
-        this.executecontrols(policypath,productpath,mode)
+        if(policypath){
+        this.executecontrols(policypath,productpath,mode)}
+        else {
+          this.funcControls.forEach(control => {
+            control.valid = 'no'
+            control.done = false;
+            control.running = false;
+            control.message = 'Not Executed'
+          })
+          this.productControls.forEach(control => {
+            control.valid = 'no'
+            control.done = false;
+            control.running = false;
+            control.message = 'Not Executed'
+          })
+          this.productFormatControl.valid = 'no'
+          this.productFormatControl.done = false;
+          this.productFormatControl.running = false;
+          this.productFormatControl.message = 'Not Executed'
+          this.formatControl.valid = 'no'
+          this.formatControl.done = false;
+          this.formatControl.running = false;
+          this.formatControl.message = 'Not Executed'
+          
+        }
       }
 
   

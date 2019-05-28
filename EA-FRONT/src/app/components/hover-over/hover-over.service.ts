@@ -85,6 +85,8 @@ export class HoverOverService {
     {screen:SCREEN.RUN,name:"By amount analysis", detail:"Include amount-based results in calculation (based on amount weighted exposure years and event amounts)"},
     {screen:SCREEN.RUN,name:"By amount analysis basis", detail:"Amount analysis is based on event amount and exposure amount. Can be based on insured or reinsured amounts."},
     {screen:SCREEN.RUN,name:"By amount capped", detail:"Amount analysis is done with capped amounts (for example to avoid outliers)"},
+    {screen:SCREEN.RUN,name:"Missing entries", detail:"Replace missing variable entries (e.g. smoker_status) of a snapshot for a given policy/person by previous snapshot information?"},
+    {screen:SCREEN.RUN,name:"Exposure holes", detail:"In case a policy is absent from a snapshot but present in both surrounding snapshots with the same policy status then continued exposure is assumed"},
     {screen:SCREEN.RUN,name:"Capped amount", detail:"Capped Amount"},
     {screen:SCREEN.RUN,name:"Rating adjustment method", detail:"Method for adjusting expected results according to policy loadings (extra rating)"},
     {screen:SCREEN.RUN,name:"Automatic Risk Amount Change", detail:"Exposure risk amount is automatically adjusted depending on rule triggered by benefit_change_rate_type"},

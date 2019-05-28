@@ -10,7 +10,7 @@ declare let $: any;
   styleUrls: ['./dataset-control-error.component.scss']
 })
 export class DatasetControlErrorComponent implements OnInit, OnChanges {
-  errorType = 5;
+  errorType = 6;
   @Input() control: Control;
   @Input() tabNbr: number;
   @Input() i: number;
@@ -30,6 +30,8 @@ export class DatasetControlErrorComponent implements OnInit, OnChanges {
             this.errorType = 3 ;
           } else if(this.control.order == 51){
             this.errorType = 4;
+          }else if(this.control.order == 49 || this.control.order ==  48 || this.control.order ==  50){
+            this.errorType = 5;
           }
           else if(this.control.identifier == 'Missing Values Check' || this.control.order == 52  || this.control.order == 45 ||  this.control.identifier == 'Missing Values Check_2' || this.control.identifier == 'Missing Values Check Blocking' || this.control.identifier == 'Product file information should match study metadata' || this.control.identifier == 'Incidence_Death XOR Incidence/Death'){
 
@@ -52,7 +54,7 @@ export class DatasetControlErrorComponent implements OnInit, OnChanges {
    
   }
   show() {
-    if(this.errorType !=5){
+    if(this.errorType !=6){
     if (this.showobject) {
    $('#collapsefunc-' + this.i + '-' + this.tabNbr).collapse('show');
    this.isOpen ? this.isOpen = false : this.isOpen = true;

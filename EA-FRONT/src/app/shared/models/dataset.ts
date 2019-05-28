@@ -32,7 +32,7 @@ export class Dataset {
   temporaryFile: Array < FileType >;
   temporaryData: any;
   header: Array<string>;
-
+  exposureHoles:boolean;
   
 
   constructor(dataset ? ) {
@@ -125,14 +125,15 @@ export class Dataset {
     return {
         "firstSnapshot": (ds.firstSnapshot == 1)?'new portfolio': 'inforce portfolio' ,
         "portfolioInceptionDate": date.formatDate(ds.portfolioInception),
-        "AnnualSnapshotExtractionTiming": date.formatDate(ds.annualSnapshot),
+        "AnnualSnapshotExtractionTiming": date.formatDate(ds.annualSnapshot,'dd/mm').toString(),
         "missingvalues": ds.missingEntries,
         "listPolicySnapshotPath":  ds.extractpath(ds.temporaryFile),
         "studyId": ds.studyId.toString(),
         "datasetid": ds.id.toString(),
         "allCols": Header,
         "minReportingPeriod": minyears,
-        "maxReportingPeriod": maxyears
+        "maxReportingPeriod": maxyears,
+        "exposureHoles": ds.exposureHoles
     }
 }
 public extractpath(files: Array<FileType>): Array<string> {
@@ -172,8 +173,9 @@ public extractpath(files: Array<FileType>): Array<string> {
       "dsDataAvailableTableau": ds.dataInjectionTableau,
       "firstSnapshot": (ds.firstSnapshot == 1)?'new portfolio': 'inforce portfolio' ,
       "portfolioInceptionDate": date.formatDate(ds.portfolioInception),
-      "annualSnapshotExtractionTiming": date.formatDate(ds.annualSnapshot),
-      "snapshotMissingValues": ds.missingEntries
+      "annualSnapshotExtractionTiming": date.formatDate(ds.annualSnapshot,'dd/mm').toString(),
+      "snapshotMissingValues": ds.missingEntries,
+      "exposureHoles":ds.exposureHoles
     }
   }
 

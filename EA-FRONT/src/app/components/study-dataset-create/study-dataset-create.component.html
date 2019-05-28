@@ -198,10 +198,19 @@
     <div class="col-sm-7">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" [disabled]="!canEdit() ||validated || isDatasetAssociatedToRun " [(ngModel)]="dataset.missingEntries"   class="custom-control-input" id="bca-missing-{{CompNumber}}">
-        <label class="custom-control-label col-form-label-sm " for="bca-missing-{{CompNumber}}">Replace missing entries with information from previous period</label>
+        <label class="custom-control-label col-form-label-sm "  [ngbTooltip]="hs.getDetail(screen,'Missing entries')" for="bca-missing-{{CompNumber}}">Replace missing entries with information from previous period</label>
       </div>
     </div>
   </div>
+  <div class="form-group row" *ngIf="dataset.mode == 2">
+    <div class="col-sm-5 text-right"></div>
+<div class="col-sm-7">
+  <div class="custom-control custom-checkbox">
+    <input type="checkbox" [disabled]="!canEdit() ||validated || isDatasetAssociatedToRun " [checked]="!dataset.id" [(ngModel)]="dataset.exposureHoles"    class="custom-control-input" id="bca-exposure-{{CompNumber}}">
+    <label class="custom-control-label col-form-label-sm " [ngbTooltip]="hs.getDetail(screen,'Exposure holes')" for="bca-exposure-{{CompNumber}}">Complete exposure holes for a given policy/person</label>
+  </div>
+</div>
+</div>
     <div class="form-group row">
       <div class="col-sm-5 text-right">
           <label placement="top" container="body" [ngbTooltip]="''" class="pointer col-form-label col-form-label-sm ">Make data set available in Tableau</label>
@@ -239,7 +248,7 @@
   <div class="col-md-12 mt-3">
     <div class="col-md-12 text-right">
       <!-- <button class="btn btn-sm btn-primary" [disabled]="!canSave() || !canEdit() || isDatasetAssociatedToRun" (click)="saveDataset()"> -->
-      <button class="btn btn-sm btn-primary" [disabled]="!canSave() || !canEdit() || checkSnapDependancy()" (click)="saveDataset()">
+      <button class="btn btn-sm btn-primary" [disabled]="!canSave() || !canEdit() || !checkSnapDependancy()" (click)="saveDataset()">
         <div *ngIf="!busy"> Save and Continue</div>
         <div *ngIf="busy">Loading...</div>
       </button>

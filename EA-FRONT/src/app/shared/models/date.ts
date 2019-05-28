@@ -23,6 +23,7 @@ export class date {
 
     switch (format) {
       case "dd/mm/yyyy": return [day, month, year].join('/');
+      case "dd/mm": return [day,month].join('/');
       default: return [year, month, day].join('-');
     }
   }

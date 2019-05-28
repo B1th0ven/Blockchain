@@ -10,7 +10,7 @@
 <div class="tab-content">
 
   <div  class="tab-pane container-fluid" [ngClass]="{'active':activeTab==1}"  id="create" >
-      <app-study-dataset-create  (snapshotsave)='transmitsnap($event)' (save)="updateDataset($event)" [doneControls]="doneControls"  [study]="study" [datasets]="datasets" [dataset]="dataset" [isDatasetAssociatedToRun]="isDatasetAssociatedToRun"></app-study-dataset-create>
+      <app-study-dataset-create  (save)="updateDataset($event)" [doneControls]="doneControls"  [study]="study" [datasets]="datasets" [dataset]="dataset" [isDatasetAssociatedToRun]="isDatasetAssociatedToRun"></app-study-dataset-create>
 
       <div class="row mb-4 mt-2">
           <div class="col-12">
@@ -19,7 +19,7 @@
                     <span>Delete Dataset</span>
                 </button>
 
-                <button class="btn btn-sm btn-primary" style="min-width: 150px;" (click)="openControlTab(true)" [disabled]="(!ds.canDoControl(dataset.files) && !ds.canDoControl(dataset.temporaryFile) )|| !canEdit()" *ngIf="(dataset.mode != 2 && dataset.id&&!dataset.changed) || (dataset.mode == 2 &&  dataset.firstSnapshot !='' && dataset.portfolioInception  && dataset.id && !dataset.changed)">
+                <button class="btn btn-sm btn-primary" style="min-width: 150px;" (click)="openControlTab(true)" [disabled]="(!ds.canDoControl(dataset.files) && !ds.canDoControl(dataset.temporaryFile) )|| !canEdit()" *ngIf="(dataset.id&&!dataset.changed) ">
                   <span *ngIf="dataset.hasReport()">View Report</span>
                   <span *ngIf="!dataset.hasReport()">Execute controls</span>
                   </button>

@@ -13,7 +13,7 @@ export class Dataset {
   datetime: string
   date: string
   time: string
-  mode: Number = 1
+  mode: number = 1
   jobID: Number
   files: Array < FileType >
   eventExtractionDate: date = new date()

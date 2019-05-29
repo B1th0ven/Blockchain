@@ -78,12 +78,11 @@ public class DataSetLegalObligations {
 					e1.printStackTrace();
 					return;
 				}
-				LOGGER.warn("**************************"+ email.getTo()) ; 
+
 				try {
 					if (email.getTo().size() > 0)
 						emailSender.send(email.getTo().toArray(new String[email.getTo().size()]), email.getSubject(),
 								email.getBody());
-					LOGGER.warn("************************** done *********************************") ; 
 				} catch (MessagingException e) {
 					LOGGER.warn(
 							"The user with email " + email.getTo() + " was not notified of deleting the file with id "

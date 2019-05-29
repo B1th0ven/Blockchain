@@ -11,8 +11,7 @@ import com.scor.persistance.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.*;
-import org.apache.log4j.Logger;
-import org.springframework.security.core.context.SecurityContextHolder;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +19,7 @@ import java.util.List;
 @RestController()
 @RequestMapping("/users")
 public class UserController {
-	private final static Logger LOG = Logger.getLogger(UserController.class);
+
     @Autowired
     private UserService service;
 
@@ -87,23 +86,23 @@ public class UserController {
     @RequestMapping(value = "/kerb", method = RequestMethod.GET)
     @ResponseBody
     public RefUserEntity login() {
-       String UserID;
-       LOG.info("KERB endpoint start");
+//	    User user = new User();
+//	    user.setId(1L);
+//        user.setLogin("U003226");
+//        user.setlName("LNAME");
+//        user.setfName("FNAME");
+//        user.setRole("ADM");
+//	    return user;
+      /* String UserID;
         if (SecurityContextHolder.getContext().getAuthentication() != null) {
-            LOG.info("KERB endpoint  auth not null");
             UserID = SecurityContextHolder.getContext().getAuthentication().getName().split("@")[0];
-            LOG.info("KERB endpoint  getName");
-            LOG.info(SecurityContextHolder.getContext().getAuthentication().getName());
-            if(service.login(UserID) != null) {
-                LOG.info("KERB endpoint user found");
-            	return  service.login(UserID);
-            }
-            else {
-                LOG.info("KERB endpoint  user not found");
-            	return null;
-            }
+            System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
+            if(service.login(UserID) != null)
+            return  service.login(UserID);
+            else return null;
         } else
-            return null;
+            return null; */
+      return service.login("u006992");
     }
 
 //    @RequestMapping(value="/synchronize", method = RequestMethod.GET)

@@ -20,46 +20,31 @@ export class LoginComponent implements OnInit {
   constructor(private us: UsersService, private router: Router,private permissionsService: NgxPermissionsService) {}
 
   ngOnInit() {
-    // if ( this.us.getStoredUser() )
-    // {
-    //   console.log("USERRRRRRRRR", this.us.getStoredUser())
-    //   let perm = []
-    //   perm.push(this.us.getStoredUser().ruRole.toUpperCase().trim())
-    //   this.permissionsService.flushPermissions()
-    //   this.permissionsService.loadPermissions(perm)
-    //   this.router.navigate(['study'])
-    // }
-    console.log("LoginComponent checking for user with kerb");
-    
-    // this.us.check().subscribe(
-    //   res => {
-    //     console.log("LoginComponent response of check : " + res);
+    if ( this.us.getStoredUser() )
+    {
+      console.log("USERRRRRRRRR", this.us.getStoredUser())
+      let perm = []
+      perm.push(this.us.getStoredUser().ruRole.toUpperCase().trim())
+      this.permissionsService.flushPermissions()
+      this.permissionsService.loadPermissions(perm)
+      this.router.navigate(['study'])
+    }
 
-    //     if(res != null) this.us.storeUser(res)
+    // this.loadingInit = true
+    // this.us.check().subscribe(
+    //   res => { 
+    //     if(res != null && res != "") {
+    //     this.us.storeUser(res)
     //     let perm = []
     //     perm.push(this.us.getStoredUser().ruRole.toUpperCase().trim())
-    //     this.permissionsService.flushPermissions()
-    //     this.permissionsService.loadPermissions(perm)
+    //    this.permissionsService.flushPermissions()
+    //    this.permissionsService.loadPermissions(perm)
     //     this.router.navigate(['study'])
+    //     } else this.router.navigate(['unauthorized'])
+    //     this.loadingInit = false
     //   },
-    //   err => console.log(err)
+    //   err => {this.router.navigate(['unauthorized']);this.loadingInit = false}
     // )
-
-    this.loadingInit = true
-    this.us.check().subscribe(
-      res => { 
-        if(res != null && res != "") {
-        this.us.storeUser(res)
-        let perm = []
-        perm.push(this.us.getStoredUser().ruRole.toUpperCase().trim())
-       this.permissionsService.flushPermissions()
-       this.permissionsService.loadPermissions(perm)
-        this.router.navigate(['study'])
-        } else this.router.navigate(['unauthorized'])
-        this.loadingInit = false
-      },
-      err => {this.router.navigate(['unauthorized']);this.loadingInit = false}
-    )
   }
 
   username: string

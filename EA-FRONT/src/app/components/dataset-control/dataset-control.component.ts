@@ -588,9 +588,10 @@ export class DatasetControlComponent implements OnInit {
       });
     this.cs.doSnapControls(this.dataset,this.dataset.header,maxyears,minyears).subscribe({
       next: resArray => {
+        if(resArray["path"]){ 
         this.dataset.files.find(policy => policy.type == 'policy').path = resArray["path"]
-        this.dataset.files.find(policy => policy.type == 'policy').name = resArray["path"].split("\\")[-1]
-        let productHolder = this.dataset.files.find(product => policy.type == 'product') 
+        this.dataset.files.find(policy => policy.type == 'policy').name = resArray["path"].split("\\")[-1]}
+        let productHolder = this.dataset.files.find(policy => policy.type == 'product') 
         productHolder = this.dataset.temporaryFile.find(f => f.type == 'product')
         this.snapshotControl.forEach(el => {el.status = 'done';
         el.done = true;

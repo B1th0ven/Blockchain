@@ -197,7 +197,7 @@
         <div class="col-sm-5 text-right"></div>
     <div class="col-sm-7">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" [disabled]="!canEdit() ||validated || isDatasetAssociatedToRun || saved " [(ngModel)]="dataset.missingEntries"   class="custom-control-input" id="bca-missing-{{CompNumber}}">
+        <input type="checkbox" [disabled]="!canEdit() || isDatasetAssociatedToRun || saved " [(ngModel)]="dataset.missingEntries"   class="custom-control-input" id="bca-missing-{{CompNumber}}">
         <label class="custom-control-label col-form-label-sm "  [ngbTooltip]="hs.getDetail(screen,'Missing entries')" for="bca-missing-{{CompNumber}}">Replace missing entries with information from previous period</label>
       </div>
     </div>
@@ -206,7 +206,7 @@
     <div class="col-sm-5 text-right"></div>
 <div class="col-sm-7">
   <div class="custom-control custom-checkbox">
-    <input type="checkbox" [disabled]="!canEdit() ||validated || isDatasetAssociatedToRun || saved " [(ngModel)]="dataset.exposureHoles" class="custom-control-input" id="bca-exposure-{{CompNumber}}">
+    <input type="checkbox" [disabled]="!canEdit() || isDatasetAssociatedToRun || saved " [(ngModel)]="dataset.exposureHoles" class="custom-control-input" id="bca-exposure-{{CompNumber}}">
     <label class="custom-control-label col-form-label-sm " [ngbTooltip]="hs.getDetail(screen,'Exposure holes')" for="bca-exposure-{{CompNumber}}">Complete exposure holes for a given policy/person</label>
   </div>
 </div>
@@ -248,7 +248,7 @@
   <div class="col-md-12 mt-3">
     <div class="col-md-12 text-right">
       <!-- <button class="btn btn-sm btn-primary" [disabled]="!canSave() || !canEdit() || isDatasetAssociatedToRun" (click)="saveDataset()"> -->
-      <button class="btn btn-sm btn-primary" [disabled]="!canSave() || !canEdit() || !checkSnapDependancy()" (click)="saveDataset()">
+      <button class="btn btn-sm btn-primary" [disabled]="!canSave() || !canEdit() || checkSnapDependancy()" (click)="saveDataset()">
         <div *ngIf="!busy"> Save and Continue</div>
         <div *ngIf="busy">Loading...</div>
       </button>

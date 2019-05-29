@@ -9,6 +9,7 @@ import {
 } from 'angular5-toaster/dist/angular5-toaster';
 import { NgxPermissionsService } from '../../../../node_modules/ngx-permissions';
 import { StudyDatasetCreateComponent } from '../study-dataset-create/study-dataset-create.component';
+import { FileType } from '../../shared/models/file-type';
 
 
 @Component({
@@ -42,9 +43,30 @@ export class StudyDatasetComponent implements OnInit {
     if (!this.dataset)
       this.dataset = new Dataset()
     else
-      {this.checkRunAssociatedToDataset()}
+      {this.checkRunAssociatedToDataset()
+      if(this.dataset.id && this.dataset.mode == 2){
+        this.checkFileAssociatedToDataset()
+      }
+      }
   }
-
+  checkFileAssociatedToDataset(){
+    this.ds.getSnapshotByDatasetId(this.dataset.id).subscribe({
+      next:res => {
+        if(res != []){
+        this.dataset.temporaryFile = new Array<FileType>();
+        res.forEach(file => {
+        let holder = new FileType()
+        this.dataset.temporaryFile.push(holder.addNewFileToTemporaryFile(file))
+      });
+    this.dataset.temporaryFile.push(this.dataset.files.find(f => f.type == 'product'))
+    }
+    // this.dataset.temporaryFile.push(this.dataset.files.find(f => f.type == 'product' ))
+    },
+    error: err => {
+      console.log(err)
+    }
+  })
+  }
   checkRunAssociatedToDataset() {
     if(this.dataset.id) {
       this.ds.runsAssociatedToDataset(this.dataset.id).subscribe(res=> {

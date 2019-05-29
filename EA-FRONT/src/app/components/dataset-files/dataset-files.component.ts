@@ -4,7 +4,8 @@ import {
   Input,
   SimpleChanges,
   SimpleChange,
-  Output
+  Output,
+  OnChanges
 } from '@angular/core';
 import {
   Dataset
@@ -119,20 +120,31 @@ export class DatasetFilesComponent implements OnInit {
 
     */
   }
-  
+  updatefiles(){
+    if(this.dataset.mode == 2){
+      this.dataset.temporaryFile = this.fileDisplay
+    }else {
+      this.dataset.files = this.fileDisplay
+    }
+    console.log("File Display -->",this.fileDisplay)
+    console.log("File Temporary -->",this.dataset.temporaryFile)
+    console.log("File Temporary -->",this.dataset.temporaryFile)
+  }
   removeFile(index){
-    if(this.dataset.temporaryFile[index].type != 'product')
+    if(this.fileDisplay[index].type != 'product')
     {
-    this.dataset.temporaryFile.splice(index , 1)
+    this.fileDisplay.splice(index , 1)
+    listColums = this.allPolicyHeader(this.fileDisplay)
+    this.updateInconsistante(this.fileDisplay,listColums)
   }
     if(this.dataset.temporaryFile.length> 2) {
       var listColums = []
-      listColums = this.allPolicyHeader(this.dataset.temporaryFile)
-      this.updateInconsistante(this.dataset.temporaryFile,listColums)
+      listColums = this.allPolicyHeader(this.fileDisplay)
+      this.updateInconsistante(this.fileDisplay,listColums)
     }else {
-      this.dataset.files[0]["inconsistent"] = []
+      this.fileDisplay[0]["inconsistent"] = []
     }
-
+    this.updatefiles()
   }
   ngOnChanges(changes: {
     [propName: string]: SimpleChange
@@ -168,11 +180,16 @@ export class DatasetFilesComponent implements OnInit {
   onSelectrank(rank){
     this.selectedRank = rank
   }
-  
+  addUpdatePolicyFile(){
+    this.fileDisplay.splice(-1,0,new FileType({
+      type: "policy"
+    }))
+    this.updatefiles()
+  }
   onFileLoading(event, content: NgbModalRef) {
     if (this.selectedType == 'product'){
 
-    var loadingFile = this.dataset.files.find(el => el.type == 'product')
+    var loadingFile = this.fileDisplay.find(el => el.type == 'product')
     loadingFile.name = event.file.name
     loadingFile.path = event.file.path
     loadingFile.sheet = ""
@@ -202,8 +219,8 @@ export class DatasetFilesComponent implements OnInit {
       })
 
     this.modalRef.close()}else {
-      if(this.dataset.mode == 2){var loadingFile = this.dataset.temporaryFile[this.selectedRank]}else {
-      var loadingFile = this.dataset.files[this.selectedRank]}
+      if(this.dataset.mode == 2){var loadingFile = this.fileDisplay[this.selectedRank]}else {
+      var loadingFile = this.fileDisplay[this.selectedRank]}
       loadingFile.type = 'policy'
       loadingFile.name = event.file.name
       loadingFile.path = event.file.path

@@ -34,7 +34,7 @@ export class DatasetControlComponent implements OnInit {
 
   constructor(
     private tsr: ToasterService,
-    public ds: DatasetService,
+    private ds: DatasetService,
     private cs: ControlService,
     private us: UsersService,
     private route: ActivatedRoute,

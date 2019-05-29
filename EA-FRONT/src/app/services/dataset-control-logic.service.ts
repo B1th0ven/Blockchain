@@ -517,7 +517,7 @@ export class DatasetControlLogicService {
     if (productFormatControl.valid != 'yes') return false;
     for (let control of funcControls) {
       if (
-        this.isNotExecuted(control, notExecuted) == false &&
+        this.isNotExecuted(control, notExecuted) == true &&
         control.category.toLowerCase() == 'Blocking'.toLowerCase()  &&
         control.valid == 'no'
       ) return false; 

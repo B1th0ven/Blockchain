@@ -197,7 +197,7 @@
         <div class="col-sm-5 text-right"></div>
     <div class="col-sm-7">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" [disabled]="!canEdit() ||validated || isDatasetAssociatedToRun " [(ngModel)]="dataset.missingEntries"   class="custom-control-input" id="bca-missing-{{CompNumber}}">
+        <input type="checkbox" [disabled]="!canEdit() ||validated || isDatasetAssociatedToRun || saved " [(ngModel)]="dataset.missingEntries"   class="custom-control-input" id="bca-missing-{{CompNumber}}">
         <label class="custom-control-label col-form-label-sm "  [ngbTooltip]="hs.getDetail(screen,'Missing entries')" for="bca-missing-{{CompNumber}}">Replace missing entries with information from previous period</label>
       </div>
     </div>
@@ -206,7 +206,7 @@
     <div class="col-sm-5 text-right"></div>
 <div class="col-sm-7">
   <div class="custom-control custom-checkbox">
-    <input type="checkbox" [disabled]="!canEdit() ||validated || isDatasetAssociatedToRun " [checked]="!dataset.id" [(ngModel)]="dataset.exposureHoles"    class="custom-control-input" id="bca-exposure-{{CompNumber}}">
+    <input type="checkbox" [disabled]="!canEdit() ||validated || isDatasetAssociatedToRun || saved " [(ngModel)]="dataset.exposureHoles" class="custom-control-input" id="bca-exposure-{{CompNumber}}">
     <label class="custom-control-label col-form-label-sm " [ngbTooltip]="hs.getDetail(screen,'Exposure holes')" for="bca-exposure-{{CompNumber}}">Complete exposure holes for a given policy/person</label>
   </div>
 </div>
@@ -254,7 +254,7 @@
       </button>
     </div>
   </div>
-  <div class="col-md-12 mt-3" *ngIf="(dataset.mode != 2 ||checkSnapDependancy()) && ( dataset.id && !dataset.changed)">
+  <div class="col-md-12 mt-3" *ngIf=" dataset.id && !dataset.changed">
     <hr style="margin-left: -15px; margin-right: -15px;">
     <div class="text-primary font-weight-bold form-header mb-4">Dataset Files</div>
     <hr class="border-top border-primary mb-4 mt-2 opacity-half">

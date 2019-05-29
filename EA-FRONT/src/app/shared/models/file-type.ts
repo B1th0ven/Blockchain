@@ -41,7 +41,16 @@ export class FileType {
   }
 
   static numberOfInstances = 0;
+  public addNewFileToTemporaryFile(file){
+     this.name = file['fileName']
+     this.path = file['fileLink']
+     this.columns = file['fileHeader']
+     this.inconsistent = file['inconsistentColumns']
+     this.type = 'policy'
+     this.typename = 'Policy'
+     return this
 
+  }
   public static mapToApi( files: Array<FileType>, type?: string, rank?:number ) {
       if ( !files ) return null
       let file

@@ -106,7 +106,7 @@ export class ControlService {
   {
     let body = Dataset.mapToApiFile(ds,header,maxyears,minyears)
 
-    return this.http.post(environment.api_endpint+"SnapShotIntegrityControlss ",body).map(res => res.json()).catch((response: any) => Observable.throw(response.json()))
+    return this.http.post(environment.api_endpint+"SnapShotIntegrityControls",body).map(res => res.json()).catch((response: any) => Observable.throw(response.json()))
   }
   doTechControls(policyPath,productPath,type,study, user)
   {

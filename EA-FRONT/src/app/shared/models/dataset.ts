@@ -13,7 +13,7 @@ export class Dataset {
   datetime: string
   date: string
   time: string
-  mode: number = 1
+  mode: Number = 1
   jobID: Number
   files: Array < FileType >
   eventExtractionDate: date = new date()
@@ -32,7 +32,7 @@ export class Dataset {
   temporaryFile: Array < FileType >;
   temporaryData: any;
   header: Array<string>;
-  exposureHoles:boolean;
+  exposureHoles:boolean = true;
   
 
   constructor(dataset ? ) {
@@ -108,10 +108,11 @@ export class Dataset {
     }
   }
   addPolicyFile(){
-    if(this.temporaryFile.length<6){
+    if(this.temporaryFile.length<10){
     this.temporaryFile.splice(-1,0,new FileType({
       type: "policy"
-    }))}
+    }))
+  }
   }
   setJobID(id) {
     this.jobID = id
@@ -125,7 +126,7 @@ export class Dataset {
     return {
         "firstSnapshot": (ds.firstSnapshot == 1)?'new portfolio': 'inforce portfolio' ,
         "portfolioInceptionDate": date.formatDate(ds.portfolioInception),
-        "AnnualSnapshotExtractionTiming": date.formatDate(ds.annualSnapshot,'dd/mm').toString(),
+        "AnnualSnapshotExtractionTiming": date.formatDate(ds.annualSnapshot,'dd/mm')?date.formatDate(ds.annualSnapshot,'dd/mm').toString():null,
         "missingvalues": ds.missingEntries,
         "listPolicySnapshotPath":  ds.extractpath(ds.temporaryFile),
         "studyId": ds.studyId.toString(),
@@ -173,7 +174,7 @@ public extractpath(files: Array<FileType>): Array<string> {
       "dsDataAvailableTableau": ds.dataInjectionTableau,
       "firstSnapshot": (ds.firstSnapshot == 1)?'new portfolio': 'inforce portfolio' ,
       "portfolioInceptionDate": date.formatDate(ds.portfolioInception),
-      "annualSnapshotExtractionTiming": date.formatDate(ds.annualSnapshot,'dd/mm').toString(),
+      "annualSnapshotExtractionTiming": date.formatDate(ds.annualSnapshot,'dd/mm')? date.formatDate(ds.annualSnapshot,'dd/mm').toString(): null,
       "snapshotMissingValues": ds.missingEntries,
       "exposureHoles":ds.exposureHoles
     }

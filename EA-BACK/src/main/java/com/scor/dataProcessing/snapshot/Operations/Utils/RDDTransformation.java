@@ -26,6 +26,8 @@ public class RDDTransformation implements Serializable {
     static final SparkSession sparkSession = Connection.getSession();
 
     public JavaPairRDD<String, List<List<String>>> missingValuePair(JavaRDD<String> rdd, List<String> names, Integer reportPeriodIndex) {
+
+
         List<String> unchagebaleColumns = new ArrayList<>();
         unchagebaleColumns.add(Headers.STATUS_BEGIN_CURRENT_CONDITION);
         unchagebaleColumns.add(Headers.STATUS_END_CURRENT_CONDITION);
@@ -53,7 +55,7 @@ public class RDDTransformation implements Serializable {
             for (int i = 1; i < tupleValues.size(); i++) {
                 String[] new_row = tupleValues.get(i);
                 for (int j = 0; j < new_row.length; j++) {
-                    if (StringUtils.isBlank(new_row[j]) && !unchagebaleColumns.contains(names.get(j))) {
+                    if (StringUtils.isBlank(new_row[j]) && !unchagebaleColumns.contains(names.get(j)) && !unchagebaleColumns.contains(names.get(j)) ) {
                         new_row[j] = old_row[j];
                     }
                 }

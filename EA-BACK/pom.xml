@@ -16,6 +16,7 @@
 	<version>0.0.6-SNAPSHOT</version>
 	<packaging>war</packaging>
 
+
 	<name>expan-b</name>
 	<description>EA Back End Application</description>
 
@@ -240,65 +241,27 @@
 			<artifactId>guava</artifactId>
 			<version>16.0.1</version>
 		</dependency>
-		
-			<!-- https://mvnrepository.com/artifact/org.springframework.security.kerberos/spring-security-kerberos-core -->
-        <dependency>
-            <groupId>org.springframework.security.kerberos</groupId>
-            <artifactId>spring-security-kerberos-core</artifactId>
-            <version>1.0.1.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security.kerberos</groupId>
-            <artifactId>spring-security-kerberos-web</artifactId>
-            <version>1.0.1.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security.kerberos</groupId>
-            <artifactId>spring-security-kerberos-client</artifactId>
-            <version>1.0.1.RELEASE</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework.ldap/spring-ldap-core -->
-        <dependency>
-            <groupId>org.springframework.ldap</groupId>
-            <artifactId>spring-ldap-core</artifactId>
-            <version>2.2.1.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-ldap</artifactId>
-            <version>4.2.2.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
-            <version>1.7.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <version>4.2.2.RELEASE</version>
-        </dependency>
-		<dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
-            <version>4.2.2.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-            <version>4.2.2.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>com.scor.reins</groupId>
-            <artifactId>reins-core-security</artifactId>
-            <version>3.1-SNAPSHOT</version>
-        </dependency>
 
 	</dependencies>
 
 	<build>
 		<plugins>
-			
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.2.0</version>
+				<configuration>
+					<webResources>
+						<resource>
+							<directory>../EA-FRONT/dist</directory>
+							<targetPath>./WEB-INF/classes/static</targetPath>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
 			<plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
@@ -359,23 +322,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>3.2.0</version>
-				<configuration>
-					<webResources>
-						<resource>
-							<directory>../EA-FRONT/dist</directory>
-							<targetPath>./WEB-INF/classes/static</targetPath>
-						</resource>
-					</webResources>
-				</configuration>
-			</plugin> 
 			
 		</plugins>
 	</build>
@@ -384,15 +330,15 @@
 	<profiles>
 		<profile>
 			<id>local</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<properties>
 				<artifact-packaging>jar</artifact-packaging>
 			</properties>
 		</profile>
 		<profile>
 			<id>remote</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<artifact-packaging>war</artifact-packaging>
 			</properties>

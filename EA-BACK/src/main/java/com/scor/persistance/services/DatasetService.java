@@ -45,18 +45,22 @@ public class DatasetService implements Serializable{
 	private DatasetTableauService datasetTableauService;
 
 	public DataSetEntity postDataset(DataSetEntity ds) {
-		repository.save(ds);
-		if( StringUtils.isNotBlank(ds.getDsTechReport()) || StringUtils.isNotBlank(ds.getDsFuncReport()) || StringUtils.isNotBlank(ds.getDsNotExecuted()) )  {
-			updateService.updateControls(ds.getDsId());
-		}
-		return ds;
+		return repository.save(ds);
 	}
 	
 	public DataSetEntity postDatasetReport(DataSetEntity ds) {
 		DataSetEntity dataset = repository.save(ds);
+		if(StringUtils.isNotBlank(ds.getDsFuncReport()) || StringUtils.isNotBlank(ds.getDsTechReport()) || StringUtils.isNotBlank(ds.getDsNotExecuted())){
+			new Thread(()-> {
+				updateService.updateControls(dataset.getDsId());
+
+			}).start();
+
+		}
 		if (dataset != null && dataset.getDsDataAvailableTableau() != null && dataset.getDsDataAvailableTableau()) {
 			new Thread(()-> {
 				datasetTableauService.manageInputDataStorage(dataset);
+
 			}).start();
 		}
 		return dataset;

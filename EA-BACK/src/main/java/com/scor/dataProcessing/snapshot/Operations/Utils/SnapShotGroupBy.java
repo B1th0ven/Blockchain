@@ -125,7 +125,7 @@ public class SnapShotGroupBy implements Serializable {
      if(rddTime.isEmpty())
 
      {
-       return ("27/12/1995")  ;
+       return ("")  ;
 
      }
         Date temp ;

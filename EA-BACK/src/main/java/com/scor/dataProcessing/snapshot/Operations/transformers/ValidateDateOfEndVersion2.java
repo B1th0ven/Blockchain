@@ -64,9 +64,10 @@ public class ValidateDateOfEndVersion2 implements Function<String, String> {
 
                     row_arr[headers.indexOf(Headers.DATE_OF_END_CURRENT_CONDITION)] = maxdateOfEndCurrentCondition;
                     ;
-                } else {
+                }
+                else {
 
-                    if (!coverEndDate.equalsIgnoreCase("vide")) {
+                    if (StringUtils.isNotBlank(coverEndDate)) {
 
 
                         LocalDate cover_end_Date = LocalDate.parse(coverEndDate,
@@ -355,16 +356,16 @@ public class ValidateDateOfEndVersion2 implements Function<String, String> {
     }
 public String coverEndDate ( String [] row_arr ) {
 
-String coverEndDate = "vide" ; 
+String coverEndDate = "" ;
     if (headers.contains((Headers.BENEFIT_END_DATE))) {
-        if (!StringUtils.isBlank(row_arr[headers.indexOf(Headers.BENEFIT_END_DATE)])
-                && !row_arr[headers.indexOf(Headers.BENEFIT_END_DATE)].equalsIgnoreCase("null")) {
+        if (StringUtils.isNotBlank(row_arr[headers.indexOf(Headers.BENEFIT_END_DATE)]) ) {
 
             coverEndDate = row_arr[headers.indexOf(Headers.BENEFIT_END_DATE)];
         }
-    } else if (headers.contains(Headers.BENEFIT_TERM_YEARS)) {
+    }
+    else if (headers.contains(Headers.BENEFIT_TERM_YEARS)) {
 
-        if (!StringUtils.isBlank(row_arr[headers.indexOf(Headers.BENEFIT_TERM_YEARS)])) {
+        if (StringUtils.isNotBlank(row_arr[headers.indexOf(Headers.BENEFIT_TERM_YEARS)])) {
             String dateCom = row_arr[headers.indexOf(Headers.DATE_OF_COMMENCEMENT)];
             LocalDate end1 = LocalDate.parse(dateCom,
                     DateTimeFormatter.ofPattern
@@ -380,7 +381,7 @@ String coverEndDate = "vide" ;
 
         }
     } else if (headers.contains(Headers.BENEFIT_MAX_AGE)) {
-        if (!StringUtils.isBlank(row_arr[headers.indexOf(Headers.BENEFIT_MAX_AGE)])) {
+        if (StringUtils.isNotBlank(row_arr[headers.indexOf(Headers.BENEFIT_MAX_AGE)])) {
             String dateOfBirth = row_arr[headers.indexOf(Headers.DATE_OF_BIRTH)];
             LocalDate dateOfBirthLocal = LocalDate.parse(dateOfBirth,
                     DateTimeFormatter.ofPattern
@@ -396,7 +397,7 @@ String coverEndDate = "vide" ;
 
         }
     } else {
-        coverEndDate = "vide";
+        coverEndDate = "";
     }
 
 return coverEndDate ; 

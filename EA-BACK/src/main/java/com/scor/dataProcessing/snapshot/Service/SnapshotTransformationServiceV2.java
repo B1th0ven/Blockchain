@@ -71,6 +71,13 @@ public class SnapshotTransformationServiceV2 implements Serializable {
     
         JavaRDD<String> data = combinePolicyFiles.combinePolicyFiles(paths,names) ;
 
+
+
+        data.cache();
+        String maxdateOfEndCurrentCondition = snapShotGroupBy.minMaxVariableDate(data,names,Headers.DATE_OF_END_CURRENT_CONDITION,false ) ;
+        String mindateOfBeginCurrentCondition = snapShotGroupBy.minMaxVariableDate(data,names,Headers.DATE_OF_BEGIN_CURRENT_CONDITION,true ) ;
+
+
         String  variableTime;
         if (names.contains(Headers.REPORTING_MONTH)) {
          variableTime = Headers.REPORTING_MONTH ;
@@ -128,8 +135,7 @@ public class SnapshotTransformationServiceV2 implements Serializable {
         names.add("observation_max");
 
 
-        String maxdateOfEndCurrentCondition = snapShotGroupBy.minMaxVariableDate(data,names,dateOfEndCurrentCondition,false ) ;
-        String mindateOfBeginCurrentCondition = snapShotGroupBy.minMaxVariableDate(data,names,dateOfBeginCurrentCondition,true ) ;
+
 
         JavaRDD<String> resultDateOfEnd = pipelineThirdStage.map(new ValidateDateOfEndVersion2( variableTime, names,reportingMax,maxdateOfEndCurrentCondition,
              annual_snapshot_extraction_timing)) ;
@@ -144,8 +150,7 @@ public class SnapshotTransformationServiceV2 implements Serializable {
 
         JavaRDD<String> resultExposure = resulTStatus.map(new ValidateExposure(names,annual_snapshot_extraction_timing)) ;
 
-        List<String> tosee = resultExposure.collect();
-        tosee.size();
+
         StructType schema = getSchema(names); 
 
         JavaRDD<Row> rowJavaRDD =  resultExposure.map( (row) -> RowFactory.create(row.split(";",-1)) );

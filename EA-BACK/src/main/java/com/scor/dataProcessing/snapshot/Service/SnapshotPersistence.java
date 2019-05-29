@@ -19,7 +19,10 @@ public class SnapshotPersistence {
 
 
     public void testInsertintoSnapshotTable(List<SnapshotFilesEntity> snapshotFilesEntities){
-
+        List<SnapshotFilesEntity>  oldSnapshotFilesEntity = snapshotFilesRepository.findByDataSet(snapshotFilesEntities.get(0).getDataSet());
+        if (oldSnapshotFilesEntity != null){
+            snapshotFilesRepository.delete(oldSnapshotFilesEntity);
+        }
         snapshotFilesRepository.save(snapshotFilesEntities);
 
 

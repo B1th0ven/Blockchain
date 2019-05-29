@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.scor.TableUpdateReport.UpdateService;
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,10 +39,17 @@ public class DatasetService implements Serializable{
 	private RunService rs;
 
 	@Autowired
+	private UpdateService updateService;
+
+	@Autowired
 	private DatasetTableauService datasetTableauService;
 
 	public DataSetEntity postDataset(DataSetEntity ds) {
-		return repository.save(ds);
+		repository.save(ds);
+		if( StringUtils.isNotBlank(ds.getDsTechReport()) || StringUtils.isNotBlank(ds.getDsFuncReport()) || StringUtils.isNotBlank(ds.getDsNotExecuted()) )  {
+			updateService.updateControls(ds.getDsId());
+		}
+		return ds;
 	}
 	
 	public DataSetEntity postDatasetReport(DataSetEntity ds) {

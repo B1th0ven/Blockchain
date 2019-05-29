@@ -110,7 +110,7 @@ public class UpdateService {
 
 
                         controlTableEntity.setCtFile(controlView.getControledFile());
-                        controlTableEntity.setCtMessage("Not Executed Control");
+                        controlTableEntity.setCtMessage("Not Executed");
                         controlTableEntity.setCtName(controlName);
                         controlTableEntity.setCtCategory(controlView.getCategory());
                         controlTableEntity.setCtNumber(controlView.getControlNumber());
@@ -136,7 +136,7 @@ public class UpdateService {
                         ControlTableEntity controlTableEntity = new ControlTableEntity();
                         controlTableEntity.setCtErrorNumber(policyTechControlResults.getNumber_of_errors());
                         controlTableEntity.setCtFile("Policy");
-                        controlTableEntity.setCtMessage("Technical Control");
+                        controlTableEntity.setCtMessage("Error");
                         controlTableEntity.setCtName(controlName);
                         controlTableEntity.setCtCategory(controlView.getCategory());
                         controlTableEntity.setCtNumber(1);
@@ -159,7 +159,7 @@ public class UpdateService {
                         ControlTableEntity controlTableEntity = new ControlTableEntity();
                         controlTableEntity.setCtErrorNumber(policyTechControlResults.getNumber_of_errors());
                         controlTableEntity.setCtFile("Product");
-                        controlTableEntity.setCtMessage("Technical Control");
+                        controlTableEntity.setCtMessage("Error");
                         controlTableEntity.setCtName(controlName);
                         controlTableEntity.setCtCategory(controlView.getCategory());
                         controlTableEntity.setCtNumber(2);
@@ -191,7 +191,7 @@ public class UpdateService {
                             if (errorNumber > 0 ){
                                 controlTableEntity.setCtErrorNumber(errorNumber);
                                 controlTableEntity.setCtFile(controlView.getControledFile());
-                                controlTableEntity.setCtMessage("Functional Control");
+                                controlTableEntity.setCtMessage("Error");
                                 controlTableEntity.setCtName(controlName);
                                 controlTableEntity.setCtCategory(controlView.getCategory());
                                 controlTableEntity.setCtNumber(controlView.getControlNumber());
@@ -243,7 +243,7 @@ public class UpdateService {
 
                     controlTableEntity.setCtErrorNumber(0L);
                     controlTableEntity.setCtFile(controlView.getControledFile());
-                    controlTableEntity.setCtMessage("Success");
+                    controlTableEntity.setCtMessage("Done");
                     controlTableEntity.setCtName(sucessContorl);
                     controlTableEntity.setCtCategory(controlView.getCategory());
                     controlTableEntity.setCtNumber(controlView.getControlNumber());
@@ -264,4 +264,6 @@ public class UpdateService {
         }
 
     }
+
+
 }

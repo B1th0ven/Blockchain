@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.scor.TableUpdateReport.UpdateService;
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,6 +39,9 @@ public class DatasetService implements Serializable{
 	private RunService rs;
 
 	@Autowired
+	private UpdateService updateService;
+
+	@Autowired
 	private DatasetTableauService datasetTableauService;
 
 	public DataSetEntity postDataset(DataSetEntity ds) {
@@ -46,9 +50,17 @@ public class DatasetService implements Serializable{
 	
 	public DataSetEntity postDatasetReport(DataSetEntity ds) {
 		DataSetEntity dataset = repository.save(ds);
+		if(StringUtils.isNotBlank(ds.getDsFuncReport()) || StringUtils.isNotBlank(ds.getDsTechReport()) || StringUtils.isNotBlank(ds.getDsNotExecuted())){
+			new Thread(()-> {
+				updateService.updateControls(dataset.getDsId());
+
+			}).start();
+
+		}
 		if (dataset != null && dataset.getDsDataAvailableTableau() != null && dataset.getDsDataAvailableTableau()) {
 			new Thread(()-> {
 				datasetTableauService.manageInputDataStorage(dataset);
+
 			}).start();
 		}
 		return dataset;

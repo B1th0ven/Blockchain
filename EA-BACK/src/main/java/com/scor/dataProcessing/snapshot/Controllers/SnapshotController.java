@@ -11,6 +11,7 @@ import com.scor.dataProcessing.snapshot.Operations.Utils.CheckReportingPeriod;
 import com.scor.dataProcessing.snapshot.Service.SnapshotControlService;
 import com.scor.dataProcessing.snapshot.Service.SnapshotPersistence;
 import com.scor.dataProcessing.snapshot.Service.SnapshotTransformationService;
+import com.scor.dataProcessing.snapshot.Service.SnapshotTransformationService;
 import com.scor.persistance.entities.SnapshotFilesEntity;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,14 +36,14 @@ public class SnapshotController implements Serializable {
 
     // CheckHeaders  3 controles
     @RequestMapping(value = "/SnapShotIntegrityControls", method = RequestMethod.POST)
-    public HashMap<String, String> CheckHeaders(HttpEntity<String> req) throws IOException {
+    public HashMap<String, String> CheckHeaderss(HttpEntity<String> req) throws IOException {
         HashMap<String, Object> req_map = new ObjectMapper().readValue(req.getBody(), HashMap.class);
         List<String> paths = (List<String>) req_map.get("listPolicySnapshotPath");
         String portfolioInceptionDate = (String) req_map.get("portfolioInceptionDate");
         String firstSnapshot = (String) req_map.get("firstSnapshot");
         String AnnualSnapshotExtractionTiming = (String) req_map.get("AnnualSnapshotExtractionTiming");
         String studyId = (String) req_map.get("studyId");
-        Boolean missingvalues = (Boolean) req_map.get("missingvalues");
+        Boolean missingvalues = true ;
         Boolean exposure_holes = (Boolean) req_map.get("exposureHoles");
         String datasetid = (String) req_map.get("datasetid");
         List<String> allHeaders = (List<String>) req_map.get("allCols");
@@ -87,4 +88,7 @@ public class SnapshotController implements Serializable {
 
 
 }
+
+
+
 

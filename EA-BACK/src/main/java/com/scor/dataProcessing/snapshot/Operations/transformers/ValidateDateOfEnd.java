@@ -12,7 +12,7 @@ import java.util.Map;
 
 
 
-public class ValidateDateOfEndVersion2 implements Function<String, String> {
+public class ValidateDateOfEnd implements Function<String, String> {
 
 
     List<String> headers;
@@ -22,7 +22,7 @@ public class ValidateDateOfEndVersion2 implements Function<String, String> {
 
     String variableTime;
 
-    public ValidateDateOfEndVersion2(String variableTime, List<String> headers, String reportingMax, String maxdateOfEndCurrentCondition, String annualSnapshotExtractionTiming) {
+    public ValidateDateOfEnd(String variableTime, List<String> headers, String reportingMax, String maxdateOfEndCurrentCondition, String annualSnapshotExtractionTiming) {
 
 
         this.headers = headers;

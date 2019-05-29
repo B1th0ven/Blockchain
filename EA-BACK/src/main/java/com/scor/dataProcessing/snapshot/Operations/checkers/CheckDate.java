@@ -90,7 +90,7 @@ public class CheckDate {
         }
         String resultat;
 
-        if (variableTimeDate.isBefore(minReportingPeriod)) {
+        if (variableTimeDate.isAfter(minReportingPeriod)) {
             resultat = "true";
         } else {
             resultat = ReportingPeriod + "  " + reportingMin;

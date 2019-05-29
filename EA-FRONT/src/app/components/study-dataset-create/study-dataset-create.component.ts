@@ -90,7 +90,7 @@ export class StudyDatasetCreateComponent implements OnInit {
       !this.validDate(this.today, this.dataset.exposureExtractionDate) ||
       !this.checkValidDateFormat(this.dataset.eventExtractionDate) || 
       !this.checkValidDateFormat(this.dataset.exposureExtractionDate) || 
-      !this.checkValidDateFormat(this.dataset.files[0].privacyDataDeletion)
+      !this.checkValidDateFormat(this.dataset.files[0].privacyDataDeletion) 
     ) return false
     if (this.busy) return false
     return true
@@ -120,11 +120,9 @@ export class StudyDatasetCreateComponent implements OnInit {
     )
   }
   checkSnapDependancy(){
-    if(this.dataset.mode == 2){
-      if(!this.dataset.firstSnapshot ) return false
-      else return true
-    } else return false
-  }
+    if(this.dataset.mode && this.dataset.mode == 2 && this.dataset.firstSnapshot ){
+     return true
+  }else return false }
   loadMetaData(event){
     this.metadata = event;
 

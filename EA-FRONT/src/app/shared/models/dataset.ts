@@ -25,7 +25,7 @@ export class Dataset {
   creator:any
   dataInjectionTableau: boolean = false
   changed = false;
-  firstSnapshot: number;
+  firstSnapshot: number ;
   portfolioInception: date;
   annualSnapshot: date;
   missingEntries: boolean;
@@ -65,6 +65,8 @@ export class Dataset {
       this.notExecReport = dataset["notExecReport"]
       this.creator = dataset["dsCreatedBy"]
       this.dataInjectionTableau = dataset["dsDataAvailableTableau"]
+      this.firstSnapshot = dataset["firstSnapshot"]
+      this.portfolioInception = dataset["portfolioInceptionDate"]
     }
 
     if (!this.files) {
@@ -89,10 +91,11 @@ export class Dataset {
   createDatasetFileHolders() {
     let fileTypes = ["policy", "product"]
 
-    if (!this.files || fileTypes.length != this.files.length)
+    if (!this.files || fileTypes.length != this.files.length )
       this.files = new Array < FileType > ()
+      if(!this.temporaryFile){
       this.temporaryFile = new Array <FileType> ()
-
+    }
     for (let fileType of fileTypes) {
       if (!this.files || !this.files.find(f => f.type == "product")) {
         this.files.push(new FileType({

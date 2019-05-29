@@ -222,9 +222,9 @@ public extractpath(files: Array<FileType>): Array<string> {
                 "fileType": 'snapshot',
                 "fileLink": element.path,
                 "fileName": element.name,
-                "fileHeader": element["columns"].toString(),
-                "inconsistentColumns": element["inconsistent"].toString(),
-                "ReportingYear": element["maxyear"][0]
+                "fileHeader": element["columns"]? element["columns"].toString():null,
+                "inconsistentColumns": element["inconsistent"]?element["inconsistent"].toString():null,
+                "ReportingYear": element["maxyear"]?element["maxyear"][0]:null
                 
             }
         )

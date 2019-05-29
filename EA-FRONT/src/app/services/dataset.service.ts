@@ -26,7 +26,7 @@ export class DatasetService {
   }
   saveSnapshotFiles(res)
   {
-    return this.http.post(environment.api_endpint+"datasets/snapshot",Dataset.SaveFiles(res)).map(res => res.json()).catch((response: any) => Observable.throw(response.json()))
+    return this.http.post(environment.api_endpint+"datasets/snapshot",Dataset.SaveFiles(res))
   }
   getByStudyId(study:Study)
   {

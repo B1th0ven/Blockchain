@@ -1,5 +1,5 @@
 package com.scor.dataProcessing.accumulators;
-
+ 
 import java.util.ArrayList;
 import java.util.List;
 

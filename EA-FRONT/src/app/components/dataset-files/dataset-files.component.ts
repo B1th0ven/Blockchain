@@ -69,6 +69,7 @@ export class DatasetFilesComponent implements OnInit {
 
   ngOnInit() {
     if( this.dataset.mode == 2) {
+      console.log(this.dataset.temporaryFile)
       // this.ds.getSnapshotByDatasetId(this.dataset.id).subscribe(
       //   {
       //     next: res => {
@@ -102,7 +103,7 @@ export class DatasetFilesComponent implements OnInit {
     else{
       this.fileDisplay = this.dataset.files
     }
-    if (!this.dataset.files)
+    if (!this.dataset.files && !this.dataset.temporaryFile)
       this.dataset.createDatasetFileHolders();
 
       this.ds.getPivots("policy").subscribe(res => {
@@ -126,9 +127,6 @@ export class DatasetFilesComponent implements OnInit {
     }else {
       this.dataset.files = this.fileDisplay
     }
-    console.log("File Display -->",this.fileDisplay)
-    console.log("File Temporary -->",this.dataset.temporaryFile)
-    console.log("File Temporary -->",this.dataset.temporaryFile)
   }
   removeFile(index){
     if(this.fileDisplay[index].type != 'product')

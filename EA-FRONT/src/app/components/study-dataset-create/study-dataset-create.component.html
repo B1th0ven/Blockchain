@@ -141,7 +141,7 @@
           <div class="input-group input-group-sm">
             <select [(ngModel)]="dataset.firstSnapshot" [disabled]="dataset.hasReport() || !canEdit() || validated || saved || isDatasetAssociatedToRun" (change)="onModeChanged()"
               name="mode" class="form-control-sm" [disabled]="dataset.hasReport()" [ngClass]="{'form-control-plaintext':dataset.hasReport(),'form-control':!dataset.hasReport()}">
-              <option disabled></option>
+              <option disabled ></option>
               <option value="1">New Portfolio</option>
               <option value="0">Inforce Portfolio</option>
             </select>
@@ -248,7 +248,7 @@
   <div class="col-md-12 mt-3">
     <div class="col-md-12 text-right">
       <!-- <button class="btn btn-sm btn-primary" [disabled]="!canSave() || !canEdit() || isDatasetAssociatedToRun" (click)="saveDataset()"> -->
-      <button class="btn btn-sm btn-primary" [disabled]="!canSave() || !canEdit() || checkSnapDependancy()" (click)="saveDataset()">
+      <button class="btn btn-sm btn-primary" [disabled]="!canSave() || !canEdit() ||  (this.dataset.mode == 2 && !this.dataset.firstSnapshot)" (click)="saveDataset()">
         <div *ngIf="!busy"> Save and Continue</div>
         <div *ngIf="busy">Loading...</div>
       </button>

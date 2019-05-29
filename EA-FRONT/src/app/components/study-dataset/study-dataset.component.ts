@@ -45,13 +45,16 @@ export class StudyDatasetComponent implements OnInit {
     else
       {this.checkRunAssociatedToDataset()
       if(this.dataset.id && this.dataset.mode == 2){
-        this.checkFileAssociatedToDataset()
+      console.log('CHECK GET WORKS BEFORE',this.dataset.temporaryFile)
+
+      this.checkFileAssociatedToDataset()
       }
       }
+      console.log('CHECK GET WORKS',this.dataset.temporaryFile)
   }
   checkFileAssociatedToDataset(){
-    this.ds.getSnapshotByDatasetId(this.dataset.id).subscribe({
-      next:res => {
+    this.ds.getSnapshotByDatasetId(this.dataset.id).subscribe(
+      res => {
         if(res != []){
         this.dataset.temporaryFile = new Array<FileType>();
         res.forEach(file => {
@@ -62,10 +65,10 @@ export class StudyDatasetComponent implements OnInit {
     }
     // this.dataset.temporaryFile.push(this.dataset.files.find(f => f.type == 'product' ))
     },
-    error: err => {
+     err => {
       console.log(err)
     }
-  })
+  )
   }
   checkRunAssociatedToDataset() {
     if(this.dataset.id) {

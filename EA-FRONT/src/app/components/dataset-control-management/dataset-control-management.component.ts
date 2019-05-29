@@ -19,7 +19,7 @@ export class DatasetControlManagementComponent implements OnInit {
   @Input() dataset: Dataset ;
   showobject: any;
   isOpen = false;
-  constructor(public dds: DatasetDesignService) {
+  constructor(private dds: DatasetDesignService) {
    }
 
   setshow(showobject: any) {

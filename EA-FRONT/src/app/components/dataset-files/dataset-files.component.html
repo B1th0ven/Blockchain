@@ -87,7 +87,7 @@
               </button>
             </td>
             <td class="text-right" *ngIf="dataset.mode == 2" [ngClass]="{'custom-disable':disabled}">
-                <button *ngIf="!dataset.hasReport() && f.type == 'policy' && dataset.mode == 2 && i==0 " [disabled]="!canBrowseSpec(f)" (click)="dataset.addPolicyFile()" class="btn btn-sm btn-link">
+                <button *ngIf="!dataset.hasReport() && f.type == 'policy' && dataset.mode == 2 && i==0 " [disabled]="!canBrowseSpec(f)" (click)="addUpdatePolicyFile()" class="btn btn-sm btn-link">
                     <fa name="plus-circle" size="lg"></fa>
                   </button>
               <button *ngIf="!dataset.hasReport() && f.type == 'policy' && dataset.mode == 2 && i>0 " [disabled]="!canBrowseSpec(f)" (click)="removeFile(i)" class="btn btn-sm btn-link">

@@ -34,7 +34,7 @@ export class DatasetControlComponent implements OnInit {
 
   constructor(
     private tsr: ToasterService,
-    public ds: DatasetService,
+    private ds: DatasetService,
     private cs: ControlService,
     private us: UsersService,
     private route: ActivatedRoute,
@@ -580,6 +580,7 @@ export class DatasetControlComponent implements OnInit {
     if(this.dataset.mode == 2 ){
       let maxyears = []
       let minyears = []
+      productpath = this.dataset.temporaryFile.find(f => f.type == 'product').path
       this.dataset.temporaryFile.forEach(file => {
         if(file.type != 'product'){
         maxyears.push(file.maxyear[0])
@@ -587,6 +588,10 @@ export class DatasetControlComponent implements OnInit {
       });
     this.cs.doSnapControls(this.dataset,this.dataset.header,maxyears,minyears).subscribe({
       next: resArray => {
+        this.dataset.files.find(policy => policy.type == 'policy').path = resArray["path"]
+        this.dataset.files.find(policy => policy.type == 'policy').name = resArray["path"].split("\\")[-1]
+        let productHolder = this.dataset.files.find(product => policy.type == 'product') 
+        productHolder = this.dataset.temporaryFile.find(f => f.type == 'product')
         this.snapshotControl.forEach(el => {el.status = 'done';
         el.done = true;
         el.valid = resArray[el.identifier] == 'true' ? 'yes' : 'no';
@@ -600,7 +605,7 @@ export class DatasetControlComponent implements OnInit {
         let policy = this.dataset.files.find(el => el.type =='policy')
         policy.path = resArray["path"]
         policy.name = Date.now().toString()
-
+        
       },
       error: res => {
         this.snapshotControl.forEach(el => {el.status = 'done';
